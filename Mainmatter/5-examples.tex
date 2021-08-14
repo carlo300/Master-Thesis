@@ -1,0 +1,403 @@
+\chapter{Examples}
+    \label{chapter:examples}
+    We finally have enough theory to study some examples of derived stacks, generalizing well known classical stacks, like local systems or vector bundles. Unless otherwise specified, we will work over a base ring $k \in \Comm$ (although sometimes, for readability, we will just leave implicit the comma category notation). Recall that we use the following notations \[\St(k) \coloneqq \Ho(SPr(\Aff_{/\Spec k})), \qquad \dSt(k) \coloneqq \Ho(\dAff_{/\Spec k}^{\sim}). \]
+    \section{Local systems}
+        Let's consider the $1$-geometric stack \[ \Vect_n\colon \Aff^{\op} \to \sSet, \qquad \Spec A \mapsto \Vect_n(A)\] where $\Vect_n(A)$ is the nerf of the groupoid of projective $A$-modules of rank $n$. It is exactly the nerf of the classical stack $B\GL_n$ of \cref{chapter:moduli_stack_bung}.
+        We can see it as a derived stack thanks to the extension functor \[i\colon \St(k) \to \dSt(k) \] of \cref{defn:truncation}.
+        \subsection{Quasi-coherent modules and vector bundles}
+            Let's now take a little time to define a general version of the derived stacks of vector bundles, which a priori is unrelated to the extension $i(\Vect_n)$ (we will see they are equivalent after this section). This is just a summary of \cite[1.3.7]{ToVe:hag2}.
+            We will first define the derived stack of quasi-coherent modules, generalizing the classic case from algebraic geometry.
+            \begin{defn}
+                \label{defn:quasi_coherent_module}
+                Let $A \in sk-\Alg$ and let's define the category $\catname{QCoh}(A)$ of \emph{quasi-coherent $sA$-modules}. Its objects are families $(M_B)_B$ where $B \in sA-\Alg$ and $M_B \in sB-\Mod$, together with isomorphisms \[\alpha_u\colon M_B \otimes_B B' \to M_{B'} \] for every morphism of simplicial $A$-algebras $u\colon B \to B'$; we also require this family to satisfy a compatibility condition, namely that for any pair of maps \[B \stackrel{u}{\to} B' \stackrel{v}{\to} B'' \] of $sA-\Alg$ we must have $\alpha_v \circ (\alpha_u \otimes_{B'} B'') = \alpha_{v \circ u}$. Such data is denoted simply by $(M, \alpha)$.
+                A morphism $(M, \alpha) \to (M', \alpha')$ is given by a family of morphisms of $sB$-modules $f_B\colon M_B \to M'_B$ for every $B \in sA-\Alg$, such that for any $u\colon B \to B' \in sA-\Alg$ the diagram 
+                \begin{diag}
+                    M_B \otimes_B B' \ar[r, "\alpha_u"] \ar[d, "f_B \otimes_B B'"] & M_{B'} \ar[d, "f_{B'}"] \\
+                    (M'_B) \otimes_B B' \ar[r, "\alpha'_u"] & M'_{B'} 
+                \end{diag}
+                commutes.
+            \end{defn}
+            Morally, this defines the category of quasi-coherent simplicial sheaves over the derived affine schemes $\RSpec A$. We have a natural projection functor $\catname{QCoh}(A) \to sA-\Mod$ (which will be denoted by $\Gamma(\RSpec A, -)$ in analogy with the global section functor) sending $(M, \alpha)$ to $M_A$. It is straightforward to check it is an equivalence of categories, just as in the classical case quasi-coherent modules over an affine scheme $\Spec B$ are equivalent to $B$-modules. 
+
+            Moreover, the global section functor can be used to transport the model structure of $sA-\Mod$ on $\catname{QCoh}(A)$, using the well known Quillen's transfert theorem. In practice this means that weak equivalences and fibrations in $\catname{QCoh}(A)$ are simply checked on the global sections, while cofibrations are defined by lifting properties. 
+            
+            Given $f\colon A \to A' \in sk-\Alg$, corresponding to $u\colon \RSpec A' \to \RSpec A$, we have a pullback functor (induced by the tensor product $- \otimes_A A'$) \[f^*\colon \catname{QCoh}(A) \to \catname{QCoh}(A') \] and it is clearly a left Quillen functor.            
+            \begin{defn}
+                \label{defn:quasi_coherent_model_sheaf}
+                The assignment $A \mapsto \catname{QCoh}(A)$ and $(f\colon A \to A') \mapsto f^*$ defines a (pseudo)-functor $\catname{QCoh}\colon \dAff_{/\Spec k}^{\op} \to \Ccat$. It is a \emph{cofibrantly generated left Quillen presheaf on $\dAff_{/\Spec k}$}, in the sense of \cite[Appendix~B]{ToVe:hag2}.
+            \end{defn}
+            Since pullbacks are left Quillen, we have a (pseudo)-subfunctor $\catname{QCoh}^c_W$, considering the subcategory of cofibrant objects and weak equivalences between them. Composing it with the nerve (and strictifying if needed) we obtain the simplicial presheaf \[N(\catname{QCoh}^c_W)\colon \dAff_{/\Spec k}^{\op} \simeq sk-\Alg \to \sSet, \qquad A \mapsto N(\catname{QCoh}(A)^c_W). \]
+            \begin{defn}
+                \label{defn:stack_quasi_coherent}
+                The simplicial presheaf of \emph{quasi-coherent modules} is $N(\catname{QCoh}^c_W)$ as defined above. It is denoted by $\QCoh$ and considered as an object in $\dAff_{/\Spec k}^{\sim}$.
+            \end{defn}
+            Let's immediately observe that for any simplicial $k$-algebra $A$, $\QCoh(A)$ is weakly equivalent to the nerve of $sA-\Mod^c_W$, so in particular $\pi_0(\QCoh(A))$ is in bijection with isomorphism classes of $\Ho(sA-\Mod)$.
+            The main result on quasi-coherent modules is the following theorem.
+            \begin{thm}
+                \label{thm:qcoh_is_stack}
+                The simplicial preshaf $\QCoh$ is a derived stack.
+            \end{thm}
+            \begin{proof}
+                See \cite[Theorem~1.3.7.2]{ToVe:hag2}.
+            \end{proof}
+
+            Finally we can talk about vector bundles of rank $n$. Recall from \cref{lemma:properties_homotopical_simplicial_modules} that a simplicial $A$-module is projective of rank $n$ if and only if it is strong and $\pi_0(M)$ is a (classical) projective $\pi_0(A)$-module of rank $n$. It is equivalent to ask for the existence of a covering family $A \to A'$ such that $M \otimes^{\L}_A A'$ is isomorphic to $(A')^n$ in $\Ho(sA'-\Mod)$ (this is simply the homotopical version of projective of rank $n$ iff locally free of rank $n$). 
+            We can then consider $\Vect_n(A) \subset \QCoh(A)$ to be the sub-simplicial set consisting of connected components corresponding to rank $n$ vector bundles. Since projective modules are stable by base change, we see that $\Vect_n \subset \QCoh$ is indeed a sub-simplicial presheaf.
+            One can prove the following.
+            \begin{thm}
+                The simplicial presheaf $\Vect_n$ is a derived stack, and it is usually called the \emph{derived stack of vector bundles of rank $n$}. Moreover, $\Vect_n$ is $1$-geometric, finitely presented and its diagonal is a $(-1)$-representable morphism. 
+            \end{thm}
+            \begin{proof}
+                See \cite[Corollary~1.3.7.4, Corollary~1.3.7.12]{ToVe:hag2}.
+            \end{proof}
+
+        \subsection{Derived stack of local systems}
+            %We can also do the following, more intuitive, generalization of vector bundles to our simplicial context: using \cref{lemma:properties_homotopical_simplicial_modules}, we can directly consider a functor $\dAff^{\op} \to \sSet$ sending a simplicial $k$-algebra $A$ to the nerf of groupoid of projective $sA-\Mod$ of rank $n$, which are exactly the strong simplicial $A$-modules $M$ such that $\pi_0(M)$ is a projective $\pi_0(A)$-module of rank $n$. We will use the same notation $\Vect_n$ for this new functor, which is a $1$-algebraic derived stack, see \cite[2.2.6.1]{ToVe:hag2}.
+            In the previous section, we re-defined $\Vect_n$ as a derived stack, so now we have two version of derived stacks of vector bundles: this one and the one obtained extending the classical one. We used the same notation $\Vect_n$ for both of them, and this abuse of notation is justified by the following lemma.
+            \begin{lemma}
+                \label{lemma:vector_bundles_derived_classic}
+                There exists a natural isomorphism \[i(\Vect_n) \simeq \Vect_n \] in $\dSt(k)$.
+            \end{lemma}
+            \begin{proof}
+                See \cite[Lemma~2.2.6.1]{ToVe:hag2}. %\todo{Maybe prove}
+            \end{proof}
+            
+            Recalling that the category $\dAff^{\sim}$ is a simplicial model category (we start with a simplicial model category $SPr(\dAff)$ and then we do two left Bousfield localizations, which keep the simplicial model structure), we can consider, fixed $K \in \sSet$, the exponentiation functor $F \mapsto F^K$ which is right Quillen and hence can be derived. Its right derived functor is denoted by $F \mapsto F^{\R K} \simeq (RF)^K$, where $RF$ is a fibrant replacement of $F$ in $\dAff^{\sim}$.
+            \begin{defn}
+                \label{defn:derived_local_systems}
+                Let $K \in \sSet$, which we think embedded as constant simplicial presheaf in $\dAff^{\sim}$. The \emph{derived moduli stack} of rank $n$ local systems on $K$ is \[\RLoc_n(K) \coloneqq \Vect_n^{\R K} = \R\calHom(K, \Vect_n)  \in \dSt(k) = \Ho(\dAff_k^{\sim}),\] see \cref{prop:derived_stacks_internal_hom}. %where for $A \in \sComm^{\op}$ we put \[\R\calHom(K, \Vect_n)(A) \coloneqq \Map(K \times^h \RSpec(A), \Vect_n) \simeq \Map(K, \Vect_n(A)) \in \Ho(\sSet).\] Here $R\Vect_n$ is a fibrant replacement in $\dAff^{\sim}$.
+            \end{defn}
+            Let's recall that we also have a non derived version of this stack $\Loc_n(K)\colon \Aff^{\op} \to \Gpd$ defined by $A \mapsto \funct(\Pi^1(K), B\GL_n(A))$. One can prove the following.
+            \begin{lemma}
+                \label{lemma:local_system_t0}
+                We have an isomorphism in $\St(k)$: \[\Loc_n(K) \simeq t_0\RLoc_n(K)\] where $t_0$ is the truncation functor $t_0\colon \dSt(k) \to \St(k)$, right adjoint to $i$.
+            \end{lemma}
+            \begin{proof}
+                See \cite[Lemma~2.2.6.4]{ToVe:hag2}. %\todo{Maybe prove}
+            \end{proof}
+            Also we have 
+            \begin{lemma}
+                \label{lemma:local_system_1_algebraic}
+                If $K$ is a finite simplicial set, then the derived stack $\RLoc_n(K)$ is a finitely presented $1$-geometric derived stack.
+            \end{lemma}
+            \begin{proof}
+                See \cite[Lemma~2.2.6.3]{ToVe:hag2}. %\todo{Maybe prove}
+            \end{proof}
+            % Topological version
+            We can give also a more intuitive topological notion of the derived stack of local system, to then finally prove it gives the same result as the simplicial one if we consider it on the geometric realization of $K \in \sSet$. Let $X \in \Top$ and $A \in sk-\Alg$; the category $sA-\Mod(X)$ is simply the category of presheaves on $X$ valued in $sA-\Mod$. We can consider first the projective model structure and then its left Bousfield localization such that $\Ecal \to \Fcal$ is a weak equivalence if $\Ecal_x \to \Fcal_x$ is an equivalence in $sA-\Mod$ for all $x \in X$. 
+            We now focus on the subcategoy $sA-\Mod(X)^c_W$ of cofibrant objects and weak equivalences between them. If $A \to B$ is a map in $sk-\Alg$ we have a base change functor \[sA-\Mod(X) \to sB-\Mod(X), \qquad \Ecal \mapsto \Ecal \otimes_A B \] which is left Quillen and hence induces a functor \[- \otimes_A B\colon sA-\Mod(X)^c_W \to sB-\Mod(X)^c_W. \] 
+
+            This construction induces a pseudofunctor $A \mapsto sA-\Mod(X)^c_W$ from $sk-\Alg$ to $\Ccat$, which can be strictified as usual (see \cite{Hennion:memoire} for the explicit procedure), from now on we will pretend it is a genuine functor. Let's define a subfunctor of it: for $A \in sk-\Alg$ we call $A-Loc_n(X)$ the full subcategory of $sA-\Mod(X)^c_W$ consisting of all $\Ecal$ such that there exists an open covering $\{U_i\}$ of $X$ such that each restriction $\restr{\Ecal}{U_i}$ is isomorphic, in $\Ho(sA-\Mod(U_i))$, to a constant presheaf with fibers a projective $sA-\Mod$ of rank $n$. This is a subfunctor of $A \mapsto sA-\Mod(X)^c_W$ and composing it with the nerve we obtain a presheaf $\R\Loc_n(X) \in \dAff^{\sim}$ given by \[\R\Loc_n(X)(A) \coloneqq N(A-Loc_n(X)). \]
+            \begin{prop}
+                \label{prop:local_system_topological}
+                Let $K \in \sSet$ and $\abs{K} \in \Top$ be its geometric realization. Then the simplicial presheaf $\R\Loc_n(\abs{K})$ is a derived stack and there exists an isomorphism \[\R\Loc_n(\abs{K}) \simeq \R\Loc_n(K) \] in $\dSt(k)$.
+            \end{prop}
+            \begin{proof}
+                See \cite[Proposition~2.2.6.5]{ToVe:hag2}. %\todo{Maybe prove}
+            \end{proof}
+
+            Let's now try to describe the cotangent complex of $\RLoc_n(K)$ at a global point \[E\colon * = \Spec(k) \to \RLoc_n(K) \] and recall that it belongs to $\Ho(\Ch(k)) = D(k)$ (derived category of $k$) and for any $M \in sk-\Mod$ (identified with a chain complex in negative degree by Dold-Kan when needed) it satisfies \[\Der_E(\RLoc_n(K), M) \simeq \Map_{\Ch(k)}(\L_{\RLoc_n(K), E}, M) \in \Ho(\sSet).  \]
+            Let's first observe that, using the adjunction with $t_0$ (whose left adjoint is the inclusion functor $i$) and \cref{lemma:local_system_t0}, $E$ corresponds to a map $\Spec(k) \to \Loc_n(K)$ in $\St(k)$, which then, by \cref{corollary:simplicial_yoneda_lemma_pi0}, corresponds to a functor $\Pi^1(K) \to \mathcal{G}(k)$, where $\mathcal{G}(k)$ is the groupoid of projective $k$-modules of rank $n$, i.e.\ $E$ is a local system on $K$.
+            We can then consider the homology complex of $K$ with coefficients in the local system $E \otimes_k E^{\vee}$, where $E^{\vee}$ is the pointwise dual.
+
+            An intuitive way to think about local system on a space $X$ (since $\Top$ and $\sSet$ are Quillen equivalent) is to think about locally constant sheaf of modules, so that the cohomology complex is just the sheaf cohomology one.
+
+            Let's quickly view two nice proofs of the universal coefficient theorems in a derived setting, which will help us understand the next part. We will just focus on abelian groups, to avoid the spectral sequence versions.
+            \begin{prop}[Universal Coefficients]
+                \label{prop:universal_coeff}
+                Let $X \in \Top$ be a nice space (e.g.\ a CW-complex) and $G \in \Z-\Mod$. We have the following two (non-naturally) split exact sequences 
+                \begin{diag}
+                    0 \ar[r] & H_n(X) \otimes G \ar[r] & H_n(X, G) \ar[r] & \Tor^1(H_{n-1}(X), G) \ar[r] & 0, \\
+                    0 \ar[r] & \Ext^1(H_{n-1}(X), G) \ar[r] & H^n(X, G) \ar[r] & \Hom(H_n(X), G) \ar[r] & 0.
+                \end{diag}
+                In the derived category $D(\Z)$ this just amounts in saying \[C_*(X, G) \simeq C_*(X) \otimes^{\L} G, \qquad C^*(X, G) \simeq \R\IntHom(C_*(X), G). \]
+            \end{prop}
+            \begin{proof}
+                Since the homology complex $C_*(X)$ is bounded and free in each component and $\Z$ is a PID, we can write, in the derived category $D(\Z)$ \[C_*(X, G) \stackrel{\mathrm{def}}{\simeq} C_*(X) \otimes G \simeq C_*(X) \otimes^{\L} G.  \] The proof of this fact goes as follows: we can find a quasi-isomorphism from a complex of free abelian groups $F_*$ to $C_*(X)$, and the complex of free $\Z$-modules is itself quasi-isomorphic to the sum of its homology, using the fact that every subgroup of a free abelian group is free (we write every term $F_n \simeq \ker \partial_n \oplus \Ima \partial_n$).
+                To get back the original statement we can just observe that in $D(\Z)$ we have \[C_*(X) \simeq \bigoplus_n H_n(X)[n] \implies C_*(X) \otimes^{\L} G \simeq \bigoplus_n (H_n(X) \otimes^{\L} G)[n]. \] Since $\Z$ has projective dimension $1$ (i.e.\ any abelian group has a free resolution with only two nonzero terms) we see that in $D(\Z)$, for any $A \in \Ab$, we have $A \otimes^{\L} G \simeq (A \otimes G) \oplus  \Tor^1(A, G)[1]$. We then conclude \[C_*(X, M) \simeq \bigoplus_n H_n(X, M)[n] \simeq \bigoplus_n (\left(H_n(X) \otimes G )\oplus \Tor^1(H_{n-1}(X), G) \right)[n]. \]
+                The cohomology version is analogue, observing \[C^*(X, G) \stackrel{\mathrm{def}}{\simeq} \IntHom(C_*(X), G) \simeq \R\IntHom(C_*(X), G) \] and $\R\IntHom(A, G) \simeq \Hom(A, G) \oplus \Ext^1(A, G)[1]$.
+            \end{proof}
+
+            
+            \begin{prop}
+                \label{prop:local_system_cotangent}
+                We have an isomorphism in $D(k)$: \[ \L_{\RLoc_n(K), E} \simeq C_*(K, E \otimes_k E^{\vee})[-1]. \]
+            \end{prop}
+            \begin{proof}
+                Let's fix $M \in sk-\Mod$ and try to compute $\Der_E(\RLoc_n(K), M)$, defined as the homotopy fiber of \[\RLoc_n(K)(\RSpec(k \oplus M)) \to \RLoc_n(K)(\RSpec(k)) \] at $E$, where the morphism is induced by the projection $k \oplus M \to k$ (trivial square zero extension at every level). This corresponds to the simplicial mapping set of all maps $K \to \Vect_n(k \oplus M)$ lifting $E\colon K \to \Vect_n(k)$, i.e. we have \[\Der_E(\RLoc_n(K), M) \simeq \Map_{\sSet/\Vect_n(k)}(K, \Vect_n(k \oplus M)) \in \Ho(\sSet). \] Let's try to describe in a different way the projection $\Vect_n(k \oplus M) \to \Vect_n(k)$; observe first of all that, thanks to the bi-augmentation $k \to k \oplus M \to k$, this map has a section. We claim that it is already a Kan fibration, so we can compute its homotopy fiber just with a normal pullback. Recalling the definitions, $\Vect_n(A)$, for $A \in sk-\Alg$, is just the nerf of the groupoid of projective $sA$-modules of rank $n$ (see \cref{defn:module_homotopical_properties}). Then, to verify that it is a fibration, we just need to verify it lifts against generating acyclic cofibrations $\Lambda^n_k \to \Delta^n$. This holds by surjectivity and by the fact that we are taking nerves of groupoids (i.e. all maps are invertible). Thus, this is a fibration and we can just compute the normal fiber.
+                
+                Observe now that any projective $s(k \oplus M)-\Mod$ is a cobase change of a projective $k-\Mod$. Indeed a projective $s(k \oplus M)-\Mod$ corresponds to an idempotent endomorphism of a free $s(k\oplus M)-\Mod$: fixing a base of such a free module (of finite type, since we are interested in rank $n$), the coefficients of the matrix of such endomorphism must lie in $k$ (embdedded in $k\oplus M$), since multiplication on $M$ is zero in $k\oplus M$. This means exactly that we can consider the corresponding endomorphism of the same free $k$-module, obtaining a projective $k$-module, and then base change to get back our original module.
+
+                Let's define a simplicial category $\mathcal{G}(k \oplus M)$ having as objects projective $k$-modules of rank $n$ (same objects as $\mathcal{G}(k)$) and having as the simplicial set of morphisms \[\mathcal{G}(k \oplus M)(P, P') \coloneqq \IntHom^{W}_{s(k \oplus M)-\Mod}(P \oplus (P \otimes_k M), P' \oplus (P' \otimes_k M)) \] where we consider the sub-simplicial set of (weak) equivalences in the simplcial hom-sets in the S-category $s(k \oplus M)-\Mod$. Observe that $P \oplus (P \otimes_k M) \simeq P \otimes_k (k \oplus M)$, which is a cobase change of $P \in sk-\Mod$ (seen as a constant simplicial $k$-module). It is then cofibrant, since $- \otimes_k (k \oplus M)$ preserves cofibrant objects (being left Quillen) and since $P$ is cofibrant as $sk-\Mod$, being projective (any acyclic fibration is surjective levelwise and projective modules lift against surjections). Let's also observe that, since a surjection between simplicial abelian groups is a Kan fibration of simplicial sets by \cref{prop:simplicial_group_kan_complex}, every object of $s(k \oplus M)-\Mod$ is also fibrant. 
+                We have a natural map of S-categories $\mathcal{G}(k \oplus M) \to \mathcal{G}(k)$ being identity on objects and acting on simplicial sets of morphisms by 
+                \begin{gather*}
+                    \IntHom^W_{s(k \oplus M)-\Mod}(P \oplus (P \otimes_k M), P' \oplus (P' \otimes_k M)) \to \IntHom^W_{sk-\Mod}(P, P') \to \\ \mathrm{const}\,\pi_0(\IntHom^W_{sk-\Mod}(P, P')) \simeq \mathcal{G}(k)(P, P')
+                \end{gather*}
+                where we consider $\mathcal{G}(k)$ as simplicial enriched category in the trivial way (constant morphism). 
+                Using \cite[Prop.~A.0.6]{ToVe:hag2}, we can say that the projection $\Vect_n(k \oplus M) \to \Vect_n(k)$ is isomorphic to the map \[N(\mathcal{G}(k \oplus M)) \to N(\mathcal{G}(k)),\] where we consider the nerve of an S-category, defined as the diagonal of the bisimplicial set sending $([n], [m])$ to chains of $(n+1)$ objects whose degree of maps is $m$. It is again a right Quillen adjoint, as in the classical case (explained, for example, in \cite{dwykan:simpl_loc} and in \cite[Appendix~A]{ToVe:hag2}). This means that $N$ preserves (homotopy) pullbacks.
+                
+                Let's now focus on the particular case where $K = \Delta^0$, where $E\colon \Delta^0 \to \Vect_n(k)$ is just a projective $k$-module of rank $n$. Using $\Delta^0 = N(1)$, where $1$ is the singleton groupoid, we just need to find the fiber, in S-categories, of $\mathcal{G}(k \oplus M) \to \mathcal{G}(k)$ at $E \in \mathcal{G}(k)$. The object set is clearly a singleton, corresponding to the point $E$ in $\mathcal{G}(k \oplus M)$, so the only problem is finding its simplicial set of endomorphisms, which is exactly the sub-simplicial set of endomorphism of $E$ in $\mathcal{G}(k \oplus M)$ that gets sent to $\id_E$. Observe that (by the tensor-forgetful adjunction) we have 
+                \begin{gather*}
+                    \IntHom^W_{s(k \oplus M)-\Mod}(E \oplus (E \otimes_k M), E \oplus (E \otimes_k M)) \simeq \IntHom^W_{sk-\Mod}(E, E \oplus (E \otimes_k M)) \simeq \\ \IntHom^W_{sk-\Mod}(E, E) \times \IntHom_{sk-\Mod}(E, E \otimes_k M)
+                \end{gather*}
+                and hence the simplicial set of morphisms must be $\IntHom_{sk-\Mod}(E, E \otimes_k M) \simeq E \otimes_k E^{\vee} \otimes_k M$ (since $E$ is of finite type). Therefore the searched fiber is the S-category $(*, E \otimes_k E^{\vee} \otimes_k M)$, whose simplicial nerve is the classifying space $K(E \otimes_k E^{\vee} \otimes_k M, 1)$, defined by $[n] \mapsto (E \otimes E^{\vee} \otimes M_n)^{\times n}$, with faces and cofaces being the obvious ones.
+                Summarizing, we have this (homotopy) pullback diagram in $\sSet$:
+                \begin{diag}
+                    K(E \otimes E^{\vee} \otimes M, 1) \arrow[r] \arrow[d] & \Vect_n(k \oplus M) \arrow[d] \\
+                    \Delta^0 \arrow[r, "E"] & \Vect_n(k)
+                \end{diag}
+                Therefore, using the universal property of the pullback, we obtain 
+                \begin{gather*}
+                    \Der_E(\RLoc_n(\Delta^0), M) \simeq \Map_{\sSet/\Vect_n(k)}(\Delta^0, \Vect_n(k \oplus M)) \simeq \\
+                    \simeq \Map_{\sSet/\Delta^0}(\Delta^0, K(E \otimes E^{\vee} \otimes M, 1)) \simeq K(E \otimes E^{\vee} \otimes M, 1).
+                \end{gather*}
+                Expressing $K$ as homotopy colimit of standard simplices $\Delta^n$ (the index category is given by maps $\Delta^m \to K$) we obtain 
+                \begin{gather*}
+                    \Der_E(\RLoc_n(K), M) \simeq \Map_{\sSet/\Vect_n(k)}(K, \Vect_n(k \oplus M))\simeq \\ 
+                    \holim_{\Delta^n \to K} \Map_{\sSet/\Vect_n(k)}(\Delta^n, \Vect_n(k \oplus M)) 
+                \end{gather*}
+                and, by recalling that local systems only depend on the homotopy type of the base space (and $\Delta^n$ is contractible), using the above expression for $\Delta^0$ (being careful that there $E$ means the restriction of our local system to one simplex) we obtain \[\Der_E(\RLoc_n(K), M) \simeq \Map_{\sSet}(K, K(E \otimes_k E^{\vee} \otimes_k M, 1)). \] 
+                \begin{lemma}
+                    \label{lemma:intuition_map_pi0}
+                    We have an isomorphism  \[\Map_{\sSet}(\Xcal, K(\Gcal, n)) \simeq \Map_{\Ch(k)}(k, C^*(\Xcal, \Gcal)[n]) \] in $\Ho(\sSet)$, where $\Xcal \in \sSet$, $\Gcal \in sk-\Mod$ and $K(\Gcal, n)$ is the $n$-th classifying space, obtained applying $n$ times, in sequence, the bar construction to the S-category $\Gcal$, i.e.\ $K(\Gcal, n) = B^n(\Gcal)$.
+                \end{lemma}
+                \begin{proof}
+                    We will just sketch a proof to justify why this adjunction should hold, or better, how we must understand the object $C^*(\Xcal, \Gcal)$ (which is weird, since $\Gcal$ is a \emph{simplicial} $k$-module). To motivate the generalization in the lemma we will assume $\Gcal$ to be  discrete and call it $G \in k-\Mod$ (so that if the property holds for discrete objects then definitions are taken so that it still holds in the general case).
+
+                    By \cref{prop:simplicial_set_colimit_cells} we can write $\Xcal \simeq \hocolim_{\Delta^n \to \Xcal} \Delta^n$ and using the properties of the mapping space (see \cref{thm:mapping_space_holim_hocolim}) we can write \[\Map_{\sSet}(\Xcal, K(G, n)) \simeq \holim_{\Delta^n \to \Xcal} \Map_{\sSet}(\Delta^n, K(G, n)) \] and since $\Delta^n \simeq \Delta^0$ in $\Ho(\sSet)$ (contractible) we have \[\Map_{\sSet}(\Xcal, K(G, n)) \simeq \holim_{\Delta^n \to \Xcal} \Map_{\sSet}(\Delta^0, K(G, n)) \simeq \holim_{\Delta^n \to \Xcal} K(G, n). \] Similarly, writing the cohomology complex $C^*(\Xcal, G)$ as the homotopy limit of the $C^*(\Delta^n, G) \simeq G$ we get, for the right hand side, the following expression 
+                    \[\Map_{\Ch(k)}(k, C^*(\Xcal, G)[n]) \simeq \holim_{\Delta^n \to \Xcal} \Map_{\Ch(k)}(k, G[n]) \simeq \holim_{\Delta^n \to \Xcal} \Map_{\sAb}(k, DK(G[n])) \]  where we used the Dold-Kan equivalence, see \cref{thm:dold_kan}. Let's observe now, using the free-forgetful adjunction, that \[\Map_{\sAb}(k, DK(G[n])) \simeq \Map_{\sSet}(\Delta^0, DK(G[n])) \simeq DK(G[n]). \] We are reduced to compare $K(G, n)$ and $DK(G[n])$ as simplicial set, which are clearly weak equivalent (the only nontrivial homotopy group of $K(G, n)$ is $\pi_n = G$, while the only nontrivial homology, and hence homotopy group using Dold-Kan, of $G[n]$ is $H^n = G$).
+                    %We will now use $X = \abs{\Xcal}$ for the corresponding CW-complex. We know from classical algebraic topology that we have \[\Hom_{\Ho(\Top)}(X, K(G, n)) = [X, K(G, n)] \simeq H^n(X, G) \] where $K(G, n)$ is the Eilenberg space. Observe now that 
+                    %\begin{gather*}
+                        %\Hom_{\Ho(\Top)}(X, K(G, n)) \simeq \pi_0( \Map_{\Top}(X, K(G, n) ) ),\\
+                        % H^n(X, G) = H^n( C^*(X, G) ) \simeq \Hom_{D(k)}(k, C^*(X, G)[n]) \simeq \pi_0( \Map_{\Ch(k)}(k, C^*(X, G)[n] ) ). 
+                    %\end{gather*}
+                    %so that we see (using $\sSet$ in place of $\Top$) that the claimed isomorphism holds at the level $\pi_0$. \todo{How to continue?}
+                \end{proof}
+                Thus by the intuition given by the lemma we are confident enough to write 
+                \begin{gather*}
+                    \Map_{\sSet}(K, K(E \otimes_k E^{\vee} \otimes_k M, 1)) \simeq \Map_{\Ch(k)}(k, C^*(K, E \otimes_k E^{\vee} \otimes_k M)[1]) \simeq \\
+                    \simeq \Map_{\Ch(k)}(k[-1], C^*(K, E \otimes_k E^{\vee} \otimes_k M)). 
+                \end{gather*}
+                By perfectness of $E \otimes E^{\vee}$ and (a general version of) \cref{prop:universal_coeff} we have \[C^*(K, E \otimes_k E^{\vee} \otimes_k M) \simeq \R\IntHom(C_*(K, E \otimes_k E^{\vee}), M)\] and hence, using the adjunction with the (left derived) tensor product (although here $k[-1]$ is already projective, so it does not make any difference and it just produces a shift), we conclude 
+                \begin{gather*}
+                    \Der_E(\RLoc_n(K), M) \simeq \Map_{\Ch(k)}(k[-1], \R\IntHom(C_*(K, E \otimes_k E^{\vee}), M)) \simeq \\
+                    \simeq \Map_{\Ch(k)}(C_*(K, E \otimes_k E^{\vee})[-1], M). 
+                \end{gather*}
+                Thus, we finally conclude that \[\L_{\RLoc_n(K), E} \simeq C_*(K, E \otimes_k E^{\vee})[-1] \in \Ho(\Ch(k)). \qedhere\]
+            \end{proof}
+    \section{Derived mapping stack}
+        \begin{defn}
+            Let $X$ be a (classic) stack over $k \in \Comm$ and $F$ a derived $n$-geometric stack. The \emph{mapping derived stack} of morphisms between $X$ and $F$ is given by \[ \IntMap(X, F) \coloneqq \R\calHom(i(X), F) \in \dSt(k)\] where $\R\calHom$ is the internal hom of the cartesian closed category $\Ho(\dAff^{\sim})$, as defined in \cref{prop:derived_stacks_internal_hom} (a priori this differs from the internal hom for the category of stacks $\St(k)$). It sends $A \in \sComm$ to $\R\IntHom(i(X) \times^h \RSpec A, F)$.
+        \end{defn}
+        
+        Let's recall the following criterion.
+        \begin{thm}[J. Lurie's representability criterion]
+            \label{thm:lurie_rep_criterion}
+            Let $F \in \dSt(k)$. The following are equivalent:
+                \begin{enumerate}[label=(\arabic*)]
+                    \item $F$ is an $n$-geometric derived stack.
+                    \item $F$ satisfies the three following conditions.
+                    \begin{enumerate}[label=(\alph*)]
+                        \item The truncation $t_0(F)$ is an Artin $(n+1)$-stack, i.e.\ it is $(n+1)$-truncated and $m$-geometric for some $m$.
+                        \item $F$ has an obstruction theory.
+                        \item For any $A \in sk-\Alg$, the natural map \[\R F(A) \to \holim_s \R F(A_{\leq s}) \] is an isomorphism in $\Ho(\sSet)$, where we consider the Postnikov tower of $A$.
+                    \end{enumerate}
+                \end{enumerate}
+        \end{thm}
+        \begin{proof}
+            See \cite[Appendix~C]{ToVe:hag2}.
+        \end{proof}
+
+        Let's now concentrate on a particular case, namely when $X$ is a projective and flat $k$-scheme and $F = Y$ is also a projective smooth $k$-scheme. 
+        Let's recall the following.
+        \begin{remark}
+            \label{remark:cohomology_complex}
+            Let $\tau\colon \Spec A \to \Spec k$ a map of schemes. Let's observe the classical adjunction \[ \tau^*\colon \O_{\Spec A}-\Mod \simeq A-\Mod \to \O_{\Spec k}-\Mod \simeq k-\Mod\colon (\tau)_* \] passes to chain complexes $\Ch(A)$ and $\Ch(k)$ (endowed with the projective model structures) inducing a Quillen adjunction. The left derived functor $\L\tau^*$ corresponds to the left derived tensor product $A \otimes_k^{\L} -$, while $\R(\tau)_*$ is denoted also as $C^*(\Spec A, -)$ is the sheaf cohomology complex (indeed the non-derived version just amounts to taking global sections, i.e.\ $(\tau)_*\Fcal = \Gamma(\Fcal, \Spec A)$).
+        \end{remark}
+    
+        We are ready to prove the following.
+        \begin{prop}
+            \label{prop:map_curves_cotangent}
+            With the same notations as above, the derived stack $\IntMap(X, Y)$ (we consider $X$ and $Y$ already embedded in $\dSt(k)$) is a $1$-geometric derived stack. Moreover, for any $f\colon X \to Y$ the cotangent complex of $\IntMap(X, Y)$ at the point $f$ is \[\L_{\IntMap(X, Y), f} \simeq C^*(X, f^*T_Y )^{\vee}\] where $T_Y = \calHom_{\O_Y-\Mod}(\Omega^1_{Y/\Spec k}, \O_Y)$ is the tangent sheaf of $Y \to \Spec k$ and $C^*(X, f^*T_Y)$ is the sheaf cohomology complex.
+        \end{prop}
+        \begin{proof}
+            As usual observe that a point $\Spec k \to \IntMap(X, Y)$ corresponds, using adjunctions and Yoneda, to an element of $\pi_0(\IntMap(X, Y)(\Spec k)) = \Hom_{\dSt(k)}(X, Y)$, i.e.\ to a map $f\colon X \to Y$.
+            Let's first focus on finding the cotangent complex. To do so, we must understand derivations; denote by $S = \RSpec k$, pick $M \in sk-\Mod$ and  let $S[M] = \RSpec(k \oplus M)$. Then \[\Der_f(\IntMap(X, Y), M) \stackrel{\textrm{def}}{=} \Map_{X/\dSt(k)}(X \times_S^h\, \RSpec(k \oplus M), Y) = \Map_{X \times_S S/\dSt(k)}(X \times^h_S\, S[M], Y). \] 
+
+            Writing $X = \hocolim_i U_i$ for $U_i = \RSpec A_i$ flat affine $k$-schemes (a suitable chart system of $X$) with $A_i$ flat $k$-algebra for each $i$, we obtain \[\Map_{X \times_S S/\dSt(k)}(X \times^h_S S[M], Y) \simeq \holim_i \Map_{U_i/\dSt(k)}(U_i \times_S^h S[M], Y). \] Observe that we implicitely used that $\hocolim_i$ and $- \times_S^h S[M]$ commute (this derives from properties of t-model topoi, see \cite[Theorem~4.9.2]{ToVe:hag1}).
+            Observe now that \[U_i \times^h_S S[M] = \RSpec(A_i) \times_k^h \RSpec(k \oplus M) \simeq \RSpec(A_i \oplus (A_i \otimes_k^{\L} M)) = U_i[A_i \otimes_k^{\L} M] \] and, calling $\tau_i\colon U_i \to \Spec k$ the structure morphism, we get $A_i \otimes_k^{\L} M = \L\tau_i^*(M)$ (the pullback functor $\tau^*$ is left Quillen, and we are also identifying quasi-coherent modules on affine schemes with their global sections). 
+            Thus we can write \[\Map_{X/\dSt(k)}(X \times^h_S S[M], Y) \simeq \holim_i \Map_{U_i/\dSt(k)}(U_i[\L\tau_i^*(M)], Y) \simeq \holim_i \Map_{\Ch(A_i)}(\L_{Y, g_i}, \L\tau_i^*(M)) \] where the last function complexes is in $\Ch(A_i)$, $g_i$ is the restriction of $f$ to $U_i$ and $\L_{Y, g_i} = g_i^*\L_Y$ is the global cotangent complex of $Y$ (which is a smooth scheme, hence its cotangent complex is perfect, corresponding to the classical cotangent sheaf) at the point $g_i\colon U_i \to Y$. Recalling the the (global) tangent complex $\T_Y$ is defined as the dual complex of $\L_Y$, we obtain 
+            \begin{gather*}
+                \holim_i \Map_{\Ch(A_i)}(g_i^*\L_Y, \L\tau_i^*(M)) \simeq \holim_i \Map_{\Ch(A_i)}(\L\tau_i^*(M^{\vee}), g_i^*\T_Y) \simeq \\
+                \simeq \holim_i \Map_{\Ch(k)}(M^{\vee}, C^*(U_i, g_i^*\T_Y)) 
+            \end{gather*}
+            where the last passage is given by the universal property of the cohomology complex (right derived functor of global sections, which corresponds to the structure pushforward to $\Spec k$, see \cref{remark:cohomology_complex}).
+            
+            Notice that we also used, en passant, the commutation between the (derived) pullback $\tau_i^*$ and the (derived) dual $(-)^{\vee} = \R\IntHom_k(-, k)$. This is possible because $A_i$ is flat over $k$ and hence \[(\L\tau_i^*(M))^{\vee} = \R\IntHom_{\Ch(A_i)}(A_i \otimes_k^{\L} M, A_i) \simeq A_i \otimes_k^{\L} \R\IntHom_{\Ch(k)}(M, k) = \L\tau_i^*(M^{\vee}). \]
+            Finally, recalling that $X = \hocolim_i U_i$, we obtain \[\Der_f(\IntMap(X, Y), M) \simeq \Map_{\Ch(k)}(M^{\vee}, C^*(X, f^*\T_Y)) \] so that, using again duality and $(M^{\vee})^{\vee} \simeq M$, we can conclude \[\L_{\IntMap(X, Y), f} \simeq C^*(X, f^*\T_Y)^{\vee}. \] This last passage is justified by the fact that $f^*\T_Y$ is a perfect complex in $\Ch(\O_X-\Mod)$: this holds because $\T_Y$ is projective, since $Y$ is smooth (so that also the pullback is projective, componentwise) and $X$ is projective (so its higher cohomology groups will vanish, i.e.\ only a finite number of nonzero components will be present).
+        \end{proof}
+        Let's state and prove a technical lemma about inf-cartesianity.
+        \begin{lemma}
+            \label{lemma:map_infcartesian}
+            Let $F$ be a derived stack which is inf-cartesian. Then, for any $F' \in \dSt(k)$ the mapping derived stack $\IntMap(F', F)$ is also inf-cartesian.
+        \end{lemma}
+        \begin{proof}
+            Choose $F'$ derived stack and write it (using the ``homotopical'' version of the density theorem, the classical statement saying that any presheaf is a colimit of representable presheaves) as an homotopy colimit of representable derived stacks \[F' \simeq \hocolim_i U_i \in \dSt(k) \] Then we obtain \[\IntMap(F', F) \simeq \holim_i \IntMap(U_i, F) \] and, as inf-cartesian property is stable by homotopy limits, we can just focus on the case $F' = \RSpec B$ is representable. Let $A \in sk-\Alg$ and $M \in sA-\Mod$ with $\pi_0(M) = 0$ and choose a derivation $d \in \pi_0(\Der_k(A, M))$. %\todo{why?} 
+            Applying the derived stack $\IntMap(F', F)$ to the homotopy pullback diagram defining $A \oplus_d \Omega M$ (see \cref{defn:somma_d_omega}) we obtain the commutative diagram 
+            \begin{diag}
+                \IntMap(F', F)(A \oplus_d \Omega M) \ar[r] \ar[d] & \IntMap(F', F)(A) \ar[d] \\
+                \IntMap(F', F)(A) \ar[r] & \IntMap(F', F)(A \oplus M)
+            \end{diag}
+            and, observing $\IntMap(F', F)(A) = \R\IntHom(\RSpec B \times_k^h \RSpec A, F) \simeq \R F(A \otimes_k^{\L} B)$ we get 
+            \begin{diag}
+                \R F((A \oplus_d \Omega M) \otimes_k^{\L} B ) \ar[r] \ar[d] & \R F(A \otimes_k^{\L} B) \ar[d] \\
+                \R F(A \otimes_k^{\L} B) \ar[r] & \R F((A \oplus M) \otimes_k^{\L} B).
+            \end{diag}
+            By assumption $F$ is inf-cartesian, so we can consider this property with $A \otimes_k^{\L} B \in sk-\Alg$ and $d \otimes_k B \in \pi_0(\Der_k(A \otimes_k^{\L} B, M \otimes_k^{\L} B))$, and we obtain that the last diagram is homotopy cartesian (the functor $- \otimes_k^{\L} B$ commutes with homotopy pullbacks, since $- \otimes_k B$ is left Quillen). Thus we conclude that also $\IntMap(F', F)$ is inf-cartesian.
+        \end{proof}
+        Let's now state a criterion to investigate the $n$-geometricity of the derived stack $\IntMap(X, F)$ (with the same notations as above, i.e.\ $X$ is a stack and $F$ an $n$-geometric derived stack).
+        \begin{thm}
+            \label{thm:derived_stack_geometric}
+            With same notations as above, assume the following are satisfied:
+            \begin{enumerate}[label=(\arabic*)]
+                \item The stack \[t_0(\IntMap(X, F)) \simeq \R\calHom(X, t_0(F)) \in \St(k) \] is $n$-geometric (where the last $\calHom$ is the internal hom for classical stacks).
+                \item The derived stack $\IntMap(X, F)$ has a global cotangent complex.
+                \item The stack $X$ can be written, in $\St(k)$, as an homotopy colimit $\hocolim_i U_i$, where $U_i$ is an affine scheme, flat over $\Spec k$.
+            \end{enumerate}
+            Then, the derived stack $\IntMap(X, F)$ is $n$-geometric.
+        \end{thm}
+        \begin{proof}
+            The converse holds, clearly. Let us suppose $\IntMap(X, F)$ respects the three hypotheses, and let's try to lift an $n$-atlas of $t_0(\IntMap(X, F))$ to an $n$-atlas of $\IntMap(X, F)$. We will use \cref{thm:lurie_rep_criterion}, i.e.\ we need to prove that $\IntMap(X, F)$ satisfies conditions (a)-(c). The condition (a) is exactly our assumption (1). Having an obstruction theory means having a global cotangent complex and being inf-cartesian: the existence of cotangent complex is assumption (2), while for inf-cartesian we can use \cref{lemma:map_infcartesian}.
+            It then remains just to show condition (c) of Lurie's criterion. Let's now write $X = \hocolim_i U_i$, with $U_i$ affine and flat over $k$, so that \[\IntMap(X, F) \simeq \holim_i \IntMap(U_i, F). \] Since condition (c) is stable by homotopy limits, we can assume $X = \Spec B$ for $B$ a commutative flat $k$-algebra. For any $A \in sk-\Mod$ the map \[\IntMap(X, Y)(A) \to \holim_s \IntMap(X, Y)(A_{\leq s}) \] is equivalent to (see the proof of preceeding lemma) \[\R F(A \otimes_k B) \to \holim_s \R F((A_{\leq s} \otimes_k B)) \] where we didn't write the left-derived tensor product since $B$ is flat over $k$ (and hence $A \otimes_k B$ corresponds to $A \otimes_k^{\L} B$). By flatness, we can write $(A_{\leq s}) \otimes_k B \simeq (A \otimes_k B)_{\leq s}$ (recall that $A_{\leq s}$ is obtained as an homotopy pullback) and therefore the above morphism is equivalent to \[\R F(A \otimes_k B) \to \holim_s \R F( (A \otimes_k B)_{\leq s} ) \] which is an equivalence since $F$ is $n$-geometric (using the other direction of \cref{thm:lurie_rep_criterion}).
+        \end{proof}
+
+    \section{Derived moduli space of vector bundles}
+        Finally we will focus our attention on the derived version of the stack of rank $n$ vector bundles (i.e.\ $\GL_n$-bundles) studied in \cref{chapter:moduli_stack_bung}. We start with similar assumptions, namely $p\colon X \to \Spec k$ a projective and flat map (so that $X$ is a projective flat space over $k$). Here $k$ will be a field.
+
+        \begin{defn}
+            \label{defn:rbung}
+            The derived moduli space of $\GL_n$-bundles of $p\colon X \to \Spec k$ is \[\IntMap(X, \Vect_n) \coloneqq \R\calHom(X, \Vect_n) \simeq \R\calHom(X, B\GL_n) \] where we view $X, \Vect_n$ and $B\GL_n$ implicitely embedded in $\dSt(k)$. 
+        \end{defn}
+        We see that it is exactly the derived version of \cref{defn:moduli_bung}. Recall that, as classic stacks, $\Vect_n \simeq B\GL_n$.
+        \begin{remark}
+            \label{remark:limit_cohomology_complex}
+            Let's take a little detour, which will be useful in the following proof; let $j\colon X \to \Spec A$ be a map of schemes and consider the direct image functor \[j_* = \Gamma(X, -)\colon \mathrm{QCoh}(X) \to A-\Mod. \] Write $X$ as colimit of affine charts $U_i$ and observe that, by the very definition of sheaf, we can write $j_*$ as a limit of the functors of global sections on the open covering $\{U_i\}_i$ (considering also intersections). More specifically we have the following diagram
+            \begin{diag}
+                U_i \ar[rd, "\pi"] \ar[r, "\sigma"] & X \ar[d, "j"] \\
+                & \Spec A
+            \end{diag}
+            and we consider the (pseudo)-functors $\pi_* \circ \sigma^*$ (the index $i$ is implicit), acting by $\Fcal \mapsto \Gamma\left(U_i, \restr{\Fcal}{U_i}\right)$. We can thus write \[j_* \simeq \plim_i \pi_* \circ \sigma^* \] and we will then use the derived version of this (which is nothing else then the derived base change formula), stating \[C^*(X, -) = \R j^* \simeq \holim_i C^*(U_i, \L \sigma^*(-)) \in D(A). \]
+        \end{remark}
+        \begin{prop}
+            \label{prop:rbung_cotangent}
+            The derived stack $\IntMap(X, \Vect_n)$ has a global cotangent complex. In particular, given a point $x\colon \RSpec A \to \IntMap(X, \Vect_n)$ with $A \in sk-\Alg$, corresponding to a vector bundle $\Ecal$ on $X \times^h \RSpec A$, the cotangent complex is \[\L_{\IntMap(X, \Vect_n), \Ecal} \simeq C_*(X \times^h \RSpec A, \calEnd(\Ecal))[-1] \in \Ho(Sp(sA-\Mod)). \]
+        \end{prop}
+        \begin{proof}
+            By Yoneda lemma, $x$ is an element of $\pi_0(\R\IntHom(X \times^h \RSpec A, \Vect_n))$, corresponding to a rank $n$ vector bundle $\Ecal$ on $X \times^h \RSpec A$.
+            Let's fix a system of affine (flat) $k$-charts so that \[X \simeq \hocolim_i U_i \] where $U_i \simeq \Spec B_i$ for $B_i$ a flat $k$-algebra. Then we have \[\IntMap(X, \Vect_n) \simeq \holim_i \IntMap(U_i, \Vect_n) \] and we can consider $x_i$, obtained by composing $x$ and the canonical projection $\IntMap(X, \Vect_n) \to \IntMap(U_i, \Vect_n)$. Since $U_i \simeq \Spec B_i \simeq \RSpec B_i$, by Yoneda and $k$-flatness of $B_i$ we have 
+            \begin{gather*}
+                x_i \in \pi_0(\IntMap(U_i, \Vect_n)(\RSpec A)) = \pi_0(\R\IntHom(\RSpec A \times^h \RSpec B_i, \Vect_n) ) =\\
+                =  \pi_0(\R\IntHom(\RSpec(B_i \otimes_k^{\L} A), \Vect_n) ) = \pi_0(\Vect_n(B_i \otimes_k A))
+            \end{gather*}
+            so that $x_i$ is just the datum of $E_i$, a projective $s(B_i \otimes_k A)$-module of rank $n$. It corresponds to the global sections of $\Ecal_i$, the homotopy pullback of the vector bundle $\Ecal$, in this diagram 
+            \begin{diag}
+                U_i \times^h \RSpec A \ar[r, hook, "\sigma"] \ar[rd, "\pi"] & X \times^h \RSpec A \ar[d, "j"] \\
+                & \RSpec A
+            \end{diag}
+            where we immediately notice that $j$ is projective and flat by base change.
+
+            Observe now that given $M \in sA-\Mod$ we have 
+            \begin{gather*}
+                \IntMap(U_i, \Vect_n)(\RSpec A) \simeq \Vect_n(B_i \otimes_k A), \\ \IntMap(U_i, \Vect_n)(\RSpec A \oplus M) \simeq \Vect_n(B_i \otimes_k (A \oplus M)) \simeq \Vect_n((B_i \otimes_k A) \oplus (B_i \otimes_k M)).
+            \end{gather*} 
+            To compute derivations for $U_i$ and $M$, we need to find the homotopy fiber 
+            \begin{diag}
+                \bullet \ar[d] \ar[r] & \Vect_n((B_i \otimes_k A) \oplus (B_i \otimes_k M)) \ar[d] \\
+                * = \Delta^0 \ar[r, "E_i"] & \Vect_n(B_i \otimes_k A)
+            \end{diag}
+            and we see that, as in the proof of \cref{prop:local_system_cotangent}, we have \[\bullet = K(E_i \otimes_{B_i \otimes A} E_i^{\vee_i} \otimes_{B_i \otimes A} (B_i \otimes M), 1) \] where $E_i^{\vee_i} = \Hom_{s(B_i \otimes A)-\Mod}(E_i, B_i \otimes A)$ and $B_i \otimes_k M \in s(B_i \otimes_k A)-\Mod$.
+            Let's observe that by thinking of derivations as maps towards our derived stack under $\RSpec A$, we see that in $\Ho(\sSet)$ we have
+            \begin{gather*}
+                \Der_x(\IntMap(X, \Vect_n), M) \simeq \Der_x(\holim_i \IntMap(U_i, \Vect_n), M) \simeq \\ 
+                \simeq \holim_i \Der_{x_i}(\IntMap(U_i, \Vect_n), M). 
+            \end{gather*}
+            By definition of derivations as homotopy fibers, and reasoning again as in \cref{lemma:intuition_map_pi0} (even though here we need to use stable modules and not just chain complexes), we have 
+            \begin{gather*}
+                \Der_{x_i}(\IntMap(U_i, \Vect_n), M) \simeq K(E_i \otimes_{B_i \otimes A} E_i^{\vee_i} \otimes_{B_i \otimes A} (B_i \otimes M), 1) \simeq \\ \simeq \Map_{\sSet}(\Delta^0, K(E_i \otimes_{B_i \otimes A} E_i^{\vee_i} \otimes_{B_i \otimes A} (B_i \otimes M), 1)) \simeq \\
+                \simeq \Map_{Sp(s(B_i \otimes A)-\Mod)}(B_i \otimes A, (E_i \otimes_{B_i \otimes A} E_i^{\vee_i} \otimes_A M)[1])
+            \end{gather*}
+            where we used the fact that $C^*(\Delta_0, G) = G$ and $E_i \otimes_{B_i \otimes A} E_i^{\vee_i} \otimes_{B_i \otimes A} (B_i \otimes_k M) \simeq E_i \otimes_{B_i \otimes A} E_i^{\vee_i} \otimes_A M$.
+
+
+            %Let's recall that $E_i$ is, by definition, projective of rank $n$ as a $(B_i \otimes A)$-module. Then $E_i \otimes_{B_i \otimes A} E_i^{\vee_i} \simeq \End_{B_i \otimes A}(E_i)$ is also a projective $B_i \otimes_k A$-module, of rank $n^2$. Recalling that 
+            
+            Recall now that, $B_i$ being $k$-flat, $B_i \otimes_k^{\L} A = B_i \otimes_k A$, and using the derived adjunction (where the right adjoint is the forgetful functor $s(B_i \otimes A)-\Mod \to sA-\Mod$) we obtain 
+            \begin{gather*}
+                \Map_{B_i \otimes A}(B_i \otimes_k^{\L} A, (E_i \otimes_{B_i \otimes A} E_i^{\vee_i} \otimes_A M)[1]) \simeq \Map_{A}(A[-1], \prescript{}{A}{(E_i \otimes_{B_i \otimes A} E_i^{\vee_i})} \otimes_A M )
+            \end{gather*}
+            where we do not need to (right) derive the forgetful functor $s(B_i \otimes A)-\Mod \to sA-\Mod$ since it is exact. For typography reasons we used $B_i \otimes A$ to mean the category of stable simplicial $(B_i \otimes A)$-modules, similar for $A$ in the second mapping space.\newline
+            Observe that we have the following homotopy cartesian diagram 
+            \begin{diag}
+                \calEnd(\Ecal_i) \ar[d] \ar[r] & \calEnd(\Ecal) \ar[d] \\
+                U_i \times^h \RSpec A \ar[r] & X \times^h \RSpec A
+            \end{diag}
+            and that \[\Gamma(U_i \times^h \RSpec A, \calEnd(\Ecal_i)) = \underline{\End}_{\O_{U_i \times^h \RSpec A}}(\Ecal_i) \simeq \underline{\End}_{B_i \otimes A}(E_i) = E_i \otimes_{B_i \otimes A} E_i^{\vee_i}. \] Since we don't need to derive the forgetful functor $\sigma^*$ we then obtain \[C^*(X \times^h \RSpec A, \calEnd(\Ecal)) \simeq \holim_i C^*(U_i \times^h \RSpec A, \calEnd(\Ecal_i)) \simeq \holim_i \prescript{}{A}{(E_i \otimes_{B_i \otimes A} E_i^{\vee_i})}  \] where in the last passage we exploited the fact that $U_i \times^h \RSpec A$, being (derived) affine, has no higher cohomology (this is just a fancy slogan: to be precise we used that on a derived affine schemes, giving a quasi-coherent (simplicial) module corresponds to give its global section, and $\calEnd(\Ecal_i)$ is projective, hence fibrant, so no need to derive).
+
+            Let's now prove that the stable $sA$-module $C^*(X \times^h \RSpec A, \calEnd(\Ecal))$ is perfect. First technical point: since in the category $Sp(sA-\Mod)$ a square is homotopy cartesian if and only if it is homotopy cocartesian, any functor commutes with finite homotopy limits iff it commutes with finite homotopy colimits. %\todo{Check}
+            We will use this property for derived tensor products (in our case the derived version is the same as non-derived since we work with flat schemes). Since $\calEnd(\Ecal)$ is projective of rank $n$, we have two maps \[\calEnd(\Ecal) \hookrightarrow (\O_X \otimes A)^n \longrightarrow \calEnd(\Ecal) \] whose composite is the identity. They induce corresponding maps at the level of ``complexes'' so that we might just prove that $C^*(X \times^h \RSpec A, \O_X \otimes A)$ is perfect (hence also a sum of $n$ copies is so). Recalling the writing of $X$ as homotopy colimit, we have 
+            \begin{gather*}
+                C^*(X \times^h \RSpec A, \O_X \otimes A) \simeq \holim_i C^*(U_i \times^h \RSpec A, \O_{U_i} \otimes A) \simeq \holim_i (\O_{U_i} \otimes A)
+            \end{gather*}
+            where we used the fact that (derived) affine schemes have no higher cohomology. Since $X$ is projective of finite type, it admits a finite number of affine charts, i.e.\ the homotopy limit above is finite and hence we can exchange it with the tensor product $- \otimes A$. We obtain 
+            \begin{gather*}
+                C^*(X \times^h \RSpec A, \O_X \otimes A) \simeq (\holim_i \O_{U_i}) \otimes A \simeq (\holim_i C^*(U_i, \O_{U_i})) \otimes A \simeq C^*(X, \O_X) \otimes A.
+            \end{gather*}
+            Since $X$ is projective over a field $k$, we know from classical algebraic geometry that its cohomology $H^*(X, \O_X)$ is a finite dimensional $k$-vector space, i.e.\ that $C^*(X, \O_X)$ is a perfect complex in $\Ch(k)$. By base change, also $C^*(X, \O_X) \otimes A$ is perfect as a stable $sA$-module, and hence we conclude that $C^*(X \times^h \RSpec A, \O_X \otimes A)$ is perfect in $Sp(sA-\Mod)$. We will then be able to do all the usual duality shenanigans.
+            Since only the homotopy type of $M \in \Ho(sA-\Mod)$ matters, we can replace $M$ by a (fibrant) and cofibrant resolution in $Sp(sA-\Mod)$, so that $- \otimes_A M \simeq - \otimes_A^{\L} M$. As written above, $- \otimes_A^{\L} M$ commutes with finite holimits (taken in $Sp(sA-\Mod)$), and hence
+            %The same exact reasoning holds considering $\calEnd(\Ecal) \otimes_{\O_{X \times \Spec A}} j^*\tilde{M}$ and $\calEnd(\Ecal_i) \otimes_{\O_{U_i \times \Spec A}} \tilde{B_i \otimes_k M}$ in place of $\calEnd(\Ecal)$ and $\calEnd(\Ecal_i)$ respectively (now we just have quasi-coherent sheaves and not only vector bundles). Thus we obtain 
+            \begin{gather*}
+                \holim_i \Map_{Sp(sA-\Mod)}(A[-1], \prescript{}{A}{(E_i \otimes_{B_i \otimes A} E_i^{\vee_i})} \otimes_A^{\L} M) \simeq \\ 
+                \simeq \Map_{Sp(sA-\Mod)}(A[-1], \holim_i \prescript{}{A}{(E_i \otimes_{B_i \otimes A} E_i^{\vee_i})} \otimes^{\L}_A M) \simeq  \\ 
+                \simeq \Map_{Sp(sA-\Mod)}(A[-1], C^*(X \times^h \RSpec A, \calEnd(\Ecal)) \otimes_A^{\L} M)
+            \end{gather*}
+            and using \cref{prop:universal_coeff} together with \[\R\IntHom(C_*(X \times^h \RSpec A, \calEnd(\Ecal)), A) \otimes_A^{\L} M \simeq \R\IntHom(C_*(X \times^h \RSpec A, \calEnd(\Ecal)), M)\] and the tensor-hom adjunction we conclude 
+            \begin{gather*}
+                \Der_x(\IntMap(X, \Vect_n), M) \simeq \Map_{Sp(sA-\Mod)}(A[-1], C^*(X \times^h \RSpec A, \calEnd(\Ecal)) \otimes_A^{\L} M) \simeq  \\ 
+                \simeq \Map_{Sp(sA-\Mod)}(C_*(X \times^h \RSpec A, \calEnd(\Ecal))[-1], M)
+            \end{gather*}
+            so that we proved $\L_{\IntMap(X, \Vect_n), \Ecal} \simeq C_*(X \times^h \RSpec A, \calEnd(\Ecal))[-1]$.
+
+            Finally, let's prove the derived stack $\IntMap(X, \Vect_n)$ admits a global cotangent complex using \cref{defn:global_cotangent_complex}. Let's consider the following commutative diagram in $\Ho(\dAff^{\sim})$ 
+            \begin{diag}
+                \RSpec A \ar[rr, "f"] \ar[rd, "\Ecal"] & & \RSpec B \ar[ld, "\Fcal" swap] \\
+                & \IntMap(X, \Vect_n) &
+            \end{diag}
+            where $\Ecal$ (resp.\ $\Fcal$) is a rank $n$ vector bundle on $X \times^h \RSpec A$ (resp. \ $X \times^h \RSpec B$). More precisely this means that $\Ecal$ is the homotopy pullback of $\Fcal$ under the natural map $\id_X \times f\colon X \times^h \RSpec A \to X \times^h \RSpec B$ (and the same happens for the sheaf of endomorphisms). We have proved before that 
+            \begin{gather*}
+                \L_{\Ecal} \coloneqq \L_{\IntMap(X, \Vect_n), \Ecal} = C_*(X \times^h \RSpec A, \calEnd(\Ecal))[-1] \in Sp(sA-\Mod),\\
+                \L_{\Fcal} \coloneqq \L_{\IntMap(X, \Vect_n), \Fcal} = C_*(X \times^h \RSpec B, \calEnd(\Fcal))[-1] \in Sp(sB-\Mod)
+            \end{gather*}
+            and now we want to prove that the natural map \[u\colon  \L_{\Ecal} \to \L_{\Fcal} \otimes_B^{\L} A\] is a weak equivalence in $Sp(sA-\Mod)$. Since they are perfect stable modules, it suffices to prove their dual (the cohomology complexes) are weakly equivalent. By \cref{thm:base_change_formula} applied to the homotopy cartesian square 
+            \begin{diag}
+                X \times^h \RSpec A \ar[d, "p_A"] \ar[r, "\id_X \times f"] & X \times^h \RSpec B \ar[d, "p_B"] \\
+                \RSpec A \ar[r, "f"] & \RSpec B
+            \end{diag}
+            and to the coherent locally free sheaf $\calEnd(\Fcal)$ on $X \times^h \RSpec B$ we obtain \[C^*(X \times^h \RSpec B, \calEnd(\Fcal)) \otimes^{\L}_B A \stackrel{\sim}{\longrightarrow} C^*(X \times^h \RSpec A, \calEnd(\Ecal)) \] in $\Ho(Sp(sA-\Mod))$, which is exactly what we wanted (recalling that the derived pullback is the derived tensor product and the derived push-forward is the cohomology complex).
+            %Indeed on the left side we have \[H^i(X \times \Spec A, \calEnd(\Ecal)) = R^ip_{A*} \calEnd(\Ecal) \in \Ch(A) \] while on the right we have \[R^ip_{B*} \calEnd(\Fcal) \otimes_B^{\L} A \in A \]
+        \end{proof}
+        
+        \begin{prop}
+            \label{prop:rbung_classical_part}
+            The classical part $t_0 \IntMap(X, \Vect_n)$ is $1$-truncated Artin geometric stack.
+        \end{prop}
+        \begin{proof}
+            We have \[t_0 \IntMap(X, \Vect_n) \simeq t_0 \R\calHom(X, \Vect_n) \simeq \calHom(t_0(X), t_0(\Vect_n)) \stackrel{\mathrm{def}}{\simeq} \Bun_{\GL_n} \] where we see the stack in groupoids $\Bun_{\GL_n}$ as a stack in simplicial sets by using the nerve functor. Of course it is $1$-truncated, and it is Artin (i.e.\ using smooth atlases) $1$-geometric by \cref{thm:bung_structure}.
+        \end{proof}
+
+        \begin{thm}
+            \label{thm:rbung_geometric}
+            The derived stack $\IntMap(X, \Vect_n)$ is a $1$-geometric derived stack.
+        \end{thm}
+        \begin{proof}
+            This derives from \cref{thm:derived_stack_geometric}, by verifying the three asumptions. The first is \cref{prop:rbung_classical_part}, the second is \cref{prop:rbung_cotangent} and the third one is obvious by our assumptions on $X$ (just choose an affine covering).
+        \end{proof}

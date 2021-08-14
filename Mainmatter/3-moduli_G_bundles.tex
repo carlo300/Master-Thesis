@@ -1,0 +1,923 @@
+\chapter{\texorpdfstring{Moduli stack of $G$-bundles}{Moduli stack of bundles}}
+    \label{chapter:moduli_stack_bung}
+    \section{\texorpdfstring{Recalls on classical $1$-stacks}{Recalls on classical stacks}}
+        We will now focus on a concrete classical example of stack: the moduli stack of $G$-bundles for an $S$-scheme $X \to S$ (we can suppose to work, in general, in the category $\Sch_k$ for $k$ a base field). We will resume the results proved in \cite{wang:moduli}. This chapter will be almost self-contained and we won't use any theory introduced up to now (no model category theory at all). We will use the more classical language of stacks in groupoids and pseudofunctors, equivalent to the formulation in terms of fibered categories in groupoids: for a detailed explanation see \cite{Vist:desc}. We will just recall a few definitions and we will completely skip any fibered category notion, for time and readability issues.
+       
+        \begin{defn}
+            \label{defn:pseudofunctor}
+            Let $F$ be the datum of a map of sets/classes $\ob(\Cat) \to \ob(\Ccat)$ and, for every $X, Y \in \Cat$ a map of sets $\Hom_{\Cat}(X, Y) \to \Hom_{\Ccat}(FY, FX)$. We say that $F$ is a (contravariant) \emph{pseudofunctor} or \emph{quasifunctor} or \emph{lax $2$-functor} if the ``functor conditions'' hold up to isomorphism (i.e.\ it is a more relaxed definition of a functor). In particular for every $U \in \Cat$ we have an isomorphism of functors $\epsilon_U\colon F(\id_U) \simeq \id_{FU}$ and for each pair of maps $U \stackrel{f}{\to} V \stackrel{g}{\to} W$ an isomorphism $\alpha_{f,g}\colon F(f) \circ F(g) \simeq F(g \circ f)$. There are some compatibility assumptions, like associativity of composition $U \stackrel{f}{\to} V \stackrel{g}{\to} W \stackrel{h}{\to} T$, expressed by 
+            \begin{diag}
+                F(f)\circ F(g) \circ F(h) \ar[r, "\alpha_{f,g}(F(h))"] \ar[d, "F(f)\alpha_{g,h}"] & F(g \circ f)\circ F(h) \ar[d, "\alpha_{g\circ f, h}"] \\
+                F(f) \circ F(h \circ g)  \ar[r, "\alpha_{f, h \circ g}"] & F(h \circ g \circ f)
+            \end{diag}
+        \end{defn}
+
+        We will use a bit of $2$-category theory, in particular we will be interested in computing $2$-limits (mainly $2$-fibered products), which ideally satisfy the same universal property as their $1$-counterpart but diagrams commute \emph{up to isomorphism}. Let's just give a definition.
+        \begin{defn}
+            \label{defn:2_fibered_product}
+            Consider the square 
+            \begin{diag}
+                K \ar[r, "\alpha"]\ar[d, "\beta"] & X \ar[d, "f"] \ar[dl, Rightarrow, "\sigma"]\\
+                Y \ar[r, "g"] & Z
+            \end{diag}
+            and suppose it commutes up to isomorphism, i.e.\ there exists a natural transformation $\sigma\colon f \circ \alpha \to g \circ \beta$ which is an isomorphism in $\Hom(K, Z)$. We say that $K$ is a \emph{2-fibered product} of the square if for every $W \stackrel{(a, b)}{\to} X \times Y$ and $\tau\colon f \circ a \stackrel{\sim}{\to} g \circ b$ there exists a unique map (up to isomorphism) $c\colon W \to K$ such that the square
+            \begin{diag}
+                W \ar[dr, dashed, "c"] \ar[ddr, bend right, "b"] \ar[drr, bend left, "a" ]& &\\
+                & K \ar[r, "\alpha"]\ar[d, "\beta"] & X \ar[d, "f"] \\
+                & Y \ar[r, "g"] & Z
+            \end{diag}
+            commutes up to isomorphism (or, in more modern terminology, $2$-commutes). Explicitely this means we have isomorphism $\pi_a\colon a \stackrel{\sim}{\to} \alpha \circ c$ and $\pi_b\colon \beta \circ c \stackrel{\sim}{\to} b$ making the square 
+            \begin{diag}
+                f \circ a \ar[d, "f_*\pi_a"] \ar[r, "\tau"] & g \circ b \ar[d, "g_*\pi_b"] \\
+                f \circ \alpha \circ c \ar[r, "c^*\sigma"] & g \circ \beta \circ c
+            \end{diag}
+            ($1$-)commute in the category $\Hom(W, Z)$.
+        \end{defn}
+
+        Finally let's recall the classical definition of stacks in terms of $2$-kernels.
+        \begin{defn}
+            \label{defn:stack_2_kernel}
+            Let $F\colon \Cat^{\op} \to \Gpd$ be a pseudofunctor, where $\Cat$ is a site. Then we say that $F$ is a ($1$-)\emph{stack} if for any $X \in \ob(\Cat)$ and for any covering $\{U_i \to X\}$ we have the following equivalence of categories
+            \[
+                F(X) \simeq 2-\ker\left(
+                    \begin{tikzcd}
+                            \prod_i F(U_i) \ar[r, shift right] \ar[r, shift left] & \prod_{i,j} F(U_{i,j}) \ar[r] \ar[r, shift left=2] \ar[r, shift right=2] & \prod_{i,j,k} F(U_{i,j,k})
+                    \end{tikzcd}
+            \right). 
+            \]
+        \end{defn}
+        The condition is very intuitive: it is exactly the sheaf condition ``up to isomorphism''. It means exactly that we can glue (uniquely) local data, whose restriction on intersections are isomorphic, and such that these isomorphisms (which before were supposed to be equalities) respect a natural cocycle condition (this explains the triple intersection term above).
+        This is just a particular case of our definition of stacks (sometimes called ``higher stacks''): applying the nerve functor $N\colon \Ccat \to \sSet$ we get back to simplicial stacks, in particular $1$-stacks. It can be proved that this is indeed an equivalence, see \cite[Thm~3.5.2]{Hennion:memoire} or \cite[2.1.2]{ToVe:hag2}.
+        Let's finally recall the $2$-Yoneda lemma, fundamental generalization of classical Yoneda to the context of pseudofunctors (or fibered categories, depending on the tastes).
+
+        \begin{lemma}[$2$-Yoneda lemma]
+            \label{lemma:2Yoneda}
+            Given a pseudofunctor $F\colon \Cat^{\op} \to \Gpd$ and an element $X \in \Cat$, then we have an equivalence of categories \[\Hom(h_X, F) \simeq F(X) \] where $h_X = \Hom_{\Cat}(-, X)$ and $\Hom_{\Cat}(h_X, F)$ is the category of morphism between pseudofunctors (or fibered categories over $\Cat$). This equivalence is natural in $X$.
+        \end{lemma}
+        \begin{proof}
+            See \cite[3.6.2]{Vist:desc}.
+        \end{proof}
+
+    \section{Introduction and basic concepts}
+        We will work in $\Sch_{/k}$ endowed with the fpqc topology, see \cref{defn:grothendieck_topologies}, and we will consider a scheme $X$ both as a scheme and as a fpqc-sheaf (motivated by the fact that fpqc is subcanonical, again see \cite[Thm~2.55]{Vist:desc}).
+        Let's recall the notions of (quasi)-projective morphism given by Grothendieck in \cite[5.3, 5.5]{EGA2}, which are slightly different from the ones in \cite{Hart}.
+
+        \begin{defn}
+            \label{defn:projective_ega}
+            Let $f\colon X \to S$ be a morphism of schemes. We say that 
+            \begin{itemize}
+                \item $f$ is \emph{quasi-projective} if it is of finite type and there exists a relatively ample invertible sheaf $\Lcal$ on $X$ (relative means that for every affine open $V \subset S$, the sheaf $\restr{\Lcal}{f^{-1}(V)}$ is ample);
+                \item $f$ is \emph{projective} if there exists a quasi-coherent $\O_S$-module $\Ecal$ of finite type, such that $X$ is $S$-isomorphic to a closed subscheme of $\PP(\Ecal)$;
+                \item $f$ is \emph{strongly projective} (resp.\ strongly quasi-projective) if it is finitely presented and there exists a locally free $\O_S$-module $\Ecal$ of constant finite rank such that $X$ is $S$-isomorphic to a closed (resp.\ retrocompact, i.e.\ having inclusion map quasi-compact) subscheme of $\PP(\Ecal)$.
+            \end{itemize} 
+        \end{defn}
+
+        Given $X, Y \in \Sch_{/k}$ we will write $X \times Y = X \times_{\Spec k} Y$ and $X(Y) = \Hom_k(Y, X)$. Given a fibered product over $S$, we write $\pr_i\colon X_1 \times_S X_2 \to X_i$ for the canonical map, for $i = 1, 2$. Given an $\O_X$-module $\Fcal$ and an $S$-scheme $T$, we write $X_T = X \times_S T$ and $\Fcal_T = \pr_X^*\Fcal$.\newline
+        In particular, for $S = \Spec \kappa(t)$ with $t \in T$, we will write $X_t \coloneqq X_S$ and $\Fcal_t = \Fcal_S$: this notation can be confused with taking stalks but usually context is enough to understand the correct meaning. Given a locally free $\O_X$-module of finite rank $\Ecal$ we write $\Ecal^{\vee} = \calHom_{\O_X}(\Ecal, \O_X)$ for its dual, which is again locally free of finite rank.
+
+        We will work with an algebraic group $G$ over $k$, which will mean an affine group scheme of finite type over $k$.
+
+        \begin{defn}
+            \label{defn:g_bundle_general_def}
+            Let $S \in \Sch_{/k}$ and $\Pcal$ be a sheaf on $(\Sch_{/S})_{\fpqc}$ (which corresponds to a sheaf on $(\Sch_{/k})_{\fpqc}$ equipped with a morphism to $S$). We say that $\Pcal$ is a right (left) $G$-bundle over $S$ if it is a right (left) $\restr{G}{S}$-torsor (recall that if $H \in \Grp$, an $H$-torsor is a set on which $H$ acts simply transitively).
+        \end{defn}
+        Of course the definition can be given in the more general case for $\Gcal$ a sheaf of groups.
+
+        \begin{prop}
+            \label{prop:g_bundle_affine_trivial}
+            Let $\Pcal$ be a right $G$-bundle over $S$. It is then representable by an affine scheme over $S$ and it is fppf-locally trivial. If $G$ is smooth, then it is also étale-locally trivial.
+        \end{prop}
+        The idea is that since affine morphisms are effective for fpqc descent (i.e.\ the fibered category $\Aff/S \to \Sch/S$ is a stack for fpqc topology, see \cite[Thm~4.33]{Vist:desc}), using the fpqc local trivializations of $\Pcal \to S$ (by definition there exists an fpqc covering $\{U_i \to S\}_i$ such that $\Pcal_{U_i} \cong U_i \times G_{U_i}$, and the isomorphism over $U_{i,j}$ will determine a cocycle $g_{i,j}$) we deduce that $\Pcal$ is representable by a scheme affine over $S$. Since $G \to \Spec k$ is fppf we can also say $\Pcal$ is locally trivial in the fppf topology. 
+
+        Let's observe that, in general, for a group sheaf $\Gcal$ on a site $\Cat$ and $S \in \Cat$, we have an isomorphism of sheaves $\restr{\Gcal}{S} \simeq \Isom(\Gcal, \Gcal)$ where the right hand side corresponds to right $\Gcal$-equivariant morphisms ($\Gcal$ acting by right multiplication on itself). This isomorhism is given by \[\Gcal(S) \ni g \mapsto \ell_g\] where $\ell_g$ is the left multiplication by $g$.
+
+
+        Let's recall the classical definition of algebraic spaces, given, for example, at \cite[\href{https://stacks.math.columbia.edu/tag/025Y}{Definition 025Y}]{stacks-project}. 
+        \begin{defn}
+            \label{defn:algebraic_space}
+            A pseudofunctor $F\colon (\Sch_S)^{\op} \to \Gpd$ is an \emph{algebraic space} if it is an fppf sheaf of sets, the diagonal $F \to F \times_S F$ is representable (by a scheme) and it admits an étale surjective atlas $U \to F$, for $U$ a scheme.
+        \end{defn}
+        \begin{defn}
+            \label{defn:representable_pseudofunctor} 
+            A morphism of pseudofunctors $\Xcal \to \Ycal$ is \emph{representable} (resp.\ \emph{schematic}) if for any scheme $S$ mapping to $\Ycal$, the $2$-fibered product $\Xcal \times_{\Ycal} S$ is isomorphic to an algebraic space (resp.\ a scheme).
+        \end{defn}
+        
+        We will talk about a specific class of stacks, the algebraic stacks.
+        The definition we use is the following (it requires some more condition than the one stated before).
+
+        \begin{defn}
+            \label{defn:algebraic_stack}
+            An \emph{algebraic stack} $\Xcal$ over a scheme $S$ is a stack in groupoids on $(\Sch_{/S})_{\fppf}$ such that the diagonal $\Xcal \to \Xcal \times_S \Xcal$ is representable and there exists a scheme $U$ with a smooth surjective morphism $U \to \Xcal$ (a smooth atlas).
+        \end{defn}
+
+        We will study some properties of quotient stacks and Hom-stacks, to then finally use them together to prove some properties of the stack of $G$-bundles on $X \to S$ (which we will assume to have some nice properties), which will be defined later on.
+
+    \section{Quotient stacks}
+        Fix a $k$-scheme $Z$ with a right $G$-action $\alpha\colon Z \times G \to Z$ (satisfying all the properties we expect a right action to satisfy).
+        \subsection{Definition and first properties}
+            \begin{defn}
+                \label{defn:quotient_stack}
+                The pseudofunctor $[Z/G]\colon (\Sch_{/k})^{\op} \to \Gpd$ is defined by 
+                \[ [Z/G](S) = \left\{\text{Right $G$-bundles $\Pcal \to S$ endowed with a $G$-equivariant morphism $\Pcal \to Z$} \right\}.  \]
+                A morphism from $\Pcal \to Z$ to $\Pcal' \to Z$ is simply a $G$-equivariant morphism $\Pcal \to \Pcal'$ over $S \times Z$.
+                For $* = \Spec k$ endowed with the trivial action, we call $BG = [*/G]$.
+            \end{defn}
+
+            Seeing schemes as fpqc sheaves, we notice immediately that $[Z/G]$ is an fpqc stack. The main result of this section will be that it is an algebraic stack.
+            \begin{defn}
+                \label{defn:G_invariant_maps}
+                Let $\Ycal$ be a $k$-stack and $\sigma_0\colon Z \to \Ycal$ a morphism of stacks. Then $\sigma_0$ is $G$-invariant if it satisfies the following conditions.
+                \begin{enumerate}[label=(\arabic*)]
+                    \item The diagram 
+                    \begin{diag}
+                        Z \times G \ar[r, "\alpha"] \ar[d, "\pr_1"] & Z \ar[d, "\sigma_0"] \\
+                        Z \ar[r, "\sigma_0"] & \Ycal
+                    \end{diag}
+                    is $2$-commutative, i.e.\ there exists a 2-isomorphism $\rho\colon \pr_1^*\sigma_0 \to \alpha^*\sigma_0$ (here we use a notation inspired to fibered categories, simply $\pr_1^*\sigma_0$ means $\sigma_0 \circ \pr_1$).
+                    \item For a scheme $S$, given $z \in Z(S)$ and $g \in G(S)$, let $\rho_{z, g}$ denote the corresponding $2$-morphism 
+                    \[z^*\sigma_0 \simeq (z, g)^*\pr_1^*\sigma_0 \xrightarrow{(z, g)^*\rho} (z, g)^*\alpha^*\sigma_0 \simeq (z.g)^*\sigma_0. \] Then these $2$-morphisms must satisfy the natural associativity condition, namely for $g_1, g_2 \in G(S)$, we require 
+                    \begin{diag}
+                        z^*\sigma_0 \ar[d, "\rho_{z, g_1g_2}"] \ar[r, "\rho_{z, g_1}"] & (z.g_1)^*\sigma_0 \ar[d, "\rho_{z.g_1, g_2}"] \\
+                        (z.(g_1g_2))^*\sigma_0 \ar[r, equal] & ((z.g_1).g_2)^*\sigma_0
+                    \end{diag}
+                    to (1)-commute.
+                \end{enumerate}
+            \end{defn}
+            
+            Let's consider a $2$-cartesian diagram 
+            \begin{diag}
+                Z \times_{\Ycal} S \ar[r] \ar[d] & Z \ar[d, "\sigma_0"] \\
+                S \ar[r] & \Ycal
+            \end{diag}
+            with $\sigma_0$ $G$-invariant and $S$ a scheme. Then $Z \times_{\Ycal} S$ is a sheaf of sets and it comes equipped with a (unique) right $G$-action making $Z \times_{\Ycal} S \to S$ $G$-invariant and $Z \times_{\Ycal} S \to Z$ $G$-equivariant.
+            Let's recall that the $2$-fibered product is built, for a scheme $T$, setting \[(Z \times_{\Ycal} S)(T) = \left\{(a, b, \phi) \mid a \in Z(T), b \in S(T), \phi\colon a^*\sigma_0 \stackrel{\sim}{\to} b^*\sigma_0 \right\} \] so that the action is given by \[(a, b, \phi).g \coloneqq (a.g, b, \phi \circ \rho_{a, g}^{-1}) \] for any $g \in G(T)$. Since $\rho_{a.g_1, g_2} \circ \rho_{a, g_1} = \rho_{a, g_1g_2}$ this defines a natural $G$-action.
+
+            \begin{defn}
+                \label{defn:G_bundle_stack}
+                Let $\Ycal$ be a $k$-stack and $\sigma_0\colon Z \to \Ycal$ a $G$-invariant morphism of stacks. We say $\sigma_0$ is a \emph{$G$-bundle}  if for any $\Sch \ni S \to \Ycal$ the induced $G$-action on $Z \times_{\Ycal} S \to S$ gives a (classical) $G$-bundle. This implies that $\sigma_0$ is schematic.
+            \end{defn}
+
+            We will need lot of lemmas, hold tight.
+            Observe that we have a trivial element $\tau_0 \in [Z/G](Z)$, corresponding to the trivial bundle $\pr_1\colon Z \times G \to Z$ equipped with the $G$-equivariant morphism $\alpha\colon Z \times G \to G$.
+            \begin{lemma}
+                \label{lemma:wang_2_1_6}
+                The diagram 
+                \begin{diag}
+                    Z \times G \ar[r, "\alpha"] \ar[d, "\pr_1"] & Z \ar[d, "\tau_0"] \\
+                    Z \ar[r, "\tau_0"] & \left[Z/G\right]
+                \end{diag}
+                is $2$-cartesian, and $\tau_0$ is a $G$-equivariant morphism.
+            \end{lemma}
+            \begin{proof}
+                Observe that $\tau_0(S)\colon Z(S) \to [Z/G](S)$ sends $f\colon S \to Z$ to the trivial bundle $f^*\tau_0 = \alpha \circ (f \times \id)\colon S \times G \to Z$. Suppose that for a scheme $S$ we have $z, z' \in Z(S)$ and an isomorphism $\phi\colon z'^*\tau_0 \stackrel{\sim}{\to} z^*\tau_0$. Explicitely, $\phi$ corresponds to an element $g \in G(S)$ such that 
+                \begin{diag}
+                    S \times G \ar[dr, "\alpha(z' \times \id)", swap] \ar[rr, "r_g"] & & S \times G \ar[dl, "\alpha(z \times \id)"] \\ 
+                    & Z &
+                \end{diag}
+                commutes (over $S$). This basically means $z.g = z'$. So we associate $(z,g) \in (Z \times G)(S)$ to the point $(z, z', \phi)$ of the $2$-fibered product. Conversely, given $z \in Z(S)$ and $g \in G(S)$ they uniquely determine $z' = z.g$ and a $G$-equivariant isomorphism $z'^*\tau_0 \to z^*\tau_0$. This proves that the map \[(\alpha, \pr_1)\colon Z \times G \to Z \times_{[Z/G]} Z \] is indeed an isomorphism.
+
+                Let now $S = Z \times G$ and consider $\id_{Z \times G}$. We obtain, by definition of $2$-fibered product, an isomorphism \[\rho^{-1}\colon \alpha^*\tau_0 \to \pr_1^*\tau_0 \] which is explicitely defined by $(z, g_1, g_2) \mapsto (z, g_1, g_1g_2)$. Therefore for a scheme $S$, $z \in Z(S)$ and $g \in G(S)$, the morphism $\rho_{z, g}$ corresponds (using again Yoneda and the definition of $\tau_0$) to the morphism of schemes $S\times G \to S \times G$ given by $(s, g_0) \mapsto (s, g(s)^{-1}g_0)$. Using $(g_1g_2)^{-1} = g_2^{-1}g_1^{-1}$ we deduce that $\tau_0$ is $G$-invariant.
+            \end{proof}
+            \begin{lemma}
+                \label{lemma:wang_2_1_8}
+                Let $\tau = (f\colon \Pcal \to Z) \in [Z/G](S)$ for a scheme $S$ and suppose that $\Pcal$ admits a section $s\colon S \to \Pcal$. Then the $G$-equivariant morphism $\tilde{s}\colon S \times G \to \Pcal$ induced by $s$ gives an isomorphism $(f \circ s)^*\tau_0 \to \tau \in [Z/G](S)$. 
+            \end{lemma}
+            \begin{proof}
+                Call $a = f \circ s \colon S \to \Pcal \to Z$. We have a cartesian diagram 
+                \begin{diag}
+                    S \times G \ar[d] \ar[r, "a \times \id"] & Z \times G \ar[d, "\pr_1"] \ar[r, "\alpha"] & Z \\
+                    S \ar[r, "a"] & Z & 
+                \end{diag}
+                so that, as observed in the preceding proof, $a^*\tau_0 = (\alpha(a \times \id)\colon S \times G \to Z)$. The diagram 
+                \begin{diag}
+                    S \times G \ar[rr, "\tilde{s}"] \ar[dr, "\alpha(a \times \id)", swap]  & & \Pcal \ar[dl, "f"] \\
+                    & Z & 
+                \end{diag}
+                is commutative by $G$-equivariance. This proves $\tilde{s}$ is a morphism in $[Z/G](S)$, inducing the claimed isomorphism.
+            \end{proof}
+            \begin{lemma}
+                \label{lemma:wang_2_1_1}
+                Let $\Ycal$ be a $k$-stack and $\sigma_0\colon Z \to \Ycal$ a $G$-bundle. Then there exists an isomorphism $\Ycal \to [Z/G]$ of stacks making the following triangle  
+                \begin{diag}
+                    & Z \ar[dl, "\sigma_0", swap] \ar[dr, "\alpha\colon Z \times G \to Z"] & \\
+                    \Ycal \ar[rr, "\sim"] & & \left[Z/G\right]
+                \end{diag}
+                $2$-commutative.
+            \end{lemma}
+            \begin{remark}
+                \label{remark:wang_2_1_2}
+                Observe how we are already using the $2$-Yoneda lemma. The statement above implies that, in the particular situation where $\Ycal = Y$ is a scheme, then $Y \simeq [Z/G]$, i.e.\ the two notions of quotients, as scheme and as stack, coincide.
+            \end{remark}
+            \begin{proof}
+                First let's define the morphism $F\colon \Ycal \to [Z/G]$ by sending $\sigma \in \Ycal(S)$ to 
+                \begin{diag}
+                    F(\sigma) \coloneqq Z \times_{\Ycal} S \ar[d] \ar[r] & Z \ar[d, "\sigma_0"] \\ 
+                    S \ar[r, "\sigma"] & \Ycal
+                \end{diag}
+                for any scheme $S$. As said before, since $\sigma_0$ is a $G$-bundle, $Z \times_{\Ycal} S \to Z$ is an object of $[Z/G](S)$.
+                Let now $\sigma, \sigma' \in \Ycal(S)$ and write $\Pcal = Z \times_{\Ycal, \sigma} S$ and $\Pcal' = Z \times_{\Ycal, \sigma'} S$. We write, as before, $\Pcal(T) = \{(a, b, \phi)\}$ with $a \in Z(T), b \in S(T)$ and $\phi\colon a^*\sigma_0 \stackrel{\sim}{\to} b^*\sigma$. A morphism $\psi\colon \sigma \to \sigma'$ in $\Ycal(S)$ induces a $G$-equivariant morphism $\Pcal \to \Pcal'$ over $S \times Z$ by 
+                \begin{gather}
+                    \label{eqn:wang_2_1_8_1}
+                    (a, b, \phi) \mapsto (a, b, b^*\psi \circ \phi). 
+                \end{gather}
+                This proves that $F$ is indeed a morphism of stacks.
+                Our plan now is the following: we first prove the triangle is $2$-commutative and then that $F$ is fully faithful and essentially surjective (pointwise, see \cite[3.5.2]{Vist:desc}) to deduce it is an isomorphism.\\
+                \textbf{2-commutativity:}\\
+                We must give an isomorhism $\tau_0 \to F(\sigma_0)$ in $[Z/G](Z)$. We have already seen that $(\alpha, \pr_1)\colon Z \times G \to Z \times_{\Ycal} Z$ is a $G$-equivariant isomorphism of sheaves over $Z \times Z$, and this is the searched map.\\
+                \textbf{Fully faithfulness:}\\
+                To prove $F$ is fully faithful we can prove, since $\Ycal$ and $[Z/G]$ are stacks, that for any scheme $S$ and $\sigma, \sigma' \in \Ycal(S)$ the induced morphism of sheaves of sets \[F\colon \Isom_{\Ycal(S)}(\sigma, \sigma') \to \Isom_{[Z/G](S)}(F(\sigma), F(\sigma')) \] is an isomorphism. Let $\Pcal, \Pcal'$ be as before. We can choose an fppf covering $\{S_i \to S\}_i$ trivializing both $G$-bundles, and since the Hom above are sheaves, it suffices to study this ``trivial'' case. Let $\psi\colon \Pcal \to \Pcal'$ be a $G$-equivariant morphism over $S \times Z$. Since $\Pcal$ is trivial, there exists a section $s \in \Pcal(S)$, corresponding to $(a, \id_S, \phi\colon a^*\sigma_0 \stackrel{\sim}{\to} \sigma)$ for $a \in Z(S)$. The map $\psi$ sends $s$ to some element $(a, \id_S, \phi'\colon a^*\sigma_0 \stackrel{\sim}{\to} \sigma) \in \Pcal'(S)$, which is a section of $\Pcal'$. Define the following morphism of sets \[L\colon \Hom_{[Z/G](S)}(F(\sigma), F(\sigma')) \to \Hom_{\Ycal(S)}(\sigma, \sigma') \] by $\psi \mapsto \phi' \circ \phi^{-1}\colon \sigma \to \sigma'$. Now we just need to check $F$ (on the hom sets) and $L$ are inverse to each other. Starting with $\psi\colon \sigma \simeq \sigma'$, we know $F(\psi)(s) = (a, \id_S, \psi \circ \phi) \in \Pcal(S)$ by \cref{eqn:wang_2_1_8_1}. Thus $LF(\psi) = (\psi \circ \phi) \circ \phi^{-1} = \psi$ so $LF = \id$. Starting instead with $\Psi\colon \Pcal \to \Pcal'$ then $L(\Psi) = \phi' \circ \phi^{-1}$ and hence \[FL(\Psi)\colon s \mapsto (a, \id_S, (\phi' \circ \phi^{-1}) \circ \phi) \in \Pcal'(S). \] Since a $G$-equivariant morphism of trivial bundles $\Pcal \to \Pcal'$ is determined by the image of a single section $s \in \Pcal(S)$ we deduce $\Psi = LF(\Psi)$. We conclude that $F$ is fully faithful.\\
+                \textbf{Essential surjectivity:}\\
+                Finally we'll prove that $F$ is essentially surjective and hence an isomorphism of stacks. Let $\tau = (f\colon \Pcal \to Z) \in [Z/G](S)$ and let $\{j_i\colon S_i \to S\}_i$ be an fppf covering trivializing $\Pcal$, so that we have sections $s_i \in \Pcal(S_i)$. Write $f_i$ the restriction of $f$ to $\restr{\Pcal}{S_i}$. By \cref{lemma:wang_2_1_8} we have isomorphisms $(f_i \circ s_i)^*\tau_0 \simeq j_i^*\tau$. From the  $2$-commutativity of the triangle proved above, we already have $\tau_0 \simeq F(\sigma_0)$. Therefore \[F((f_i \circ s_i)^*\sigma_0) \simeq (f_i \circ s_i)^*F(\sigma_0) \simeq (f_i \circ s_i)^*\tau_0 \simeq j_i^*\tau. \] and we conclude that $F$ is an isomorphism using \cite[\href{https://stacks.math.columbia.edu/tag/046N}{Lemma 046N}]{stacks-project}.
+            \end{proof}
+        \subsection{Twisting by a torsor}
+            \label{subsect:twist_torsor}
+            Let's now introduce a useful construction, the twist by a torsor. Let's place ourselves in the most general setting, where $\Cat$ is a subcanonical site with a terminal object and a sheaf of groups $\Gcal$. Let $S \in \Cat$ and let $\Pcal$ be a right $\restr{\Gcal}{S}$-torsor over $S$. Let now $\Fcal$ be a sheaf of sets on $\Cat$ endowed with a left $\Gcal$-action. Then $\restr{\Gcal}{S}$ acts on the right on $\Pcal \times \Fcal$ by $(p, z).g \coloneqq (p.g, g^{-1}.z)$. We build the presheaf $\Qcal$ on $\Cat/S$ by $\Qcal(U) = (\Pcal(U) \times \Fcal(U))/\Gcal(U)$. Then we define 
+            \[\twist{\Pcal}{\Fcal} = (\Pcal \times \Fcal)/\Gcal = \Pcal \stackrel{\Gcal}{\times} \Fcal \] to be the sheafification of $\Qcal$ and we call it the \emph{twist of $\Fcal$ by $\Pcal$}.  Since sheaves on $\Cat$ form a stack (\cite[3.2]{Vist:desc}) we can describe $\twist{\Pcal}{\Fcal}$ by giving a descent datum. Let $\{S_i \to S\}$ be a trivializing fppf cover of $\Pcal$. We then have a descent datum of $\Pcal$ giving by $(\restr{\Gcal}{S_i}, g_{i,j})$ for some cocycle $g_{i,j} \in \Gcal(S_{i,j})$. Observe that \[(\restr{\Pcal}{S_i} \times \Fcal)/\Gcal \simeq (\restr{\Gcal}{S_i} \times \Fcal)/\Gcal \simeq \restr{\Fcal}{S_i}, \] and $\restr{\Qcal}{S_i} \simeq \restr{\Fcal}{S_i}$ is already a sheaf on $\Cat/S_i$. By the definition of the group action of $\Pcal \times \Fcal$ we see that the transition maps \[\varphi_{i,j}\colon \restr{\left(\restr{\Fcal}{S_j}\right)}{S_{i,j}} \to \restr{\left(\restr{\Fcal}{S_i}\right)}{S_{i,j}}\] are given by left multiplication of $g_{i,j}$. Since sheafification commutes with the restrictions $\Cat/S_i \to \Cat/S$ we obtain that \[\left(\restr{\Fcal}{S_i}, \varphi_{i,j}\right) \] is a descent datum for $\twist{\Pcal}{\Fcal}$.  
+        \subsection{Change of space}
+            Let $\beta\colon Z' \to Z$ be a $G$-equivariant morphism of schemes endowed with a right $G$-action. Then there is a natural morphism of stacks $[Z'/G] \to [Z/G]$ defined by \[(\Pcal \to Z') \mapsto (\Pcal \to Z' \stackrel{\beta}{\to} Z). \] We will prove that, under certain assumptions, this morphism is schematic.
+            First, a technical lemma.
+            \begin{lemma}
+                \label{lemma:wang_2_3_2}
+                Let $\beta_i\colon Z_i \to Z$ be $G$-equivariant morphisms of schemes for $i=1,2$. Then the square 
+                \begin{diag}
+                    \left[\left(Z_1 \times_Z Z_2 \right) / G \right] \ar[d] \ar[r] & \left[Z_1 / G\right] \ar[d] \\
+                    \left[Z_2 / G\right] \ar[r] & \left[Z/G\right]
+                \end{diag}
+                is $2$-cartesian (the maps are induced by the natural projections $\pr_i\colon Z_1 \times_Z Z_2 \to Z_i$).
+            \end{lemma}
+            \begin{proof}
+                See \cite[Lemma~2.3.2]{wang:moduli}.
+            \end{proof}
+            The key for the next proof will be the following technical lemma, which roughly says that algebraic spaces are stable under fppf descent.
+            \begin{lemma}
+                \label{lemma:stacks_04Sk}
+                Let $S$ be a scheme and $F\colon (\Sch_{/S})^{\op}_{\fppf} \to \Set$ be a functor. Let $\{S_i \to S\}_i$ be a covering of $(\Sch_{/S})_{\fppf}$. Assume that 
+                \begin{enumerate}[label=(\arabic*)]
+                    \item $F$ is a sheaf,
+                    \item each $F_i = h_{S_i \to S} \times F$ is an algebraic space,
+                    \item $\coprod_{i \in I} F_i$ is an algebraic space.
+                \end{enumerate}
+                Then $F$ is an algebraic space.
+            \end{lemma}
+            \begin{proof}
+                See \cite[\href{https://stacks.math.columbia.edu/tag/04Sk}{Lemma 04Sk}]{stacks-project}.
+            \end{proof}
+
+            \begin{lemma}
+                \label{lemma:wang_2_3_1}
+                The morphism $[Z'/G] \to [Z/G]$ is representable. If the morphism of schemes $Z' \to Z$ is affine (resp.\ quasi-projective with a $G$-equivariant relatively ample invertible sheaf), then the morphism of quotient stacks is schematic and affine (resp.\ quasi-projective). Any fppf target-local property of $Z' \to Z$ is inherited by the map of quotient stacks.
+            \end{lemma}
+            \begin{proof}
+                Let $S$ be a scheme and $(f\colon \Pcal \to Z) \in [Z/G](S)$. We know $S \simeq [\Pcal/G]$ thanks to \cref{remark:wang_2_1_2}. By \cref{lemma:wang_2_3_2} we have a cartesian square 
+                \begin{diag}
+                    \left[\left(Z' \times_Z \Pcal\right) / G \right] \ar[d] \ar[r] & \left[ Z'/G \right] \ar[d] \\
+                    S \ar[r, "f\colon \Pcal \to Z"] & \left[ Z/G \right]
+                \end{diag}
+                and we must prove that $[(Z' \times_Z \Pcal)/G]$ is representable by an algebraic space. We will verify the assumptions of \cref{lemma:stacks_04Sk} to conclude.                
+                Since any category equivalent to a set is an equivalence relation, i.e.\ a groupoid with no automorphisms (see \cite[3.5.3]{Vist:desc}), the stack isomorphism $S \simeq [\Pcal/G]$ implies that $[\Pcal/G](T)$ is an equivalence relation for any scheme $T$. Therefore $[(Z' \times_Z \Pcal)/G](T)$ is also an equivalence relation, so it is isomorphic to a sheaf of sets, verifying the assumption (1).
+                
+                Choose an fppf covering $\{S_i \to S\}_i$ trivializing $\Pcal$ and let $s_i \in \Pcal(S_i)$ be sections. Using \cref{lemma:wang_2_3_2} we have the 2-cartesian diagram
+                \begin{diag}
+                    \left[Z' \times_Z \Pcal_{S_i} / G \right] \ar[r] \ar[d] & \left[ Z' \times_Z \Pcal / G\right] \ar[d] \\
+                    S_i \ar[r] & S 
+                \end{diag}
+                and we claim that $[Z' \times_Z \Pcal_{S_i}/G]$ is represented by the scheme $Z' \times_{Z, f\circ s_i} S_i$ (varying $i$ they form a covering of $Z'$, by the axioms of Grothendieck topologies).
+                We have a morphism $S_i \times G \stackrel{\sim}{\to} \Pcal_{S_i} \to Z$ given by $f \circ \tilde{s_i} = f \circ \alpha \circ (s_i \times \id_G)$. There is a $G$-equivariant isomorphism \[\gamma_i\colon \left(Z' \times_{Z, f\circ s_i} S_i\right) \times G \to Z' \times_Z (S_i \times G) \] over $S_i$, where on the left $G$ acts as a trivial bundle, while on the right $G$ acts both on $Z'$ and $S_i \times G$. More precisely, given $a \in Z'(T)$, $g \in G(T)$ for $T$ an $S_i$-scheme, we have $\gamma_i(a, g) = (a.g, g)$ (we can verify that $\gamma_i$, naturally defined as $(\alpha'(\pr_{Z'} \times \id_G), \pr_{S_i} \times \id_G)$ has this form and is indeed a $G$-equivariant isomorphism). Applying \cref{remark:wang_2_1_2} we have an isomorhism \[\Phi_i\colon Z' \times_{Z, f\circ s_i} S_i \simeq \left[\left(Z' \times_{Z, f\circ s_i} S_i\right) \times G / G \right] \stackrel{\gamma_i}{\longrightarrow} \left[\left(Z' \times_Z (S_i \times G)\right) / G \right] \stackrel{\id \times \tilde{s_i}}{\longrightarrow} \left[\left(Z' \times_Z \Pcal_{S_i}\right) / G \right] \] over $S_i$, defined explicitely on $T$-points by sending $a \in (Z' \times_{Z, f\circ s_i} S_i)(T)$ to 
+                \begin{diag}
+                    T \times G \ar[r, "a \times \id"] \ar[d] & \left(Z' \times_{Z, f\circ s_i} S_i\right) \times G \ar[r, "\gamma_i"] & Z' \times_Z (S_i \times G) \ar[r, "\id \times \tilde{s_i}"] & Z' \times_Z \Pcal \\
+                    T & & & 
+                \end{diag}
+                After restricting to the chosen covering, $[(Z' \times_Z \Pcal)/G] \times_S S_i \simeq [(Z' \times_Z \Pcal_{S_i})/G]$ becomes representable by a scheme (using the isomorphism $\Phi_i$ above). Then using \cref{lemma:stacks_04Sk} we deduce that $[(Z' \times_Z \Pcal)/G]$ is representable by an algebraic space. Let's take a break and try to describe its descent datum, which will be useful in the future.\\
+                \textbf{Descent datum:} \\
+                Denoting $S_{i,j} = S_i \times_S S_j$ we have a cocycle $g_{i,j} \in G(S_{i,j})$ such that $s_j = s_i.g_{i,j} \in \Pcal(S_{i,j})$. The action of $g_{i,j}^{-1}$ on $Z'$ induces an isomorhism \[\varphi_{i,j}\colon Z' \times_{Z, f\circ s_j} S_{i,j} \to Z' \times_{Z, (f \circ s_j).g_{i,j}^{-1}} S_{i,j} = Z' \times_{Z, f\circ s_i} S_{i,j}. \] Given $a \in (Z' \times_{Z, f \circ s_j} S_{i,j})(T)$, the square 
+                \begin{diag}
+                    T \times G \ar[d, "\ell_{g_{i,j}}"] \ar[rrrr, "\Phi_j(a) = (\id \times \tilde{s_j}) \circ \gamma_j \circ (a \times \id)"] & & & & Z' \times_Z \Pcal_{S_{i,j}} \ar[d, equal] \\
+                    T \times G \ar[rrrr, "\Phi_i(\varphi_{i,j}(a)) = (\id \times \tilde{s_i}) \circ \gamma_i \circ (\varphi_{i, j}(a) \times \id)"] & & & & Z' \times_Z \Pcal_{S_{i,j}}
+                \end{diag}
+                is commutative (easy computation). Therefore $\Phi_j(a)$ and $(\Phi_i \circ \varphi_{i,j})(a)$ are isomorphic in $[(Z' \times_Z \Pcal_{S_{i,j}})/G]$. We can thus conclude that $(Z' \times_{Z, f\circ s_i} S_i, \varphi_{i,j})$ is a descent datum of $[(Z' \times_Z \Pcal)/G]$ with respect to the chosen covering $\{S_i \to S\}_i$.\newline
+                If $Z' \to Z$ is affine, then by base change so is $Z' \times_{Z, f\circ s_i} S_i \to S_i$. Affine morphisms are effective under descent (see \cite[4.33]{Vist:desc}) so we deduce that $[(Z' \times_Z \Pcal)/G]$ is representable by a scheme affine over $S$.
+
+                Suppose now $Z' \to Z$ is quasi-projective with a $G$-equivariant relatively ample invertible $\O_{Z'}$-module $\Lcal$. From the description of the descent datum we have a commutative square 
+                \begin{diag}
+                    Z' \times_{Z, f\circ s_j} S_{i,j} \ar[d, "\varphi_{i,j}"] \ar[r, "\pr_{1, j}"] & Z' \ar[d, "g_{i,j}^{-1}"] \\
+                    Z' \times_{Z, f \circ s_i} S_{i,j} \ar[r, "\pr_{1, i}"] & Z'
+                \end{diag}
+                and the $G$-equivariant structure of $\Lcal$ gives an isomorphism \[ \varphi_{i,j}^*\pr_{1, i}^*\Lcal \simeq \pr_{1,j}^*\Lcal\] of invertible sheaves relatively ample over $S_{i,j}$. Since the $(g_{i,j})$ are a cocycle, the associativity property of $G$-equivariance implies that the above isomorphisms also satisfy the corresponding cocycle condition. By descent (\cite[VIII, Proposition~7.8]{SGA1}) we can then conclude that $[(Z' \times_Z \Pcal)/G]$ is representable by a quasi-projective scheme over $S$.
+            \end{proof}
+
+            \begin{corollary}
+                \label{corollary:wang_2_3_3}
+                For a $k$-scheme $Z$ with a right $G$-action and a right $G$-bundle $\Pcal$ over a $k$-scheme $S$, there is an isomorphism $\twist{\Pcal}{Z} \simeq [(Z \times \Pcal)/G]$ over $S$.
+            \end{corollary}
+            \begin{proof}
+                From the proof of \cref{lemma:wang_2_3_1} we know that $[(Z \times \Pcal)/G]$ has a descent datum $(Z \times S_{i,j}, \varphi_{i,j})$. This is the same descent datum as $\twist{\Pcal}{Z}$, as explained in \cref{subsect:twist_torsor}. This also implies that 
+                \begin{diag}
+                    \twist{\Pcal}{Z} \ar[d] \ar[r] & \left[Z/G\right] \ar[d] \\
+                    S \ar[r, "\Pcal"] & BG
+                \end{diag}
+                is cartesian.
+            \end{proof}
+
+            \begin{corollary}
+                \label{corollary:wang_2_3_4}
+                Given $\tau = (p\colon \Pcal \to S, f\colon \Pcal \to Z) \in [Z/G](S)$ for a $k$-scheme $S$, 
+                \begin{diag}
+                    \Pcal \ar[r, "f"] \ar[d, "p"] & Z \ar[d, "\tau_0"] \\
+                    S \ar[r, "\tau"] & \left[ Z/ G\right]
+                \end{diag}
+                is cartesian. In particular, $\tau_0\colon Z \to [Z/G]$ is schematic, affine and fppf.
+            \end{corollary}
+            \begin{proof}
+                Using Yoneda and \cref{lemma:wang_2_3_2} we have a cartesian square 
+                \begin{diag}
+                    \left[\left((Z \times G) \times_{\alpha, Z, f} \Pcal \right) / G \right] \ar[d] \ar[r] & \left[ Z \times G / G\right] \ar[d, "\alpha"] \\
+                    \left[ \Pcal / G\right] \ar[r] & \left[ Z/G\right]
+                \end{diag}
+                where $Z \times G$ is the trivial bundle over $Z$. There is a $G$-equivariant morphism \[(f \times \id, \alpha_{\Pcal})\colon \Pcal \times G \to (Z \times G) \times_{\alpha, Z, f} \Pcal \] where, again, $\Pcal \times G$ is the trivial bundle over $\Pcal$. Action of $G$ and projection induce a $G$-equivariant map $\Pcal \times G \to \Pcal \times_S \Pcal$ over $\Pcal \times \Pcal$. Therefore the following diagram 
+                \begin{diag}
+                    S \ar[dd, "\id_{\Pcal}"]  & \ar[l, "p"] \Pcal  \ar[d, "\id_{\Pcal \times G}"] \ar[r, "f"] & Z \ar[dd, "\id_{Z \times G}"] \\
+                     & \left[ \Pcal \times G / G\right] \ar[d, "{(f \times \id, \alpha_{\Pcal})}"] & \\
+                    \left[ \Pcal / G \right]  & \ar[l] \left[\left( (Z \times G) \times_{\alpha, Z, f} \Pcal\right) / G \right]  \ar[r] & \left[ Z \times G / G\right]
+                \end{diag}
+                is $2$-commutative. Hence, applying \cref{remark:wang_2_1_2}, we deduce that the initial cartesian square is isomorphic to the desired one. Moreover, we see that the morphism $f^*\tau_0 \to p^*\tau$ is defined by the action and first projection morphism.
+            \end{proof}
+
+        \subsection{Change of group}
+            Let $H \hookrightarrow G$ be a closed subgroup of $G$ and let's investigate the relation between $BH$ and $BG$.
+
+            Let's first consider the action by left multiplication of $H$ on $G$, giving rise to the fppf sheaf of right cosets $H \backslash G$. By \cite[Thm~5.4]{dg70} the sheaf $H \backslash G$ is representable by a quasi-projective $k$-scheme with a $G$-equivariant ample invertible sheaf. The map $H \times G \to G \times_{H \backslash G} G$, given by the multiplication and the projection, is an isomorphism by \cite[2.4]{dg70}, i.e.\ the following square 
+            \begin{diag}
+                H \times G \ar[r, "\mu"] \ar[d, "\pr_2"] & G \ar[d, "\pi"] \\
+                G \ar[r] & H\backslash G
+            \end{diag}
+            is cartesian. Therefore the projection $\pi\colon G \to H \backslash G$ is a left $H$-bundle. All the previous discussion, where we used right actions, can be rewritten using left actions; we will use the notation $[H\backslash G]$ to denote the quotient stack of $G$ by the left action of $H$, sending $S$ to the groupoid of left $H$-bundles $\Pcal \to S$ equipped with an $H$-invariant morphism to $G$. 
+            Observe that \cref{remark:wang_2_1_2} implies that $\id_G$ induces an isomorphism $H\backslash G \stackrel{\sim}{\to} [H\backslash G]$ defined on a scheme $S$ by 
+            \begin{diag}
+                G \times_{H\backslash G} G \ar[r, dashed] \ar[d, dashed] & G \ar[d, "\pi"] \ar[r, "\id_G"] & G \\
+                S \ar[r] & H\backslash G &
+            \end{diag}
+
+            \begin{lemma}
+                \label{lemma:wang_2_4_2}
+                The left $H$-bundle $G \to H\backslash G$ defines a right $G$-bundle $H\backslash G \to [H \backslash *]$.
+            \end{lemma}
+            \begin{proof}
+                Let $\mu\colon G \times G \to G$ be the multiplication map and consider $(\pr_1, \mu)\colon G \times G \to G \times G$ where $H$ acts on the first coordinate on the lhs and diagonally on the rhs, so that this morphism is $H$-equivariant. We have $2$-commutative squares 
+                \begin{diag}
+                    H\backslash G \ar[d, "\id_G"] & \ar[l, "\pr_1", swap] H \backslash G \times G \ar[r, "\overline{\mu}"] \ar[d, "{(\pr_1, \mu)}"] & H\backslash G \ar[d, "\id_G"] \\
+                    \left[ H \backslash G\right] & \ar[l, "\pr_1", swap] \left[ H \backslash (G \times G)\right] \ar[r, "\pr_2"] & \left[ H \backslash G \right]
+                \end{diag}
+                where the $2$-isomorphisms are identities (and the action of $H$ on $G \times G$ in the middle top is on the left component). Thus we have a $2$-commutative diagram 
+                \begin{diag}
+                    H \backslash G \times G \ar[r, "\overline{\mu}"] \ar[d, "\pr_1"] & H \backslash G \ar[d] \\
+                    H \backslash G \ar[r] & \left[H \backslash *\right]
+                \end{diag}
+                with $2$-morphism $\id_{G \times G}$, which gives $H \backslash G \to [H \backslash *]$ the structure of a right $G$-invariant morphism.
+
+                Let $\Pcal \in [H \backslash *](S)$ be a left $H$-bundle over $S$ and let $\{S_i \to S\}_i$ be an fppf covering trivializing $\Pcal$. We will conclude by considering the cartesian square
+                \begin{diag}
+                    H \backslash G \times_{\left[H \backslash * \right]} S \ar[d] \ar[r] & H \backslash G \ar[d] \\
+                    S \ar[r, "\Pcal"] & \left[ H \backslash * \right]
+                \end{diag}
+                and proving that the leftmost arrow is a $G$-bundle ($S$ is a scheme obviously).
+                Applying the same exact argument as in the proof of \cref{lemma:wang_2_3_1} we obtain the cartesian square 
+                \begin{diag}
+                    S_i \times G \ar[d] \ar[r] & \left[ H \backslash G\right] \ar[d] \\
+                    S_i \ar[r, "H \times S_i"] & \left[ H \backslash * \right]
+                \end{diag}
+                where the top arrow corresponds to $H \times S_i \times G \to G\colon (h, a, g) \mapsto hg$. The morphism $S_i \times G \to [H \backslash G] \simeq H \backslash G$ equals $\pi \circ \pr_2$ (easy computation) , which is $G$-equivariant. This means that \[S_i \times G \to H \backslash G \times_{[H \backslash *], H \times S_i} S_i \simeq (H \backslash G \times_{[H \backslash *], \Pcal} S) \times_S S_i \] is a $G$-equivariant isomorphism. Thus $H \backslash G \times_{[H \backslash *], \Pcal} S$ is a right $G$-bundle, and this suffices to prove that $H \backslash G \to [H \backslash *]$ is also a right $G$-bundle.
+            \end{proof}
+
+            Let's now observe that combining \cref{lemma:wang_2_1_1} and \cref{lemma:wang_2_4_2} we have an isomorhism $[H \backslash *] \simeq [(H \backslash G) / G]$ sending a left $H$-bundle $\Pcal$ over $S$ to $H \backslash G \times_{[H \backslash *], \Pcal} S \to H \backslash G$. Using inverse action we pass to right $H$-bundles, obtaining $BH \simeq [H \backslash *]$. Applying \cref{corollary:wang_2_3_3} we observe that the map $BH \simeq [H \backslash *] \simeq [(H \backslash G) / G] \to BG$ sends a right $H$-bundle $\Pcal$ to the fiber bundle $\twist{\Pcal}{G}$, where $G$ is twisted using the left action. We have also a right $G$-action on such twist, induced bu the right multiplication by $G$ on itself.
+
+            \begin{prop}
+                \label{prop:wang_2_4_1}
+                The morphism $BH \to BG$ sending $\Pcal \mapsto \twist{\Pcal}{G}$ is schematic, finitely presented and quasi-projective.
+            \end{prop}
+            \begin{proof}
+                Consider the map $[(H \backslash G)/G] \to BG$: by \cref{corollary:wang_2_3_3} we have a $2$-cartesian square 
+                \begin{diag}
+                    \twist{\Ecal}{(H \backslash G)} \ar[d] \ar[r] & BH \simeq \left[ (H\backslash G) / G \right] \ar[d] \\
+                    S \ar[r, "\Ecal"] & BG
+                \end{diag}
+                Since $H \backslash G$ is quasi-projective with a $G$-equivariant ample invertible sheaf over $* = \Spec k$, then, using \cref{lemma:wang_2_3_1} we deduce that $\twist{\Ecal}{(H \backslash G)}$ is representable by a scheme quasi-projective and of finite presentation over $S$. This proves the proposition.
+            \end{proof}
+
+        \subsection{\texorpdfstring{$[Z/G]$ is algebraic}{Quotient stack is algebraic}}
+            We'll state the last technical lemmas and then, finally, we will be able to prove that the quotient stack is an algebraic stack, under certain assumptions.
+            \begin{lemma}
+                \label{lemma:wang_2_5_1}
+                For algebraic groups $G, G'$, the morphism $BG \times BG' \to B(G \times G')$ sending a $G$-bundle $\Pcal \to S$ and a $G'$-bundle $\Pcal' \to S$ to $\Pcal \times_S \Pcal'$ is an isomorphism.
+            \end{lemma}
+            \begin{proof}
+                Let, as in the statement, $(\Pcal, \Pcal') \in (BG \times BG')(S)$ and choose an fppf covering $\{S_i \to S\}$ trivializing both. This means that we have descent data \[(S_i \times G, g_{i,j}), \quad (S_i \times G', g_{i,j}') \] for $g_{i,j} \in G(S_{i,j}), g_{i,j}' \in G'(S_{i,j})$. Then \[(S_i \times G \times G', (g_{i,j}, g_{i,j}')) \] is a descent datum for $\Pcal \times_S \Pcal'$. Using the fact that both $BG \times BG'$ and $B(G \times G')$ are stacks, we see that this morphism is an isomorphism, whose inverse is $\Ecal \mapsto (\twist{\Ecal}{G}, \twist{\Ecal}{G'})$ where $G \times G'$ acts by projections on $G$ and $G'$.
+            \end{proof}
+            
+            Let's now study a particular case of our problem, with the simplest quotient stack $BG$. We will invoke the well known Artin's theorem, which we only state here.
+            \begin{thm}
+                \label{thm:artin_rep_alg_stacks}
+                Let $\Xcal$ be an $S$-stack satisfying the three following conditions:
+                \begin{enumerate}[label=(\arabic*)]
+                    \item $\Xcal$ is an fppf $S$-stack;
+                    \item the diagonal map $\Delta\colon \Xcal \to \Xcal \times_S \Xcal$ is representable, separated and quasi-compact;
+                    \item there exists an $S$-algebraic space $Y$ and a map $Q\colon Y \to \Xcal$ of $S$-stacks which is representable and fppf.
+                \end{enumerate}
+                Then $\Xcal$ is an algebraic stack.
+            \end{thm}
+            \begin{proof}
+                See \cite[Thm~10.1]{lmb00}.
+            \end{proof}
+
+            \begin{lemma}
+                \label{lemma:wang_2_5_2}
+                The $k$-stack $BG$ is an algebraic stack with a schematic, affine diagonal. Specifically, for right $G$-bundles $\Pcal, \Pcal'$ over $S$, there is an isomorphism 
+                \[\Isom_{BG(S)}(\Pcal, \Pcal') \simeq \twist{\Pcal \times_S \Pcal'}{(G)} \] as sheaves of sets on $\Sch_{/S}$, where $G \times G$ acts on $G$ from the right by $g.(g_1, g_2) = g_1^{-1}gg_2$.
+            \end{lemma}
+            \begin{proof}
+                Let $S \in \Sch_{/k}$ and $\Pcal, \Pcal' \in BG(S)$; we have a $2$-cartesian square 
+                \begin{diag}
+                    \Isom_{BG(S)}(\Pcal, \Pcal') \ar[d] \ar[r] & BG \simeq \left[(G \backslash G \times G) / G \times G \right] \simeq \left[ G / G \times G \right] \ar[d, "\Delta_{BG}"] \\
+                    S \ar[r, "{(\Pcal, \Pcal')}"] & BG \times BG \simeq B(G \times G)
+                \end{diag}
+                where in the upper row we observed that there is an isomorphism $G \backslash(G \times G) \cong G$ given by $(g_1, g_2) \mapsto g_1^{-1}g_2$, where $G$ acts diagonally on the left. Since the lhs has a $G$-equivariant right $G \times G$-action, the rhs $G$ inherits a right $(G \times G)$-action given by $g.(g_1, g_2) = g_1^{-1}gg_2$, as claimed in the statement. By \cref{prop:wang_2_4_1} and \cref{lemma:wang_2_5_1} we get an isomorhism $\Isom_{BG(S)}(\Pcal, \Pcal') \simeq \twist{\Pcal \times_S \Pcal'}{(G)}$ over $S$. 
+
+                Since $G$ is affine over $k$, by assumption, the associated fiber bundle $\twist{\Pcal \times_S \Pcal'}{(G)}$ is representable by an affine scheme over $S$. Hence the diagonal $\Delta_{BG}$ is schematic and affine. By \cref{corollary:wang_2_3_4} the morphism $* \to BG$ is schematic, affine and fppf. We can conclude that $BG$ is an algebraic stack using \cref{thm:artin_rep_alg_stacks}.
+            \end{proof}
+
+            Here is the main result of this whole section.
+            \begin{thm}
+                \label{thm:wang_2_0_2}
+                The $k$-stack $[Z/G]$ is an algebraic stack with a schematic, separated diagonal. If $Z$ is quasi-separated (i.e.\ the diagonal map is quasi-compact) then the diagonal $\Delta_{[Z/G]}$ is quasi-compact. If $Z$ is separated then $\Delta_{[Z/G]}$ is affine.
+            \end{thm}
+            \begin{proof}
+                Consider the diagonal map $Z \to Z \times Z$, $G$-equivariant for the diagonal action of $G$ on the rhs. It induces a map \[[Z/G] \to [Z \times Z/G] \simeq [Z/G] \times_{BG} [Z/G] \] which is representable by \cref{lemma:wang_2_3_1}, the last isomorphism being the one of \cref{lemma:wang_2_3_2}. Now, the diagonal $\Delta_{[Z/G]}$ is obtained by composition \[[Z/G] \to [Z/G] \times_{BG} [Z/G] \to [Z/G] \times [Z/G] \] where the last map is coming from the universal property of products. This last map is obtained by base change 
+                \begin{diag}
+                    \left[Z / G\right] \times_{BG} \left[ Z/ G \right] \ar[d] \ar[r] & \left[Z / G \right] \times \left[ Z / G \right] \ar[d] \\
+                    BG \ar[r, "\Delta_{BG}"] & BG \times BG
+                \end{diag}
+                and hence it is representable (in particular schematic and affine) thanks to \cref{lemma:wang_2_5_2}. This implies that the diagonal map $\Delta_{[Z/G]}$ is representable (this is the first condition to check to prove $[Z/G]$ is an algebraic stack).
+                By \cref{lemma:wang_2_5_2} there exists a scheme $U$ and a smooth surjective morphism $U \to BG$. The change of space $f\colon [Z/G] \to BG$ is representable by \cref{lemma:wang_2_3_1}, so $U \times_{BG} [Z/G]$ is representable by an algebraic space. Therefore there exists a scheme $V$ with an étale surjection $V \to U \times_{BG} [Z/G]$; the composition $V \to [Z/G]$ is then the searched smooth atlas, so we can conclude $[Z/G]$ is an algebraic stack.
+
+                As observed before, we know that $[Z/G] \times_{BG} [Z/G] \to [Z/G] \times [Z/G]$ is schematic and affine. Since $f$ is representable, then its diagonal $\Delta_f\colon [Z/G] \to [Z/G] \times_{BG} [Z/G]$ (which is exactly the same morphism we used above) is schematic and separated, see \cite[\href{https://stacks.math.columbia.edu/tag/04YQ}{Lemma~04YQ}]{stacks-project}. If $Z$ is quasi-separated, then by descent $\twist{\Pcal}{Z} \to S$ is quasi-separated for any $\Pcal \in BG(S)$ (easy for trivial bundles then use descent). Recalling the pullback square of \cref{corollary:wang_2_3_3} we have just proved that $f\colon [Z/G] \to BG$ is quasi-separated. Thus, by \cite[\href{https://stacks.math.columbia.edu/tag/04YT}{Lemma~04YT}]{stacks-project} we see that $\Delta_f$ is quasi-compact. 
+
+                Starting instead with $Z$ separated we can do an analogue reasoning to deduce $f$ is separated. Using \cite[\href{https://stacks.math.columbia.edu/tag/04YS}{Lemma~04YS}]{stacks-project} the diagonal $\Delta_f$ is, in this case, a closed immersion.
+
+                Composing the two maps $\Delta_f$ and $[Z/G] \times_{BG} [Z/G] \to [Z/G]$ now gives all the desired properties of the diagonal of $[Z/G]$.
+            \end{proof}
+    \section{Hom stacks}
+        \subsection{Hilb and Quot}
+            First of all let's recall some definitions and results on $\Hilb$ and $\Quot$ constructions, which will be useful later on. Our main reference here is \cite[Chapter~5]{Fant}.
+
+            \begin{defn}
+                \label{defn:quot_sheaf}
+                Let $S$ be a Noetherian scheme and $X \to S$ of finite type. Let $\Ecal$ be a coherent sheaf on $X$. Let $\Quot_{\Ecal/X/S}\colon (\Sch_{/S})^{\op} \to \Gpd$ be the pseudofunctor defined by \[(T \to S) \mapsto \left\lbrace 
+                    (\Fcal, q) \middle|\;
+                    \begin{varwidth}{\linewidth}
+                        $\Fcal \in \mathrm{Coh}(X_T)$, flat over $T$ and with proper schematic support, \\
+                        $q\colon \Ecal_T \twoheadrightarrow \Fcal$ is surjective
+                    \end{varwidth}    
+                \right\rbrace . \]
+                A map $(F, q) \to (\Fcal', q')$ is an isomorphism $f\colon \Fcal \to \Fcal'$ such that $f \circ q = q'$. It is indeed a pseudo-functor since properness and flatness are conserved by base change and tensor product is right exact.
+            \end{defn}
+            \begin{defn}
+                \label{defn:hilbert_sheaf}
+                Let $X \to S$ be of finite presentation and let's define $\Hilb_{X/S}\colon (\Sch_{/S})^{\op} \to \Gpd$ by posing $\Hilb_{X/S} = \Quot_{\O_X/X/S}$. Explicitely we have 
+                \begin{gather*}
+                    (T \to S) \mapsto \left\lbrace
+                        i\colon Z \hookrightarrow X_T \middle|\;
+                        \begin{varwidth}{\linewidth}
+                            $i$ is a closed immersion and $Z \to T$ is flat,\\ proper and finitely presented
+                         \end{varwidth}
+                        \right\rbrace .
+                \end{gather*}
+            \end{defn}
+            Let $X \to S$ be a morphism of finite type between Noetherian schemes and let $\Lcal$ be a very ample sheaf on $X$ and $\Fcal$ a coherent sheaf on $X$ with proper schematic support on $S$. Then for each $s \in S$ we can consider the Hilber polynomial $\Phi_s$ of $\Fcal_s$ using the line bundle $\Lcal_s$. By \cite[III, Theorem~9.9]{Hart} we know that if $\Fcal$ is flat over $S$ then the function $s \mapsto \Phi_s \in \Q[\lambda]$ is locally constant on $s$.
+            We have shown
+            \begin{prop}
+                \label{prop:stratification_quot_hilbert}
+                In the above case, we have the stratification \[\Quot_{\Ecal/X/S} = \coprod_{\Phi \in \Q[\lambda]} \Quot_{\Ecal/X/S}^{\Phi, \Lcal}.  \]
+            \end{prop}
+
+            The main result is the following.
+            \begin{thm}
+                \label{thm:quot_representable}
+                Let $S$ be a scheme, $\pi\colon X \to S$ strongly (quasi-)projective and $\Lcal$ a relatively very ample line bundle on $X$. Then for a coherent $\O_X$-module $\Ecal$, quotient sheaf of some $\pi^*(W)(\nu)$ for $W$ vector bundle on $S$ and $\nu \in \Z$, and any polynomial $\Phi \in \Q[\lambda]$ the functor $\Quot_{\Ecal/X/S}^{\Phi, \Lcal}$ is representable by a (quasi-)projective $S$-scheme (which we'll denote in the same way).
+            \end{thm}
+            \begin{proof}
+                See \cite[Theorem~2.6]{ak80}.
+            \end{proof}
+        \subsection{First definitions}
+            We will now turn our attention to the so called ``mapping stacks'', which are nothing else than a particular case of the section stacks (all will be defined precisely later). They will be essential tools to define and understand our goal, the stack of $G$-bundles on $X \in \Sch_{/S}$.
+            
+            \begin{defn}
+                \label{defn:hom_stack}
+                Let $S \in \Sch$, $X \in \Sch_{/S}$ and $\Ycal\colon (\Sch_{/S})^{\op} \to \Gpd$ be a pseudofunctor. We define the Hom $2$-functor $\calHom_S(X, \Ycal)\colon (\Sch_{/S})^{\op} \to \Gpd$ by \[\calHom_S(X, \Ycal)(T) = \Hom_T(X_T, \Ycal_T) = \Hom_S(X_T, \Ycal). \] 
+            \end{defn}
+            Using the $2$-Yoneda lemma we have a natural equivalence of categories $\Hom_S(X_T, \Ycal) \simeq \Ycal(X_T)$ and hence we deduce that if $\Ycal$ is an fpqc $S$-stack then $\calHom_S(X, \Ycal)$ is as well.
+
+            We can now finally define our object of interest.
+            \begin{defn}
+                \label{defn:moduli_bung}
+                Let $S$ be a $k$-scheme. Given $X \in \Sch_{/S}$, the \emph{moduli stack of $G$-bundles on $X \to S$} is $\Bun_G \coloneqq \calHom_S(X, BG \times S)$.
+            \end{defn}
+
+            Since $BG$ is an fpqc stack, also $\Bun_G$ is so. Explicitely, for an $S$-scheme $T$, $\Bun_G(T)$ is the groupoid of $G$-bundles on $X_T$.
+
+            Our war strategy will be to study and prove general results about Hom-stacks, using the section stacks, and then deduce properties of $\Bun_G$ by using those cannons.
+
+            As announced we will now study the sheaf of sections.
+        \subsection{Scheme of sections}
+            Let $S$ be a base scheme, $X \in \Sch_{/S}$ and fix a morphism of $S$-schemes $Y \to X$.
+            \begin{defn}
+                Using the same notations as above, we define the presheaf $\Sect_S(X, Y)\colon (\Sch_{/S})^{\op} \to \Set$ by \[(T \to S) \mapsto \Hom_{X_T}(X_T, Y_T) = \Hom_X(X_T, Y). \]
+            \end{defn}
+
+            Since schemes are fpqc sheaves then the presheaf $\Sect_S(X, Y)$ is actually an fpqc sheaf of sets.
+
+            We will now state (resp.\ and sketch a proof) of (some) technical lemmas, the final goal being to prove representability of $\Sect_S(X, Y)$ under some particular assumptions.
+
+            \begin{example}
+                \label{example:wang_3_1_2}
+                As mentioned before, understanding the sheaf of sections can be equivalent to understanding the mapping stack. Indeed, for $X, Z \in \Sch_{/S}$ and $\pr_1\colon X \times_S Z \to X$ we have the equality \[\Sect_S(X, X \times_S Z) = \calHom_S(X, Z). \]
+            \end{example}
+
+            \begin{lemma}
+                \label{lemma:wang_3_1_3}
+                Let $p\colon X \to S$ be a flat, finitely presented, proper morphism and $\Ecal$ a locally free $\O_X$-module of finite rank. Then $\Sect_S(X, \relSpec_X \Sym_{\O_X}\Ecal)$ is representable by a scheme affine and finitely presented over $S$.
+            \end{lemma}
+            \begin{proof}
+                By \cite[Corollaire~4.5.5]{EGA1-second} we can take an open affine covering of $S$ and reduce to the case $S$ is affine (roughly the corollary says that a sheaf $F\colon (\Sch_{/S})^{\op} \to \Set$ is representable iff its restriction to any covering of $S$ are so). We can assume $S$ is also of finite type using Noetherian approximation and change of base, see \cite[Tome~3, 8]{EGA4}.
+                Write $\Fcal = \Ecal^{\vee}$, which is again a locally free $\O_X$-module. From \cite[Tome~2, Thm~7.7.6, Remarque~7.7.9]{EGA3} there exists a coherent $\O_Y$-module $\Qcal$ equipped with natural isomorphisms \[\Hom_{\O_T}(\Qcal_T, \O_T) \simeq \Gamma(T, (p_T)_*\Fcal_T) = \Gamma(X_T, \Fcal_T) \] for any $S$-scheme $T$. Giving a section $X_T \to (\relSpec_X \Sym \Ecal) \times_S T \simeq \relSpec_{X_T}(\Sym_{\O_{X_T}} \Ecal_T)$ over $X_T$ is the same thing as giving a morphism of $\O_{X_T}$-modules $\Ecal_T \to \O_{X_T}$. This is nothing else than an element in $\Gamma(X_T, \Ecal_T^{\vee})$. Since $\Ecal$ is locally free of finite rank, there is a canonical isomorphism $\Fcal_T \simeq \Ecal_T^{\vee}$. The above formula shows that an element of $\Sect_S(X, \relSpec_X \Sym \Ecal)(T)$ is naturally isomorphic to a map in $\Hom_S(T, \relSpec_S \Sym_{\O_S} \Qcal) \simeq \Hom_{\O_T}(\Qcal_T, \O_T)$. We thus conclude that \[\Sect_S(X, \relSpec_X \Sym_{\O_X} \Ecal) \simeq \relSpec_S \Sym_{\O_S} \Qcal \] as sheaves over $S$.
+            \end{proof}
+
+            Let's now prove, as a lemma, a (stronger) particular case of our final theorem of this section, when the map $Y \to X$ is affine.
+            \begin{lemma}
+                \label{lemma:wang_3_1_4}
+                Let $p\colon X \to S$ be a flat, finitely presented, projective morphism. If $Y \to X$ is affine and finitely presented, then $\Sect_S(X, Y)$ is representable by a scheme affine and finitely presented over $S$.
+            \end{lemma}
+            \begin{proof}
+                As before, we can reduce to the case where $S$ is affine and Noetherian, and $X$ is a closed subscheme of $\PP^r_S$ for some integer $r$. By assumption, $Y = \relSpec_X \Acal$ for $\Acal$ a quasi-coherent $\O_X$-algebra. Since $Y$ is finitely presented over $X$ and $X$ is quasi-compact, there are finitely many local sections of $\Acal$ generating it as an $\O_X$-algebra. By extending coherent sheaves (see \cite[Corollaire~9.4.3]{EGA1}), there exists a coherent $\O_X$-module $\Fcal \subset \Acal$ containing all such sections. Using \cite[Chap~2, Corollary~5.18]{Hart} (an easy corollary of Serre theorem for $X$ projective, stating that we can find $n$ big enough so that $\Fcal(n)$ is globally generated) we can find a locally free resolution of $\O_X$-modules $\Ecal_1 \twoheadrightarrow \Fcal$. This induces a surjection of $\O_X$-algebras $\Sym_{\O_X} \Ecal_1 \twoheadrightarrow \Acal$, and let $\Ical$ be its kernel.
+                Redoing this same reasoning on $\Ical$, we find a locally free $\O_X$-module $\Ecal_2$ and a map $\Ecal_2 \to \Ical$ whose image generates $\Ical$ as an $\O_X$-algebra. The short exact sequence of $\O_X$-algebras $\Sym_{\O_X} \Ecal_2 \to \Sym_{\O_X} \Ecal_1 \to \Acal \to 0$ induces the cartesian square
+                \begin{diag}
+                    Y = \relSpec_X \Acal \ar[d] \ar[r] & X \ar[d] \\
+                    \relSpec_X \Sym \Ecal_1 \ar[r] & \relSpec_X \Sym \Ecal_2
+                \end{diag}
+                where $X \to \relSpec_X \Sym \Ecal_2$ is the zero section. We have a canonical isomorhism \[\Sect_S(X, Y) \simeq \Sect_S(X, X) \times_{\Sect_S(X, \relSpec_X \Sym \Ecal_2)} \Sect_S(X, \relSpec_X \Sym \Ecal_1) \] and observe that $S \simeq \Sect_S(X, X)$ (one way to see it is to verify that we can apply the conclusion of the previous lemma with $\Qcal = \O_S$, which satisfies the assumptions there).
+                By \cref{lemma:wang_3_1_3}, all the three sheaves in the fibered product are represented by schemes affine and finitely presented over $S$. Therefore $\Sect_S(X, Y)$ is representable by a scheme.
+
+                The morphism $S \simeq \Sect_S(X, X) \to \Sect_S(X, \relSpec_X \Sym \Ecal_2)$ sends $T \to S$ to $0 \in \Gamma(X_T, (\Ecal_2)_T^{\vee})$, using the correspondence of \cref{lemma:wang_3_1_3}. Therefore \[S \to \Sect_S(X, \relSpec_X \Sym \Ecal_2) \simeq \relSpec_S \Sym \Qcal_2 \] is the zero section, and in particular is a closed immersion. By base change, also $\Sect_S(X, Y) \to \Sect_S(X, \relSpec_X \Sym \Ecal_1)$ is a closed immersion and hence we conclude that $\Sect_S(X, Y)$ is affine and finitely presented over $S$.
+            \end{proof}
+
+            \begin{lemma}
+                \label{lemma:wang_3_1_6}
+                Let $p\colon X \to S$ be proper. For any morphism $Y \to X$ and $U \hookrightarrow Y$ open immersion, $\Sect_S(X, U) \to \Sect_S(X, Y)$ is schematic and open.
+            \end{lemma}
+            \begin{proof}
+                For an $S$-scheme $T$, suppose there exists a map $f\colon X_T \to Y$ over $X$, which by $2$-Yoneda corresponds to a map of sheaves $T \to \Sect_S(X, Y)$.  The fibered product 
+                \begin{diag}
+                    T \times_{\Sect_S(X, Y)} \Sect_S(X, U) \ar[r] \ar[d] & \Sect_S(X, U) \ar[d] \\
+                    T \ar[r, "X_T \to Y"] & \Sect_S(X, Y)
+                \end{diag}
+                is a sheaf on $\Sch_{/T}$ and it sends $T' \to T$ to a singleton if $X_{T'} \to X_T \to Y$ factors through $U$, and to the empty set otherwise (this is just how points of fibered products behave in general). We claim that this sheaf is representable by the open subscheme \[W = T \setminus p_T(X_T \setminus f^{-1}(U)) \] of $T$, where $p_T(X_T \setminus f^{-1}(U))$ is closed in $T$ by properness of $p$. Suppose that the image of $T' \to T$ contains a point of $p_T(X_T \setminus f^{-1}(U))$, i.e.\ there are $t' \in T'$ and $x \in X_T$ mapping to the same point of $T$, and $f(x) \not\in U$. Let $K$ be the compositum field of $\kappa(t')$ and $\kappa(x)$ over $\kappa(p_T(x))$: this gives a point of $X_{T'}$ corresponding to $(t', x) \in T' \times X_T$. Thus the map $X_{T'} \to X_T \to Y$ does not factor through $U$, since $f(x) \not\in U$.
+
+                Conversely, suppose there exists $x' \in X_{T'}$ with image outside of $U$. Then its image $x \in X_T$ is not in $f^{-1}(U)$, so $p_{T'}(x')$ maps to $p_T(x) \in p_T(X_T \setminus f^{-1}(U))$. 
+                
+                We then conclude that $T' \to T$ factors through $T \setminus p_T(X_T \setminus f^{-1}(U))$ if and only if $X_{T'} \to Y$ factors through $U$. Therefore $T \times_{\Sect_S(X, Y)} \Sect_S(X, U)$ is representable by this open subscheme of $T$.
+            \end{proof}
+            
+            \begin{lemma}
+                \label{lemma:wang_3_1_7}
+                Let $S$ be a Noetherian scheme, and let $p\colon X \to S$ and $Z \to S$ be flat proper morphisms. Suppose there is a morphism $\pi:Z \to X$ over $S$. Then there exists an open subscheme $S_1 \subset S$ with the following universal property: for any locally Noetherian $S$-scheme $T$, the base change $\pi_T\colon Z_T \to X_T$ is an isomorphism if and only if $T \to S$ factors through $S_1$.
+            \end{lemma}
+            \begin{proof}
+                See \cite[Lemma~3.1.7]{wang:moduli}.
+            \end{proof}
+            
+
+
+           Suppose we have a proper morphism $X \to S$ and a separated morphism $g\colon Y \to X$. For a section $f \in \Sect_S(X, Y)(T)$, the graph of $f$ over $X_T$ is a closed immersion $X_T \to X_T \times_{X_T} Y_T$. Indeed, $g_T \circ f = \id_{X_T}$ implies that $f$ is separated, and we can obtain the graph of $f$ as the following pullback 
+           \begin{diag}
+               X_T \ar[d, "f"] \ar[r, "{(1, f)}"] & X_T \times_{X_T} Y_T \simeq Y_T \ar[d, "f \times_{X_T} \id_{Y_T}"] \\
+               Y_T \ar[r, "\Delta_{g_T}"] & Y_T \times_{X_T} Y_T
+           \end{diag}
+           and hence by separatedness of $g_T$ (so that its diagonal is a closed immersion) we deduce our claim. Using $X_T \times_{X_T} Y_T \simeq Y_T$ we deduce that $f$ itself if a closed immersion.
+
+           Therefore $f\colon X_T \hookrightarrow Y_T$ represents an element of $\Hilb_{Y/S}(T)$. We have defined an injection of sheaves 
+           \begin{gather}
+               \label{gather:wang_3_1_7_1}
+               \Sect_S(X, Y) \to \Hilb_{Y/S}.
+           \end{gather}
+
+           \begin{lemma}
+               \label{lemma:wang_3_1_8}
+               Let $p\colon X \to S$ and $Y \to S$ be finitely presented, proper morphisms, and suppose that $p$ is flat. Then \cref{gather:wang_3_1_7_1} is an open immersion.
+           \end{lemma}
+           \begin{proof}
+               Since the statement is Zariski local on the base, we can assume $S$ is affine and Noetherian by \cite[Tome~3, 8]{EGA4}. Let $T \to \Hilb_{Y/S}$ represent $Z \subset Y_T$ a closed subscheme flat over an $S$-scheme $T$. Again, by the same argument, we can assume $T$ Noetherian. Applying \cref{lemma:wang_3_1_7} to the composition $Z \to X_T$ we deduce that there exists an open subscheme $U \subset T$ such that for any locally Noetherian $T' \to T$, the base change $Z_{T'} \to X_{T'}$ is an isomorhism if and only if $T' \to T$ factors through $U$.
+               An isomorhism $Z_{T'} \to X_{T'}$ is the same thing as giving a section $X_{T'} \simeq Z_{T'} \hookrightarrow Y_{T'}$. We assumed $T'$ to be locally noetherian, but by Noetherian approximation the same reasoning holds in the more general case.
+
+               We conclude that $T \times_{\Hilb_{Y/S}} \Sect_S(X, Y)$ is represented by $U$, and hence we have the claimed open immersion.
+           \end{proof}
+
+           We are ready to prove our main result about the sheaf of sections.
+           
+           \begin{thm}
+               \label{thm:wang_3_1_1}
+               Let $X \to S$ be a flat, finitely presented, projective morphism, and let $Y \to X$ be a finitely presented, quasi-projective morphism. Then $\Sect_S(X, Y)$ is representable by a disjoint union of schemes which are finitely presented and locally quasi-projective on $S$.
+           \end{thm}
+           \begin{proof}
+               Let $\Lcal$ be an invertible $\O_Y$-module ample relative to $\pi\colon Y \to X$ and let $\Kcal$ be an invertible $\O_X$-module ample relative to $p\colon X \to S$. For every $(n, m) \in \N^2$ choose an integer $\chi_{n, m}$. Define the subfunctor \[\Hilb_{Y/S}^{(\chi_{n,m})} \subset \Hilb_{Y/S} \] to have $T$-points the flat closed subschemes $Z \subset Y_T$ such that for all $t \in T$, the Euler characteristic $\chi((\O_Z \otimes \Lcal^{\otimes n} \otimes \pi^*(\Kcal^{\otimes m}))_t) = \chi_{n,m}$. We choose to look at these particular sheaves because, as we'll see, (some) will be (very) ample w.r.t.\ $Y \to S$, see \cite[\href{https://stacks.math.columbia.edu/tag/0C4K}{Lemma~0C4K}]{stacks-project}.
+               We claim that they form a disjoint open cover of $\Hilb_{Y/S}$ (making all possible choices of course). First of all, this is Zariski local on $S$ so we may assume, by Noetherian approximation, $S$ to be Noetherian.
+               By \cite[Corollary~2.7]{ak80} (using $\Hilb_{Y/S} = \Quot_{\O_Y/Y/S}$) the functor $\Hilb_{Y/S}$ is representable by a locally Noetherian scheme.
+
+               Let's first of all verify \[ \Hilb_{Y/S} = \coprod_{s \in \Z} \Hilb_{Y/S}^{(s)}\] where the coproduct is taken as sheaves. This means that we can assume $T$ connected (and Noetherian, by approximation) so that using \cite[Tome~2, Thm~7.9.4]{EGA3} the Euler characteristic of $(\O_Z \otimes \Lcal^{\otimes n} \otimes \pi^*(\Kcal^{\otimes m}))_t$ (seen as a function on $T$) is locally constant (hence constant by connectedness). This implies that it is a disjoint cover. To see they are open consider the cartesian square 
+               \begin{diag}
+                   W \ar[d] \ar[r] & \Hilb_{Y/S}^{(\chi)} \ar[d] \\
+                   T \ar[r, "Z"] & \Hilb_{Y/S}
+               \end{diag}
+               where $W = \{t \in T \mid \chi((\O_Z \otimes \Lcal^{\otimes n} \otimes \pi^*(\Kcal^{\otimes m}))_t) = \chi\}$ is an open subscheme of $T$, by the properties of Euler characteristic mentioned above and by the fact that  the connected components of a locally Noetherian scheme are open \cite[Corollaire~6.1.9]{EGA1}.
+
+               Now it suffices to show that for any choice of $(\chi_{n,m})$, the functor \[\Sect_S(X, Y) \cap \Hilb_{Y/S}^{(\chi_{n,m})} \] is representable by a scheme finitely presented and locally quasi-projective over $S$. Again, since this is Zariski local on $S$, we will assume $S$ to be affine and Noetherian. By \cite[Prop~4.4.6, 4.6.12, 4.6.13]{EGA2}, there exists a scheme $\overline{Y}$ projective over $X$, an open immersion $Y \hookrightarrow \overline{Y}$, an invertible module $\overline{\Lcal}$ very ample relative to $\overline{Y} \to S$, and positive integers $a$ and $b$ such that \[\Lcal^{\otimes a} \otimes \pi^*(\Kcal^{\otimes b}) \simeq \restr{\overline{\Lcal}}{Y}. \]
+               Let $\Phi \in \Q[\lambda]$ be a polynomial satisfying $\Phi(n) = \chi_{na, nb}$ for a particular choice of such integers. If it does not exist then $\Hilb_{Y/S}^{\chi_{na, nb}}$ is empty and the claim is trivial (so in practice now we focus on the ``right'' choice, using the Hilbert polynomial of $Z$ w.r.t.\ $\overline{\Lcal}$). Using \cref{lemma:wang_3_1_6}, \cref{lemma:wang_3_1_8} and \cite[Theorem~2.6, Step IV]{ak80} we deduce that $\Sect_S(X, Y) \cap \Hilb_{Y/S}^{(\chi_{n,m})}$ is an open subfunctor of $\Hilb_{\overline{Y}/S}^{\Phi, \overline{\Lcal}}$ (representable by \cite[Corollary~2.8]{ak80}). Since an open immersion to a Noetherian scheme is finitely presented we can conclude.
+           \end{proof}
+
+        \subsection{Morphisms between Hom stacks}
+           The goal will be to use our results on the scheme of sections to deduce that the diagonal of $\Bun_G$ is schematic under certain conditions on $X$.
+
+           \begin{lemma}
+               \label{lemma:wang_3_2_1}
+               Suppose $X \to S$ is flat, finitely presented, and projective. Let $F\colon \Ycal_1 \to \Ycal_2$ be a schematic morphism between pseudo-functors. If $F$ is quasi-projective (resp.\ affine) and of finite presentation, then the corresponding morphism \[\calHom_S(X, \Ycal_1) \to \calHom_S(X, \Ycal_2) \] is schematic and locally of finite presentation (resp.\ affine and of finite presentation).
+           \end{lemma}
+           \begin{proof}
+               Let $\tau_2\colon X_T \to \Ycal_2$ represent, by Yoneda, a morphism $T \to \calHom_S(X, \Ycal_2)$. Since $F$ is schematic, the $2$-fibered product $\Ycal_1 \times_{\Ycal_2, \tau_2} X_T$ is representable by a scheme $Y_T$. We have thus the following $2$-cartesian square 
+               \begin{diag}
+                   Y_T \ar[d, "\pi"] \ar[r, "\tau_1"] & \Ycal_1 \ar[d, "F"] \\
+                   X_T \ar[r, "\tau_2"] & \Ycal_2
+               \end{diag}
+               with the commuting $2$-isomorphism $\gamma\colon F(\tau_1) \stackrel{\sim}{\to} \pi^*\tau_2$. Given a $T$-scheme $T'$, suppose that $\tau_1'\colon X_{T'} \to \Ycal_1$ is a $1$-morphism such that the square 
+               \begin{diag}
+                   X_{T'} \ar[d, "\pr_1"] \ar[r, "\tau_1'"] & \Ycal_1 \ar[d, "F"] \\
+                   X_T \ar[r, "\tau_2"] & \Ycal_2
+               \end{diag}
+               $2$-commutes via a $2$-morphism $\gamma'\colon F(\tau_1') \stackrel{\sim}{\to } \pr_1^*\tau_2$. Thus, by the universal property of $2$-fibered products, there exists a unique morphism of schemes $f\colon X_{T'} \to Y_T$ over $X_T$ and a unique $2$-morphism $\phi\colon f^*\tau_1 \stackrel{\sim}{\to } \tau_1' $ such that 
+               \begin{diag}
+                   F(f^*\tau_1) \ar[d, "F(\phi)"] \ar[r, "\sim"] & f^*F(\tau_1) \ar[r, "f^*\gamma"] & f^*\pi^*\tau_2 \ar[d, "\sim"] \\
+                   F(\tau_1') \ar[rr, "\gamma'"]  & & \pr_1^*\tau_2
+               \end{diag} 
+               commutes. On the other hand, we have that 
+               \[\left( \calHom_S(X, \Ycal_1) \times_{\calHom_S(X, \Ycal_2)} T\right)(T') = \left\{(T' \to T, \tau_1'\colon X_{T'} \to \Ycal_1, \gamma'\colon F(\tau_1') \stackrel{\sim}{\to} \pr_1^*\tau_2) \right\} \] by the $2$-Yoneda lemma.
+               Thus for a $T$-scheme $T'$ and a pair $(\tau_1', \gamma')$ as above, there exists a unique $f \in \Hom_{X_T}(X_{T'}, Y_T) = \Sect_T(X_T, Y_T)(T')$ such that \[(f^*\tau_1, f^*\gamma\colon F(f^*\tau_1) \stackrel{\sim}{\to} \pr_1^*\tau_2) \in \left(\calHom_S(X, \Ycal_1) \times_{\calHom_S(X, \Ycal_2)} T\right)(T') \] and there is a unique $2$-morphism $(f^*\tau_1, f^*\gamma) \simeq (\tau_1', \gamma')$ induced by $\phi$. Therefore we have a cartesian diagram 
+               \begin{diag}
+                   \Sect_T(X_T, Y_T) \ar[r] \ar[d] & \calHom_S(X, \Ycal_1) \ar[d] \\
+                   T \ar[r] & \calHom_S(X, \Ycal_2)
+               \end{diag}
+               By assumptions we have $Y_T \to X_T$ finitely presented and quasi-projective (resp.\ affine) and hence, by \cref{lemma:wang_3_1_4} and \cref{thm:wang_3_1_1} we deduce that $\Sect_T(X_T, Y_T) \to T$ is schematic and locally of finite presentation (resp.\ affine and of finite presentation).
+           \end{proof}
+
+           \begin{corollary}
+               \label{corollary:wang_3_2_2}
+               Suppose $X \to S$ is flat, finitely presented and projective. Then the diagonal of $\Bun_G$ is schematic, affine and finitely presented.
+           \end{corollary}
+           \begin{proof}
+               By \cref{lemma:wang_2_5_1} we deduce that the canonical map $\Bun_{G \times G} \to \Bun_G \times \Bun_G$ is an isomorphism. Applying \cref{lemma:wang_2_5_2} and \cref{lemma:wang_3_2_1} to $BG \to B(G \times G)$ we deduce that $\Bun_G \to \Bun_{G \times G}$ is schematic, affine and finitely presented, and we conclude. 
+           \end{proof}
+
+           \begin{corollary}
+               \label{corollary:wang_3_2_4}
+               Let $H \hookrightarrow G$ be a closed subgroup of $G$. If $X \to S$ is flat, finitely presented and projective, then the corresponding morphism $\Bun_H \to \Bun_G$ is schematic and locally of finite presentation.
+           \end{corollary}
+           \begin{proof}
+               Immediate.
+           \end{proof}
+
+    \section{\texorpdfstring{Presentation of $\Bun_G$}{Presentation of the stack of G-bundles}}
+        Recall that we defined $\Bun_G$ of $X \to S$ in \cref{defn:moduli_bung} as $\calHom_S(X, BG \times S)$. We will prove that it is an algebraic stack and give a presentation. We will have lot of lemmas and we will mainly focus on the case $G = \GL_r$, to then pass to the general case using the well known fact that any affine algebraic group can be embedded into a linear group.
+
+        \begin{lemma}
+            \label{lemma:wang_4_1_1}
+            The morphism from the $k$-stack
+            \[ B_r\colon T \mapsto \{\text{locally free $\O_T$-modules of rank $r$, with isomorphisms of $\O_T$-modules} \}\] to $B\GL_r$, sending $\Ecal \mapsto \Isom_T(\O_T^r, \Ecal)$ is an isomorhism.
+        \end{lemma}
+        \begin{proof}
+            From \cite[Theorem~4.2.3]{Vist:desc} we know that $\textrm{QCoh}$ is an fpqc stack and since local freeness of rank $r$ persists under fpqc maps (by \cite[Tome~2, Proposition~2.5.2]{EGA4}) we deduce that $B_r$ is an fpqc stack. We have a canonical simply transitive right action of $\GL_r$ on $\Isom_T(\O_T^r, \Ecal)$ given by right composition. Given a Zariski covering $\{T_i \subset T\}_i$ trivializing $\Ecal$ we obtain a descent datum $(\O_{T_i}^r, g_{i,j})$ for $\Ecal$, where $g_{i,j} \in \GL_r(T_i \cap T_j)$. Since $\Isom_{T_i}(\O_{T_i}^r, \O_{T_i}^r) \simeq T_i \times \GL_r$, we have a descent datum $(T_i \times \GL_r, g_{i,j})$ (the same as before) corresponding to $\Isom_T(\O_T^r, \Ecal)$.
+            Conversely, given $\Pcal \in B\GL_r(T)$ there exists a descent datum $(T_i \times \GL_r, g_{i,j})$ for some fppf covering $\{T_i \to T\}$. If $V = \A^r$ is the standard $r$-dimensional representation of $\GL_r$, then the twist $\twist{\Pcal}{V}$ is a module in $B_r(T)$ and has a descent datum given by $(\O_{T_i}^r, g_{i,j})$. This implies that $\Pcal \mapsto \twist{\Pcal}{V}$ is the inverse morphism.
+        \end{proof}
+
+        This implies that any $\GL_r$-bundle is Zariski locally trivial. From now on we'll implicitely use the isomorhism $B_r \simeq B\GL_r$ to pass between locally free modules and $\GL_r$-bundles. 
+
+        Fix a base $k$-scheme $S$ and let $p\colon X \to S$ be a flat, strongly projective morphism, with a fixed ample invertible sheaf $\O(1)$ on $X$.
+        From now on we will write $\Bun_r$ as a shorthand for $\Bun_{\GL_r}$, the stack of $\GL_r$-bundles on $X$.
+        Let's recall that an $\O_{X_T}$-module $\Fcal$ is \emph{relatively generated by global sections} if the counit $p_T^*p_{T*}\Fcal \to \Fcal$ is surjective.
+
+        \begin{defn}
+            \label{defn:cohom_flatness}
+            Let $\Fcal$ be a quasi-coherent $\O_{X_T}$-module, flat over $T$. We say $\Fcal$ is \emph{cohomologically flat in degree $i$} if for any cartesian square 
+            \begin{diag}
+                X_{T'} \ar[r, "v"] \ar[d, "p_{T'}"] & X_T \ar[d, "p_T"] \\
+                T' \ar[r, "u"] & T
+            \end{diag}
+            the canonical morphism $u^*R^ip_{T*}\Fcal \to R^ip_{T'*}(v^*\Fcal)$ from \cite[8.2.19.3]{Fant} is an isomorphism.
+        \end{defn}
+
+        We will use the main results about the base change formula, written in \cite[Theorem~8.3.2]{Fant}.
+
+        In particular we will mainly use the following.
+        
+        \begin{thm}
+            \label{thm:base_change_formula}
+            Let 
+            \begin{diag}
+                X' \ar[r, "h"] \ar[d, "f'"] & X \ar[d, "f"] \\
+                Y' \ar[r, "g"] & Y
+            \end{diag}
+            be a cartesian square of schemes, with $X$ and $Y$ quasi-compact and separated. Let $\Fcal$ be a quasi-coherent sheaf on $X$. If the map $g$ is flat, or $\Fcal$ is flat on $Y$, then there is a natural isomorphism \[Lg^*Rf_*\Fcal \to Rf'_*(h^*\Fcal) \] in $D(Y')$ (derived category of $\O_{Y'}$-modules).
+        \end{thm}
+        In particular we deduce that the induced maps $g^*R^qf_*\Fcal \to R^qf'_*(h^*\Fcal)$ are isomorphisms.
+
+        We will use the following criterion for cohomological flatness.
+        \begin{lemma}
+            \label{lemma:wang_4_1_2}
+            For an $S$-scheme $T$, let $\Fcal$ be a quasi-coherent sheaf on $X_T$, flat over $T$. If $p_T$ is separated, $p_{T*}\Fcal$ is flat and $R^ip_{T*}\Fcal = 0$ for $i > 0$, then $\Fcal$ is cohomologically flat over $T$ in all degrees. 
+        \end{lemma}
+        \begin{proof}
+            Since the statement is local, we can assume $T$ and $T'$ to be affine.
+            By the base change formula \cref{thm:base_change_formula}, we have a quasi-isomorphism \[Lu^*Rp_{T*}\Fcal \stackrel{\sim}{\to} Rp_{T'*}(v^*\Fcal) \] of chain complexes of $\O_{T'}$-modules. Since $R^ip_{T*}\Fcal = 0$ for $i > 0$, we have a quasi-isomorphism $p_{T*}\Fcal \simeq Rp_{T*}\Fcal$. By flatness of $p_{T*}\Fcal$ we have $Lu^*p_{T*}\Fcal \simeq u^*p_{T*}\Fcal$ and hence $u^*p_{T*}\Fcal \simeq Rp_{T'*}(v^*\Fcal)$. We conclude that \[u^*R^ip_{T*}\Fcal \simeq R^ip_{T'*}(v^*\Fcal) \] for all $i$ (consider $i=0$ and $i> 0$ separately). This isomorphism corresponds to the canonical one given before, so we can conclude.
+        \end{proof}
+
+        \begin{prop}
+            \label{prop:wang_4_1_3}
+            For an $S$-scheme $T$, let 
+            \[
+                \Ucal_n(T) \coloneqq \left\{ \Ecal \in \Bun_r(T) \middle|\; 
+                \begin{varwidth}{\linewidth}
+                    $R^ip_{T*}(\Ecal(n)) = 0$ for all $i >0$ \\ and $\Ecal(n)$ is relatively generated by global sections 
+                \end{varwidth}
+                \right\} 
+            \]
+            be the full subgroupoid of $\Bun_r(T) = B_r(T)$. For $\Ecal \in \Ucal_n(T)$, the direct image $p_{T*}(\Ecal(n))$ is flat, and $\Ecal(n)$ is cohomologically flat over $T$ in all degrees. In particular, the inclusion $\Ucal_n \hookrightarrow \Bun_r$ makes $\Ucal_n$ a pseudo-functor.
+        \end{prop}
+        \begin{proof}
+            Since flatness is local we can assume $T$ is affine. Call $\Fcal = \Ecal(n) \in \Ucal_n(T)$. Then, remembering the assumption on $p\colon X \to S$, $X_T$ is quasi-compact and separated, so we can choose a finite affine open covering $\fU = (U_j)_{j=1,\dots, N}$ of $X_T$ and use it to compute \v{C}ech cohomology. We have an isomorphism \[\cHH^i(\fU, \Fcal) \stackrel{\sim}{\to} H^i(X_T, \Fcal). \]
+            By \cite[Tome~1, Proposition~1.4.10, Corollaire~1.4.11]{EGA3}, $R^ip_{T*}\Fcal$ is the quasi-coherent sheaf associated to $H^i(X_T, \Fcal)$, we deduce $\cHH^i(\fU, \Fcal) = 0$ for $i > 0$. This means that the augmented \v{C}ech complex 
+            \begin{diag}
+                0 \ar[r] & \Gamma(X_T, \Fcal) \ar[r] & \check{C}^0(\Ucal, \Fcal) \ar[r] & \dots \ar[r] & \check{C}^{N-1}(\Ucal, \Fcal) \ar[r] & 0
+            \end{diag}
+            is exact. Since $\Fcal$ is $T$-flat, also $\check{C}^i(\fU, \Fcal) = \prod_{j_0 < \dots < j_i} \Gamma(U_{j_0} \cap \dots \cap U_{j_i}, \Fcal)$ is flat over $\Gamma(T, \O_T)$. By induction and \cite[III, Proposition~9.1]{Hart} we conclude that $\Gamma(X_T, \Fcal)$ is flat over $\Gamma(T, \O_T)$, i.e.\ $p_{T_*}\Fcal$ is flat over $T$. Using \cref{lemma:wang_4_1_2} we conclude that $\Fcal$ is cohomologically flat in all degrees.
+
+            Now we want to show that for $T' \to T$, the pullback $\Ecal_{T'}$ still lies in $\Ucal_n(T')$, i.e.\ it is relatively generated by global sections and it satisfies $R^jp_{T'*}\Fcal_{T'} = 0$ for all $j > 0$. This last fact holds by cohomologically flatness (i.e.\ base change isomorphism holds) so we concentrate on the first one. Again, since this property is local, let $T$ and $T'$ be affine schemes. Thus (relative becomes unnecessary and) there exists a surjection $\bigoplus \O_{X_T} \twoheadrightarrow \Fcal$, which pulls back to a surjection $\bigoplus \O_{X_{T'}} \twoheadrightarrow \Fcal_{T'}$, showing that $\Fcal_{T'}$ is also generated by global sections. Since pullback and tensor product commute, we conclude $\Ecal_{T'} \in \Ucal_n(T')$.
+        \end{proof}
+
+        \begin{remark}
+            \label{remark:wang_4_1_4}
+            If $S$ is affine then the ring $\Gamma(S, \O_S)$ is an inductive limit of finitely presented $k$-algebras and by \cite[Tome~3, 8]{EGA4} we know that we can find $S_1 \to \Spec k$ affine of finite presentation, a map $S \to S_1$ and a flat projective morphism $p_1\colon X_1 \to S_1$ which is equal to $p$ after base change. From now on we will thus work with such $p_1$, because then we just need to base change to get back results from the original $p$. This will allow us to focus only on Noetherian $S$.
+        \end{remark}
+
+        \begin{lemma}
+            \label{lemma:wang_4_1_5}
+            The pseudofunctors $(\Ucal_n)_{n \in \Z}$ form an open cover of $\Bun_r$.
+        \end{lemma}
+        \begin{proof}
+            Fix $T \to S$ and $\Ecal \in \Bun_r(T)$ (i.e.\ a map $T \to \Bun_r$). The $2$-fibered product $\Ucal_n \times_{\Bun_r} T\colon (\Sch_{/T})^{\op} \to \Gpd$ sends $T' \to T$ to the equivalence relation \[\left\{(\Ecal' \in \Ucal_n(T'), \Ecal' \simeq \Ecal_{T'}) \right\}. \] To prove $\Ucal_n$ is open then we just need to find an open subscheme $U_n \subset T$ with the universal property such that $T' \to T$ factors through $U_n$ iff $R^ip_{T'*}(\Ecal_{T'}(n)) = 0$ for $i > 0$ and $\Ecal_{T'}(n)$ is relatively generated by global sections over $T'$.
+            With the usual locality and Noetherian approximation-fu we can assume $S$ and $T$ to be affine and Noetherian (for the details see \cite[Lemma~4.1.5]{wang:moduli}).
+
+            We will have in mind the following cartesian square 
+            \begin{diag}
+                X_t \ar[d, "p_t"] \ar[r] & X_T \ar[d, "p_T"] \\
+                \Spec \kappa(t) \ar[r] & T
+            \end{diag}
+            where we observe that the upward arrow is a closed immersion by base change.
+            Call $\Fcal = \Ecal(n)$ and define \[U_n \coloneqq \left\{ 
+                t \in T \middle|\;
+                \begin{varwidth}{\linewidth}
+                    $H^i(X_t, \Fcal_t) = 0$ for $i > 0$\\ and $\varphi_t\colon p_t^*p_{t*}\Fcal_t = \Gamma(X_t, \Fcal_t) \otimes \O_{X_t} \twoheadrightarrow \Fcal_t$ surjective
+                \end{varwidth}
+            \right\}. \]
+            We claim that the set of points $t \in T$ where $\Gamma(X_t, \Fcal_t) \otimes \O_{X_t} \twoheadrightarrow \Fcal_t$ is surjective is open. Indeed consider the set \[F \coloneqq \left\{x \in X_T \mid \text{$(\varphi_t)_x\colon (p_t^*p_{t*}\Fcal_t)_x \to (\Fcal_t)_x \simeq \Fcal_x$ is not surjective}  \right\} \] where the subscript $x$ denotes taking the stalk at the point $x \in X_T$ ($\varphi_t$ is indeed a map of $\O_{X_t} $-modules and hence of $\O_X$-modules by pushforward of a closed immersion). By Nakayama's lemma (using coherence of $\Fcal$ and finiteness of $\Spec \kappa(t) \to T$, so that $\Fcal_t$ is still coherent) we deduce that if $(\varphi_t)_x$ is surjective at $x \in X_T$, then it is surjective at any $y$ in an open neighborhood of $x$ in $X_T$ (we find a lift of generators). This means exactly that $F$ is closed in $X_T$ and hence $p_T(F) \subset T$ is also closed since $p_T$ is projective. Then its complement in $T$ is open, and clearly for any $t$ in it, the map $\varphi_t$ is surjective: there cannot exist $x \in X_T$ mapping to $t$ such that $(\varphi_t)_x$ is not surjective, since then $x \in F$ and hence $t = p_T(x) \in p_T(F)$.
+
+            Since $X$ is quasi-compact, it can be covered by $N$ affines, and so does $X_t$ by base change. We can compute the cohomology of $\Fcal_t$ using \v{C}ech cohomology, from which we immediately see $H^i(X_t, \Fcal_t) = 0$ for $i > N$ and all $t$. Fixed $i$, the set of $t \in T$ for which $H^i(X_t, \Fcal_t) = 0$ is open by upper semicontinuity of the fibers \cite[III, Theorem~12.8]{Hart} ($\Fcal$ is flat over $T$ since it is locally free and $p_T$ is flat by base change). By intersecting a finite number of such sets, we deduce that $U_n$ is open.
+
+            By \cite[III, Theorem~12.11]{Hart}, for $t \in U_n$ we have $R^ip_{T*}\Fcal \otimes \kappa(t) = 0$ for $i > 0$. Since $p$ is proper by assumption, $R^ip_*\Fcal$ is coherent by \cite[Tome~1, Theorem~3.2.1]{EGA3}. Thus by base change ($\Fcal$ is cohomologically flat by \cref{prop:wang_4_1_3}) and by Nakayama's lemma we obtain \[R^ip_{U_n*}(\Fcal_{U_n}) \simeq \restr{(R^ip_{T*}\Fcal)}{U_n} = 0. \] Again by Nakayama's lemma we have that $\Fcal_{U_n}$ is relatively generated by global sections (by the choice of $U_n$). This proves that $\Ecal_{U_n} \in \Ucal_n(U_n)$, i.e.\ we have a $2$-commutative square 
+            \begin{diag}
+                U_n \ar[d, hookrightarrow] \ar[r, "\Ecal_{U_n}"] & \Ucal_n \ar[d, hookrightarrow] \\
+                T \ar[r, "\Ecal"] & \Bun_r
+            \end{diag}
+
+            Suppose now there is a morphism $u\colon T' \to T$ such that $R^ip_{T'*}\Fcal_{T'} = 0$ for $i> 0$ and $\Fcal_{T'}$ is relatively generated by global sections. We need to prove it factors through $U_n$. Take $t' \in T'$ and let $t = u(t')$. By cohomological flatness (and structure of higher direct images) we deduce that $H^i(X_{t'}, \Fcal_{t'}) = 0$ for $i> 0$. Since $\Spec \kappa(t') \to \Spec \kappa(t)$ is faithfully flat, by \cref{thm:base_change_formula}, we have \[H^i(X_t, \Fcal_t) \otimes_{\kappa(t)} \kappa(t') \simeq H^i(X_{t'}, \Fcal_{t'}) = 0 \] and hence $H^i(X_t, \Fcal_t) = 0$ for $i > 0$. Since $\Fcal_{T'}$ is relatively generated by global sections, by assumptions, we have $\Gamma(X_{t'}, \Fcal_{t'}) \otimes \O_{X_{t'}} \twoheadrightarrow \Fcal_{t'}$; by faithfully flatness this implies $\Gamma(X_t, \Fcal_t) \otimes \O_{X_t} \twoheadrightarrow \Fcal_t$. Thus $t \in U_n$, i.e.\ the morphism $u$ factors through $U_n$.
+
+            This proves that $\Ucal_n$ is open in $\Bun_r$. Finally, by Serre's cohomology theorem \cite[III, Theorem~5.2]{Hart}, given $\Ecal \in \Bun_r(T)$ there exists $n \in \Z$ such that $R^ip_{T*}(\Ecal(n)) = 0$ for $i>0$ and $\Ecal(n)$ is generated by global sections. This implies that $\Ecal \in \Ucal_n(T)$ and therefore the $(\Ucal_n)_{n \in \Z}$ form an open cover of $\Bun_r$.
+        \end{proof}
+
+        \begin{remark}
+            \label{remark:wang_4_1_7}
+            For an $S$-scheme $T$ and $\Ecal \in \Ucal_n(T)$ we claim that $p_{T*}(\Ecal(n))$ is a locally free $\O_T$-module of finite rank. The key idea is to use Noetherian approximation, and then the well known algebraic fact that a flat module of finite type over a noetherian ring is locally free of finite rank. See \cite[Remark~4.1.7]{wang:moduli}.
+        \end{remark}
+
+        For a polynomial $\Phi \in \Q[\lambda]$, define a pseudo-subfunctor $\Bun_r^{\Phi} \subset \Bun_r$ by \[\Bun_r^{\Phi}(T) = \left\{\Ecal \in \Bun_r(T) \mid \Phi(m) = \chi(\Ecal_t(m)) \, \forall t \in T,\, m \in \Z \right\}. \] For a locally Noetherian $S$-scheme $T$ and $\Ecal \in \Bun_r(T)$, the Hilbert polynomial of $\Ecal_t$ (the unique polynomial in $\Q[\lambda]$ sending $n \mapsto \chi(\Ecal_t(n))$) is a locally constant function on $T$ by \cite[Tome~2, Theorem~7.9.4]{EGA3}. We deduce (hiding under our carpet all noetherian approximation arguments) that the $(\Bun_r^{\Phi})_{\Phi \in \Q[\lambda]}$ form a disjoint open cover of $\Bun_r$. Let \[\Ucal_n^{\Phi} \coloneqq \Ucal_n \cap \Bun_r^{\Phi} \] so that $\Ucal_n$ has a disjoint open cover given by such opens. 
+        Let's try to understand them better: given $\Ecal \in \Ucal_n^{\Phi}(T)$ we know by \cref{remark:wang_4_1_7} that $p_{T*}(\Ecal(n))$ is locally free of finite rank. By cohomological flatness of $\Ecal(n)$ (see \cref{prop:wang_4_1_3}) and the assumption $R^ip_{T*}(\Ecal(n)) = 0$ for $i> 0$, we have $H^0(X_t, \Ecal_t(n)) \simeq p_{T*}(\Ecal(n)) \otimes \kappa(t)$ is a vector space of dimension $\Phi(n)$ (we consider Euler characteristic but by assumption we have only $0$-th homology). This implies that $p_{T*}(\Ecal(n))$ is locally free of rank $\Phi(n)$.
+
+        Using \cite[\href{https://stacks.math.columbia.edu/tag/05UN}{Lemma~05UN}]{stacks-project} (which says that if we have  a morphism from a pseudofunctor to a stack that is representable by an algebraic space, then the source is also a stack) and the fact that $\Bun_r$ is a stack, we deduce that all these pseudo-functors are also fpqc stacks.
+
+        Now we want to find smooth surjective morphisms to the $\Ucal_n^{\Phi}$. We will introduce a bunch of new pseudofunctors.
+
+        Let's define the pseudofunctors $\Ycal_n^{\Phi}\colon (\Sch_{/S})^{\op} \to \Gpd$ by \[(T \to S) \mapsto \left\{ 
+            (\Ecal, \phi, \psi) \middle|\;
+            \begin{varwidth}{\linewidth}
+                $\Ecal \in \Ucal_n^{\Phi}(T)$, $\phi\colon \O_{X_T}^{\Phi(n)} \twoheadrightarrow \Ecal(n)$ is surjective, \\
+                the adjoint morphism $\psi\colon \O_T^{\Phi(n)} \to p_{T*}(\Ecal(n))$ is an isomorphism
+            \end{varwidth}
+        \right\}. \]
+        A morphism $(\Ecal, \phi, \psi) \to (\Ecal', \phi', \psi')$ is an isomorphism $f\colon \Ecal \to \Ecal'$ satisfying $f(n) \circ \phi = \phi'$. This last condition is equivalent to $p_{T*}(f(n)) \circ \psi = \psi'$ by adjunction. To give an isomorphism $\psi$ as above just means specifying $\Phi(n)$ elements of $\Gamma(X_T, \Ecal(n))$ that form a basis of $p_{T*}(\Ecal(n))$ as an $\O_T$-module. By how we defined morphism, $\Ycal_n^{\Phi}(T)$ is an equivalence relation.
+
+        Technical lemma.
+        \pagebreak
+        \begin{lemma}
+            \label{lemma:wang_4_1_8}
+            Suppose we have a cartesian square 
+            \begin{diag}
+                X_{T'} \ar[d, "p_{T'}"] \ar[r, "v"] & X_T \ar[d, "p_T"] \\
+                T' \ar[r, "u"] & T
+            \end{diag}
+            $\Mcal \in \O_T-\Mod$, $\Ncal \in \O_{X_T}-\Mod$ and $\phi\colon p_T^*\Mcal \to \Ncal$ a map of $\O_{X_T}$-modules. If $\psi\colon \Mcal \to p_{T*}\Ncal$ is its adjoint morphism, then the composition of $u^*(\psi)$ with the base change map $u^*p_{T*}\Ncal \to p_{T'*}v^*\Ncal$ corresponds, via the adjunction $(p_{T'*}, p_{T'}^*)$ to $v^*(\phi)\colon p_{T'}^*u^*\Mcal \simeq v^*p_T^*\Mcal \to v^*\Ncal$.
+        \end{lemma}
+        \begin{proof}
+            See \cite[Lemma~4.1.8]{wang:moduli}.
+        \end{proof}
+
+        For $\Mcal = \O_T^{\Phi(n)}$ and $\Ncal = \Ecal(n)$ in \cref{lemma:wang_4_1_8} we see that the pullbacks of $\phi$ and $\psi$ are compatible, so that $\Ycal_n^{\Phi}$ is a pseudo-functor in a non-ambiguous way.
+        
+        \begin{lemma}
+            \label{lemma:wang_4_1_9}
+            For $\Psi \in \Q[\lambda]$, define the pseudofunctor $\Wcal^{\Psi}\colon (\Sch_{/S})^{\op} \to \Gpd$ by \[\Wcal^{\Psi}(T) \coloneqq \left\{ (\Fcal, \phi) \mid \Fcal \in \Bun_r^{\Phi}(T), \phi\colon \O_{X_T}^{\Psi(0)} \twoheadrightarrow \Fcal \right\} \] where a map $(\Fcal, \phi) \to (\Fcal', \phi')$ is an isomorphism $f\colon \Fcal \to \Fcal'$ satisfying $f \circ \phi = \phi'$. Then $\Wcal^{\Psi}$ is representable by a strongly quasi-projective $S$-scheme.
+        \end{lemma}
+        \begin{proof}
+            As before the $\Wcal^{\Psi}(T)$ are equivalence relations so, considering the sets of equivalence classes, $\Wcal^{\Psi}$ is isomorphic to a functor \[W^{\Psi} \subset \Quot^{\Psi, \O(1)}_{\O_X^{\Psi(0)}/X/S} =: Q. \]
+            By \cref{thm:quot_representable} we know that $Q$ is representable by a scheme strongly projective over $S$. We will prove that $W^{\Psi} \hookrightarrow Q$ is schematic, open and finitely presented and this will imply that $\Wcal^{\Psi} \simeq W^{\Psi}$ is representable by a strongly quasi-projective $S$-scheme. As usual, by the locality of the claim, we assume $S$ affine and Noetherian.
+            Let $(\Fcal, \phi)\colon T \to Q$ and consider $W^{\Psi} \times_Q T$, the $2$-fibered product. Consider the following set \[U \coloneqq \left\{ x \in X_T \mid \text{the stalk $\Fcal \otimes \O_{X_T, x}$ is free} \right\} . \] Since $\Fcal$ is coherent, by Nakayama's lemma, $U$ is an open subset of $X_T$. We claim that the open subset \[V \coloneqq T \setminus p_T(X_T \setminus U) \subset T \] represents $W^{\Psi} \times_Q T$. 
+            We need to prove that a morphism $T' \to T$ lands in $V$ iff $\Fcal_{T'}$ is locally free. If $T' \to T$ factors through $V$, then $X_{T'} \to X_T$ lands in $U$, which implies that $\Fcal_{T'}$ is locally free (since, by construction, $\restr{\Fcal}{U}$ is locally free). Conversely, suppose $T' \to T$ is such that $\Fcal_{T'}$ is locally free and assume by contradiction that there exists $t' \in T$ and $x \in X_T$ mapping to the same $t \in T$ such that $\Fcal \otimes \O_{X_T, x}$ is not free. We have cartesian squares
+            \begin{diag}
+                (X_{T'})_{t'} \ar[d] \ar[r] & (X_T)_t \ar[d] \ar[r] & X_T \ar[d] \\
+                \Spec \kappa(t') \ar[r] & \Spec \kappa(t) \ar[r] & T
+            \end{diag}
+            where the down-left arrow is faithfully flat. Then $\Fcal_{t'} \simeq \Fcal_t \otimes_{\kappa(t)} \kappa(t')$ is a flat $\O_{X_{t'}}$-module (change base of $\Fcal_{T'}$ which is locally free). Since flatness is a local property for the quasi-compact faithfully flat maps (see \cite[Tome~2, Proposition~2.7.1]{EGA4}), this implies that $\Fcal_t$ is flat over $\O_{X_t}$. By the definition of $Q$ (see \cref{defn:quot_sheaf}) $\Fcal$ is $T$-flat. Therefore $\Fcal \otimes \O_{X_T, x}$ is $\O_{T, t}$-flat and $\Fcal_t \otimes \O_{X_t, x}$ is $\O_{X_t, x}$-flat and by \cite[20.G]{Matsu} we conclude that $\Fcal \otimes \O_{X_T, x}$ is $\O_{X_T, x}$-flat and hence a free module, contradiction! Hence $T' \to T$ must factor through $V$. We showed that $W^{\Psi}$ is representable by an open subscheme of $Q$. Since $S$ is Noetherian, $Q$ is also Noetherian and hence $W^{\Psi} \hookrightarrow Q$ is finitely presented (being an open immersion between Noetherian schemes).
+        \end{proof}
+        \pagebreak
+        \begin{lemma}
+            \label{lemma:wang_4_1_10}
+            The pseudo-functor $\Ycal_n^{\Phi}$ is representable by a scheme $Y_n^{\Phi}$ which is strongly quasi-projective over $S$.
+        \end{lemma}
+        \begin{proof}
+            Let $\Psi \in \Q[\lambda]$ be defined by $\Psi(\lambda) \coloneqq \Phi(\lambda + n)$, and consider $\Wcal^{\Psi}$ as before. There is a morphism $\Wcal^{\Psi} \to \Bun_r^{\Phi}$ (observe the change in the polynomial) given by $(\Fcal, \phi) \mapsto \Fcal(-n)$ (indeed $\chi(\Fcal(-n)(m)) = \chi(\Fcal(m-n)) = \Psi(m-n) = \Phi(m)$). The corresponding $2$-fibered product $\Ucal_n^{\Phi} \times_{\Bun_r^{\Phi}} \Wcal^{\Psi}$ is isomorphic to the pseudo-functor $\Zcal_n^{\Phi}\colon (\Sch_{/S})^{\op} \to \Gpd$ defined by \[\Zcal_n^{\Phi}(T) \coloneqq \left\{(\Ecal, \phi) \mid \Ecal \in \Ucal_n^{\Phi}(T), \phi\colon \O_{X_T}^{\Phi(n)} \twoheadrightarrow \Ecal(n) \right\} \] where a morphism $(\Ecal, \phi) \to (\Ecal', \phi')$ is an isomorphism $f\colon \Ecal \to \Ecal'$ satisfying $f(n) \circ \phi = \phi'$. Since $\Ucal_n^{\Phi}$ is open and schematic in $\Bun_r^{\Phi}$ then we deduce that the morphism $\Zcal_n^{\Phi} \to \Wcal^{\Psi}$ is schematic and open. Thus \cref{lemma:wang_4_1_9} implies that $\Zcal_n^{\Phi}$ is representable by an open subscheme $Z_n^{\Phi} \subset W^{\Psi}$. We claim that $Z_n^{\Phi} \hookrightarrow W^{\Psi}$ is finitely presented: using Noetherian approximation as in \cref{remark:wang_4_1_4} we reduce to $S$ Noetherian, where this is trivial (any open subscheme of a Noetherian scheme is finitely presented). Therefore we proved that $Z^{\Phi}_n$ is quasi-projective over $S$.
+
+            We will prove that the morphism $\Ycal^{\Phi}_n \to \Zcal_n^{\Phi}$ sending $(\Ecal, \phi, \psi) \mapsto (\Ecal, \phi)$ is schematic, open and finitely presented, and this suffices to conclude the proof.
+            We may assume $S$ Noetherian as usual, using \cref{remark:wang_4_1_4} and \cite[Corollaire~4.5.5]{EGA1-second}. Let $(\Ecal, \phi) \in \Zcal_n^{\Phi}(T)$ and let $\psi$ be the adjoint map $\O_T^{\Phi(n)} \to p_{T*}(\Ecal(n))$. Let's define \[U \coloneqq T \setminus \mathrm{Supp}(\coker \psi) \] and observe it is open in $T$. Indeed $\psi$ means choosing $\Phi(n)$ sections in $\Gamma(X_T, \Ecal(n))$ and $U$ is the maximal subscheme of $T$ where they generate $p_{T*}(\Ecal(n))$, so it is open by Nakayama. Then we easily see that a map $u\colon T' \to T$ lands in $U$ if and only if $u^*(\psi)$ is a surjection, which happens iff $u^*(\psi)$ is an isomorphism of sheaves, since both $\O_T^{\Phi(n)}$ and $p_{T*}(\Ecal(n))$ are locally free $\O_T$-modules of rank $\Phi(n)$. From \cref{prop:wang_4_1_3} we know that the base change morphism $u^*p_{T*}(\Ecal(n)) \to p_{T'*}(\Ecal_{T'}(n))$ is an isomorphism. Thus the compatibility statement of \cref{lemma:wang_4_1_8} says that $u^*(\psi)$ is an isomorphism if and only if the adjoint of $v^*(\phi)$ is an isomorphism, where $v\colon X_{T'} \to X_T$. This translates exactly to $U$ being the representative of the $2$-fibered product $\Ycal_n^{\Phi} \times_{\Zcal_n^{\Phi}} T$.
+
+            Taking $T = Z_n^{\Phi}$, Noetherian, we deduce that $\Ycal_n^{\Phi} \to \Zcal_n^{\Phi}$ is schematic, open and finitely presented and therefore we conclude that $\Ycal_n^{\Phi}$ is represented by a strongly quasi-projective $S$-scheme.
+        \end{proof}
+
+        We are ready for the last lemma before our main result. We will connect with the theory of $G$-bundles we started studying. 
+        \begin{lemma}
+            \label{lemma:wang_4_1_11}
+            There is a canonical right $\GL_{\Phi(n)}$-action on $Y^{\Phi}_n$ such that the morphism $Y^{\Phi}_n \to \Ucal_n^{\Phi}$ sending $(\Ecal, \phi, \psi) \mapsto \Ecal$ is a $\GL_{\Phi(n)}$-bundle. Therefore by \cref{lemma:wang_2_1_1} we have an isomorphism \[\Ucal_n^{\Phi} \simeq [Y^{\Phi}_n/\GL_{\Phi(n)}] \] sending $\Ecal \in \Ucal_n^{\Phi}(T)$ to a $\GL_{\Phi(n)}$-equivariant map $\Isom_T(\O_T^{\Phi(n)}, p_{T*}(\Ecal(n))) \to Y_n^{\Phi}$.
+        \end{lemma}
+        \begin{proof}
+            Define a map $\alpha\colon \Ycal_n^{\Phi} \times \GL_{\Phi(n)} \to \Ycal_n^{\Phi}$ by \[((\Ecal, \phi, \psi), g) \mapsto (\Ecal, \phi \circ p_T^*(g), \psi \circ g) \] over an $S$-scheme $T$. The diagram 
+            \begin{diag}
+                \Ycal_n^{\Phi} \times \GL_{\Phi(n)} \ar[r, "\alpha"] \ar[d, "\pr_1"] & \Ycal_n^{\Phi} \ar[d] \\
+                \Ycal_n^{\Phi} \ar[r] & \Ucal_n^{\Phi}
+            \end{diag}
+            is $2$-commutative, evidently. Then $\alpha$ induces a $\GL_{\Phi(n)}$-action on $Y^{\Phi}_n$ taking equivalence classes, i.e.\ there exists a $2$-commutative square 
+            \begin{diag}
+                Y_n^{\Phi} \times \GL_{\Phi(n)} \ar[r] \ar[d, "\sim"] & Y^{\Phi}_n \ar[d, "\sim"] \\
+                \Ycal_n^{\Phi} \ar[r, "\alpha"] & \Ycal_n^{\Phi}
+            \end{diag}
+            and the associated $2$-morphisms satisfy the classic associativity conditions because $\Ycal_n^{\Phi}(T)$ is an equivalence relation. Thus we deduce that $Y_n^{\Phi} \to \Ucal_n^{\Phi}$ is $\GL_{\Phi(n)}$-invariant. 
+            For $T \in \Sch_{/S}$ let $\Ecal\colon T \to \Ucal_n^{\Phi}$. Then the $2$-fibered product is given by \[\left(\Ycal_n^{\Phi} \times_{\Ucal^{\Phi}_n} T\right)(T') = \left\lbrace (\Ncal, \phi, \psi, \gamma) \mid (\Ncal, \phi, \psi) \in \Ycal^{\Phi}_n(T'), \gamma\colon \Ncal \stackrel{\sim}{\to} \Ecal_{T'}\right\rbrace \] 
+            where a map $(\Ncal, \phi, \psi, \gamma) \to (\Ncal', \phi', \psi', \gamma')$ is an isomorphism $f\colon \Ncal \to \Ncal'$ satisfying $f(n)\circ \phi = \phi'$ and $\gamma' \circ f = \gamma$. Then the above groupoid is an equivalence relation and $\Ycal_n^{\Phi} \times_{\Ucal_n^{\Phi}} T$ is isomorphic to the functor $\Pcal\colon (\Sch_{/T})^{\op} \to \Set$ given by 
+            \[(T' \to T) \mapsto \left\{(\phi, \psi) \mid \phi\colon \O_{X_{T'}}^{\Phi(n)} \twoheadrightarrow \Ecal_{T'}(n),\, \text{the adjoint $\psi$ is an isomorphism}  \right\}. \] Let's observe that the surjectivity of $\phi$ is automatic: since $\Ecal_{T'}(n)$ is relatively generated by global sections, if we have $\psi\colon \O_{T'}^{\Phi(n)} \stackrel{\sim}{\to} p_{T'*}(\Ecal_{T'}(n))$, then the adjoint morphism \[\phi\colon \O_{X_{T'}}^{\Phi(n)} \stackrel{\psi}{\simeq} p_{T'}^*p_{T'*}(\Ecal_{T'}(n)) \twoheadrightarrow \Ecal_{T'}(n) \] is surjective (where the last morphism is the counit, by definition of adjunction). Thus, $\Pcal(T')$ is just the choice of a basis for $p_{T'*}(\Ecal_{T'}(n))$ and the induced right $\GL_{\Phi(n)}$-action on $\Pcal$ is defined by $\psi.g = \psi \circ g$, for $g \in \GL_{\Phi(n)}(T')$. Recall that we know, by \cref{remark:wang_4_1_7}, that the direct image $p_{T*}(\Ecal(n))$ is locally free of rank $\Phi(n)$. By cohomological flatness of $\Ecal(n)$ over $T$ by \cref{prop:wang_4_1_3} we have 
+            \begin{gather*}
+                \Pcal(T' \stackrel{u}{\to} T) \simeq \Isom_{T'}(\O_{T'}^{\Phi(n)}, p_{T'*}(\Ecal_{T'}(n))) \simeq \Isom_{T'}(\O_{T'}^{\Phi(n)}, u^*p_{T*}(\Ecal(n))) \simeq \\
+                \simeq \Isom_{T'}(u^*\O_T^{\Phi(n)}, u^*p_{T*}(\Ecal(n))) = \Isom_T(\O_T^{\Phi(n)}, p_{T*}(\Ecal(n)))(T' \stackrel{u}{\to} T) 
+            \end{gather*} 
+            so that $\Pcal \simeq \Isom_T(\O_T^{\Phi(n)}, p_{T*}(\Ecal(n)))$, where the latter is the obvious $\GL_{\Phi(n)}$-bundle.
+            This proves that the map $\Ycal_n^{\Phi} \to \Ucal_n^{\Phi}$ is a $\GL_{\Phi(n)}$-bundle.
+        \end{proof}
+
+        Finalle we conclude this chapter stating our main result about $\Bun_G$.
+        \begin{thm}
+            \label{thm:bung_structure}
+            Let $X \to S$ be a flat, finitely presented projective morphism. The $S$-stack $\Bun_G$ is an algebraic stack locally of finite presentation over $S$, with a schematic, affine diagonal of finite presentation. Additionally, $\Bun_G$ admits an open covering by algebraic substacks of finite presentation over $S$.
+        \end{thm}
+        \begin{proof}
+            By \cref{corollary:wang_3_2_2} we already know that the diagonal of $\Bun_G$ is schematic, affine and finitely presented. By the classic \cite[2, Theorem~3.3]{dg70} for any affine algebraic group $G$ there exists $r \in \N$ such that $G \subset \GL_r$ is a closed subgroup. So we will first focus on this case and then generalize.
+
+            We saw in \cref{lemma:wang_4_1_1} that the morphisms $\Ycal_n^{\Phi} \to \Ucal_n^{\Phi}$ are smooth and surjective, being $\GL_{\Phi(n)}$-bundles. After having assumed $S$ Noetherian as usual, by \cref{lemma:wang_4_1_10} we know that each $\Ycal_n^{\Phi}$ is representable by a scheme $Y_n^{\Phi}$ finitely presented over $S$. The map \[Y = \coprod_{n \in \Z, \Phi \in \Q[\lambda]} Y_n^{\Phi} \to \Bun_r = \Bun_{\GL_r} \] is then smooth and surjective because the $(\Ucal_n^{\Phi})$ are an open cover of $\Bun_r$ by \cref{lemma:wang_4_1_5}, and $Y$ is locally of finite presentation over $S$. This is the searched smooth atlas for $\Bun_r$, which is then an algebraic stack locally of finite presentation over $S$. From the already mentioned \cite[\href{https://stacks.math.columbia.edu/tag/05UN}{Lemma~05UN}]{stacks-project} we deduce that also all the $\Ucal_n^{\Phi} \subset \Bun_r$ are algebraic stacks, and they are of finite presentation over $S$ (since the $Y_n^{\Phi}$ are so).
+
+            Let's now pass to our initial $G$; by \cref{corollary:wang_3_2_4} we know that the corresponding map $\Bun_G \to \Bun_r$ is schematic and locally of finite presentation. Consider the $2$-cartesian squares
+            \begin{diag}
+                \tilde{Y_n^{\Phi}} \ar[d] \ar[r] & \tilde{\Ucal_n^{\Phi}} \ar[d] \ar[r, hookrightarrow] & \Bun_G \ar[d, hookrightarrow] \\
+                Y_n^{\Phi} \ar[r] & \Ucal_n^{\Phi} \ar[r, hookrightarrow] & \Bun_r
+            \end{diag}
+            where by base change we deduce that the maps $\tilde{Y_n^{\Phi}} \to \tilde{\Ucal_n^{\Phi}}$ are smooth and surjective, and the $(\tilde{\Ucal_n^{\Phi}})$ form an open covering of $\Bun_G$. 
+            From \cref{thm:wang_3_1_1} (using $\Bun_G = \calHom_S(X, BG \times S) \simeq \Sect_S(X, X \times_S BG)$) and \cref{corollary:wang_3_2_4}, we deduce that $\tilde{Y_n^{\Phi}}$ is representable by a disjoint union of schemes of finite presentation over $S$, let them by $A_i$ (imagine fixed $n$ and $\phi$). Then, chosen $i$, we have an open immersion $A_i \hookrightarrow \tilde{Y_n^{\Phi}}$, together with a smooth surjective morphism $\tilde{Y_n^{\Phi}} \to \tilde{\Ucal^{\Phi}_n}$, where the last is an algebraic open substack of $\Bun_G$. 
+            Applying \cite[\href{https://stacks.math.columbia.edu/tag/05UP}{Lemma~05UP}]{stacks-project} to such map, we deduce that there exists $\Xcal_{n, \phi, i}$ algebraic open substack of $\tilde{\Ucal_n^{\Phi}}$ with a smooth surjective morphism $A_i \to \Xcal_{n, \phi, i}$ and hence of finite presentation over $S$. This concludes our proof.
+        \end{proof}

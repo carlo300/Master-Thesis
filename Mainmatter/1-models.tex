@@ -1,0 +1,505 @@
+\chapter{Recalls of model categories}
+    \label{chapter:model_categories}
+    An omnipresent topic in this work is model categories and simplicial homotopy theory. Two great references are \cite{GoeJar:simpl_hom} and \cite{Hov:model}. The main reference for Bousfield localization machinery is \cite{Hirs:loc}.  We will write in this section just some results and definitions. This means that this section is just an occasion to spell out and write properly the essential definitions mentioned around in the literature, and fix some background terminology.
+    \section{Cellular model categories}
+        Starting slowly, we recall the following classical definitions. Our goal is to be able to state a theorem of existence of left Bousfield localizations, which we will implicitely use/assume in the rest of our work. Of course we are not going to write everything from scratch, the choice of the definitions is simply given by the state of the knowledge of the author at the writing moment.
+        \begin{defn}
+            \label{defn:hovey_small}
+            Let $\Mcal$ be a category with filtered colimits, $J \subset \mor(\Mcal)$, $X \in \ob(\Mcal)$. We that $X$ is \emph{$\N$-small relative to $J$} if the functor $\Hom_{\Mcal}(X, -)$ commutes with directed colimits of diagrams like \[Y_0 \to Y_1 \to \dots \to Y_n \to Y_{n+1} \to \dots \] with every map $Y_i \to Y_{i+1}$ belonging to $J$.
+        \end{defn}
+        This definition can be generalized for any regular cardinal $\kappa$, talking then about $\kappa$-small objects, where the condition simply changes in the fact that the colimit is indexed by $\kappa$ and not by $\N$ (for the precise statement see \cite[Definition~2.1.3]{Hov:model}).
+        We then say that $X \in \ob(\Mcal)$ is \emph{small} if there exists a cardinal $\kappa$ such that $X$ is $\kappa$-small relative to $\mor(\Mcal)$.
+
+        We will now talk about $I$-cell complexes, which can be thought as a categorical version of the classic topological cell complexes, to be able to then give the definition of a cellular model category. We will follow \cite{Hirs:loc}.
+        \begin{defn}
+            \label{defn:I_cell_complex}
+            Let $\Mcal$ be a cocomplete category and $I \subset \mor(\Mcal)$. A morphism $f\colon X \to Y \in \mor(\Mcal)$ is a \emph{relative $I$-cell complex} if it is a transfinite composition of pushouts of elements of $I$. A \emph{presentation} of $f$ is the datum of a $\lambda$-sequence ($\lambda$ being a cardinal) \[X = X_0 \to X_1 \to X_2 \to \dots \to X_{\beta} \to \dots \qquad (\beta < \lambda) \] such that any map $X_{\beta} \to X_{\beta + 1}$ is a pushout of a diagram like 
+            \begin{diag}
+                \coprod_{s \in S_{\beta}} C_s \ar[d] \ar[r] & X_{\beta} \ar[d] \\
+                \coprod_{s \in S_{\beta}} D_s \ar[r] & X_{\beta+1}
+            \end{diag}
+            where $S_{\beta} \in \Set$, $C_s \to D_s \in I$ for every $s \in S_{\beta}$. The datum of $f$ together with a presentation is called a \emph{presented relative $I$-cell complex}. If $X = \emptyset$ (initial object of $\Mcal$) then we talk about $I$-cell complexes.
+            The \emph{size} of $f$ is the cardinality of the set of cells of $f$, which is $\coprod_{\beta < \gamma} S_{\beta}$. For $\beta < \gamma$, the \emph{$\beta$-skeleton} of $f$ is $X_{\beta}$.
+
+            A \emph{subcomplex} of $f$ is a presented relative $I$-cell complex $\tilde{f}\colon \tilde{X} \to \tilde{Y}$ with corresponding sequence being the upper row of the diagram 
+            \begin{diag}
+                X = \tilde{X_0} \ar[d, "\id_X"] \ar[r] & \tilde{X_1} \ar[d] \ar[r] & \tilde{X_2} \ar[d] \ar[r] & \dots \\
+                X = X_0 \ar[r] & X_1 \ar[r] & X_2 \ar[r] & \dots
+            \end{diag}
+            with the obvious compatibility conditions (i.e.\ everytime we attach a subset of the cells in $I$, in the same way). For details see \cite[Definition~10.6.2-10.6.7]{Hirs:loc}.
+        \end{defn}
+        Observe that CW-complexes are exactly $I$-cell complexes in $\Top$ for $I = \{\S^n \hookrightarrow \D^{n+1}\}_n$ (generating cofibrations for the Quillen model structure).
+        \begin{defn}
+            \label{defn:hirschorn_compact}
+            Let $\Mcal$ be a cocomplete category, $I \subset \mor(\Mcal)$ and $\lambda$ a cardinal. An object $X \in \ob(\Mcal)$ is \emph{$\gamma$-compact relative to $I$} if for every presented relative $I$-cell complex $f\colon  X \to Y$, every map $g\colon W \to Y$ factors through a subcomplex of $f$ of size at most $\gamma$.
+            We say that $X$ is \emph{compact relative to $I$} if it is $\gamma$-compact relative to $I$ for some cardinal $\gamma$.
+        \end{defn}
+        \begin{remark}
+            \label{remark:hovey_compact}
+            There exist different notions of compact objects, the last one is from \cite{Hirs:loc}. Instead, following \cite{Hov:model}, a compact object is $X \in \ob(\Mcal)$ such that $\Hom_{\Mcal}(X, -)$ commutes with $\kappa$-directed colimit, for $\kappa$ a regular cardinal.
+        \end{remark}
+        
+        \begin{defn}
+            \label{defn:effective_mono}
+            A morphism $f\colon X \to Y \in \mor(\Mcal)$ is an \emph{effective monomorphism} if 
+            \begin{enumerate}
+                \item it has a cokernel pair, i.e.\ the pushout $Y \coprod_X Y$ exists;
+                \item it is the equalizer of the canonical maps $Y  \rightrightarrows Y \coprod_X Y$.
+            \end{enumerate}
+        \end{defn}
+        \begin{defn}
+            \label{defn:proper_model_categories}
+            Let $\Mcal$ be a model category.
+            \begin{enumerate}
+                \item $\Mcal$ is \emph{left proper} if weak equivalences are stable by pushouts along cofibrations.
+                \item $\Mcal$ is \emph{right proper} if weak equivalences are stable by pullbacks along fibrations.
+                \item $\Mcal$ is \emph{proper} if it is both left and right proper.
+            \end{enumerate}
+        \end{defn}
+        Let's now introduce the loop and suspension functor of a pointed model category, to then define stable model categories.
+        \begin{defn}
+            \label{defn:model_loop_suspension}
+            Let $(\Mcal, *)$ be a pointed model category. The \emph{suspension functor} is given by \[\Sigma\colon \Ho(\Mcal) \to \Ho(\Mcal), \qquad X \mapsto * \coprod^{\L}_X * \] and the \emph{loop functor} is given by \[\Omega\colon \Ho(\Mcal) \to \Ho(\Mcal), \qquad X \mapsto * \times_X^h *. \] They form an adjunction $\Sigma \dashv \Omega$ on the homotopy category.
+        \end{defn}
+        \begin{defn}
+            \label{defn:stable_model_category}
+            Let $(\Mcal, *)$ be a pointed model category. We say that $\Mcal$ is a \emph{stable model category} if the suspension functor $\Sigma\colon \Ho(\Mcal) \to \Ho(\Mcal)$ is an equivalence of categories.
+        \end{defn}
+        % compute ho(co)lim for proper categories
+        Time for a little tour into homotopy limits and colimits in model categories. We will often use homotopy pullbacks and homotopy pushouts, so let's recall a practical way to compute them.
+        \begin{thm}
+            \label{thm:homotopy_limits}
+            Let $\Mcal$ be a model category. Consider the following square
+            \begin{diag}
+                a \ar[d, "f"] \ar[r, "g"] & c \\
+                b
+            \end{diag}
+            If $\Mcal$ is left proper, or $a, b, c$ are cofibrant, then the homotopy pushout of the above square can be computed by replacing $g$ by a cofibration and then computing normal pushout.
+            Consider now the square 
+            \begin{diag}
+                & y \ar[d, "f"] \\
+                x \ar[r, "g"] & z
+            \end{diag}
+            If $\Mcal$ is right proper, or $x, y, z$ are fibrant, then the homotopy pullback of the above square can be computed by replacing $f$ by a fibration and then computing normal pullback.
+        \end{thm}
+        For example $\Top$ with the Quillen model structure is proper, so we can use the classic formulas with the cylinder and the path space. %Same holds for $\sSet$ (which will always be equipped with the Quillen model structure, unless otherwise specified).
+
+        \begin{defn}
+            \label{defn:cofibrantly_generated_model_categories}
+            Let $\Mcal$ be a model category. We say that $\Mcal$ is \emph{cofibrantly generated} if there exist two sets $I, J$ of maps in $\Mcal$ such that
+            \begin{enumerate}
+                \item the domains of maps in $I$ are small relative to $I$-cell complexes;
+                \item the domains of maps in $J$ are small relative to $J$-cell complexes;
+                \item fibrations are exactly the maps with the LLP w.r.t.\ $J$;
+                \item trivial fibrations are exactly the maps with the LLP w.r.t.\ $I$.
+            \end{enumerate} 
+            In this case $I$ is the set of generating cofibrations and $J$ the set of generating trivial cofibrations.
+        \end{defn}
+        Recall that cofibrations (resp.\ acyclic cofibrations) in a cofibrantly generated model category $\Mcal$ are exactly retracts of relative $I$-cell complexes (resp.\ retracts of relative $J$-cell complexes). 
+
+        \begin{defn}
+            \label{defn:combinatorial_model_cat}
+            Let $\Mcal$ be a model category. We say that $\Mcal$ is a \emph{combinatorial model category} if it is cofibrantly generated and locally presentable, i.e.\ every object is a filtrant colimit of Hovey-compact objects.
+        \end{defn}
+
+        \begin{defn}
+            \label{defn:cellular_model_categories}
+            Let $\Mcal$ be a model category. We say that $\Mcal$ is \emph{cellular} if it is cofibrantly generated by $I$ and $J$ such that 
+            \begin{enumerate}
+                \item the domains and the codomains of maps in $I$ are compact relative to $I$;
+                \item the domains of maps in $J$ are small relative to $I$;
+                \item the cofibrations are effective monomorphisms.
+            \end{enumerate}
+        \end{defn}
+        Basically cellular model categories are cofibrantly generated model categories in which the $I$-cell complexes are well behaved, in a certain sense. For a more thourough treatment of cellular model categories we refer to \cite[Chapter~12]{Hirs:loc}.
+
+    \section{Simplicial model categories}
+        Here follows a bunch of technical definitions, relating enriched and monoidal categories to their model structures (and hence bringing a ton of compatibility requirements between the different structures). We will follow \cite[Chapter~4]{Hov:model}.
+        Let's first recall the classic definitions of adjunction of two variables and closed monoidal categories.
+        \begin{defn}
+            \label{defn:adjunction_two_variables}
+            Let $\Mcal, \Dcal$ and $\Ecal$ be categories. An \emph{adjunction of two variables} from $\Mcal \times \Dcal$ to $\Ecal$ is a quintuple $(\otimes, \Hom_r, \Hom_l, \varphi_r, \varphi_l)$ where 
+            \begin{gather*}
+                \otimes\colon \Mcal \times \Dcal \to \Ecal, \quad \Hom_r\colon \Dcal^{\op} \times \Ecal \to \Mcal, \quad \Hom_l\colon \Mcal^{\op} \times \Ecal \to \Dcal, \\
+                \Mcal(C, \Hom_r(D, E)) \stackrel{\varphi_r^{-1}}{\longrightarrow} \Ecal(C \otimes D, E) \stackrel{\varphi_l}{\longrightarrow} \Dcal(D, \Hom_l(C, E))
+            \end{gather*}
+            where $\varphi_l$ and $\varphi_r$ are natural isomorphisms.
+        \end{defn}
+
+        \begin{defn}
+            \label{defn:closed_monoidal_structure}
+            A \emph{closed monoidal structure} on a category $\Mcal$ is an octuple \[(\otimes, a, l, r, \Hom_r, \Hom_l, \varphi_r, \varphi_l) \] where $(\otimes, a, l, r)$ is a monoidal structure on $\Mcal$ (with associator, left and right unitor) and \[(\otimes, \Hom_r, \Hom_l, \varphi_r, \varphi_l)\colon \Mcal \times \Mcal \to \Mcal\] is an adjunction of two variables. We call $\Mcal$ a \emph{closed monoidal category}.
+        \end{defn}
+
+        Let's now get back into the model world and try to generalize the previous definitions.
+        \begin{defn}
+            \label{defn:quillen_adjunction_variable}
+            Let $\Mcal, \Dcal$ and $\Ecal$ be model categories. An adjunction of two variables 
+            \[(\otimes, \Hom_r, \Hom_l, \varphi_r, \varphi_l)\colon \Mcal \times \Dcal \to \Ecal\] is called a \emph{Quillen adjunction of two variables} if, given a cofibration $f\colon U \to V$ in $\Mcal$ and a cofibration $g\colon W \to X$ in $\Dcal$, the pushout-product \[f\,\square\, g\colon P(f, g) \coloneqq (V \otimes W) \coprod_{U \otimes W} (U \otimes X) \to V \otimes X \] is a cofibration in $\Ecal$ which is trivial if either $f$ or $g$ is. 
+            We will say, with an abuse of notation, that $\otimes$ is a \emph{Quillen bifunctor}, meaning that it is part of a Quillen adjunction in two variables $(\otimes, \Hom_r, \Hom_l)$.
+        \end{defn}
+        As expected, the total derived functors $(\otimes^{\L}, \R\Hom_r, \R\Hom_l, \R\varphi_r, \R\varphi_l)$ define an adjunction of two variables $\Ho(\Mcal) \times \Ho(\Dcal) \to \Ho(\Ecal)$.
+        Here it is a classic lemma about Quillen adjunctions in two variables.
+        \begin{lemma}
+            \label{lemma:properties_quillen_bifunctors}
+            Let $\Mcal, \Dcal$ and $\Ecal$ be model categories and let $\otimes\colon \Mcal \times \Dcal \to \Ecal$ be an adjunction of two variables. Then the following are equivalent:
+            \begin{enumerate}
+                \item $\otimes$ is a Quillen bifunctor.
+                \item Given a cofibration $g\colon W \to X$ in $\Dcal$ and a fibration $p\colon Y \to Z$ in $\Ecal$, the induced map \[\Hom_{r, \square}(g, p)\colon \Hom_r(X, Y) \to \Hom_r(X, Z) \times_{\Hom_r(W, Z)} \Hom_r(W, Y) \] is a fibration in $\Mcal$, trivial if either $g$ or $p$ is so.
+                \item Given a cofibration $f\colon U \to V$ in $\Mcal$ and a fibration $p\colon Y \to Z$ in $\Ecal$, the induced map \[\Hom_{l, \square}(f, g)\colon \Hom_l(V, Y) \to \Hom_l(V, Z) \times_{\Hom_l(U, Z)} \Hom_l(U, Y) \] is a fibration in $\Dcal$, trivial if $f$ or $p$ is so.
+            \end{enumerate}
+        \end{lemma}
+        \begin{proof}
+            See \cite[Lemma~4.2.2]{Hov:model}.
+        \end{proof}
+        The following remark sheds some light on the terminology ``Quillen bifunctor''.
+        \begin{remark}
+            Let $\otimes\colon \Mcal \times \Dcal \to \Ecal$ be a Quillen bifunctor. If $C \in \ob(\Mcal)$ is cofibrant then $C \otimes -\colon \Dcal \to \Ecal$ is a left Quillen functor, with right adjoint $\Hom_l(C, -)$. If $E \in \Ecal$ is fibrant, the functor $\Hom_r(-, E)\colon \Dcal \to \Mcal^{\op}$ is left Quillen, with right adjoint $\Hom_l(-, E)\colon \Mcal^{\op} \to \Dcal$.
+        \end{remark}
+
+        We have enough tools to define the model version of monoidal category.
+        \begin{defn}
+            \label{defn:monoidal_model_categories}
+            Let $\Mcal$ be a model category. It is a \emph{monoidal model category} if it is a closed category with a monoidal structure satisfying the following conditions.
+            \begin{enumerate}
+                \item The monoidal structure $\otimes\colon \Mcal \times \Mcal \to \Mcal$ is a Quillen bifunctor.
+                \item Let $q\colon QS \to S$ be the cofibrant replacement for the unit $S$, obtained by using MC5 axiom on the map $\emptyset \to S$. Then the natural map $q \otimes \id_X\colon QS \otimes X \to S \otimes X$ is a weak equivalence if $X$ is cofibrant. Similarly, the natural map $\id_X \otimes\,q \colon X \otimes QS \to X \otimes S$ is a weak equivalence if $X$ is cofibrant.
+            \end{enumerate}
+        \end{defn}
+        An example of a (symmetric) monoidal model category is $\sSet$ with the cartesian product $\times$. The adjoint is the internal hom $\IntHom$.
+        Another example is $\Ch(R)$ with the tensor product of complexes.
+        Let's recall that if $\Mcal$ is a monoidal category, an $\Mcal$-module $\Dcal$ is a category endowed with a functor $\mu\colon \Mcal \times \Dcal \to \Dcal$ satisfying the classic module axioms, for example the following diagram must commute
+        \begin{diag}
+            \Mcal \times \Dcal \ar[r, "\mu"] & \Dcal \\
+            (\Mcal \times \Mcal) \times \Dcal \simeq \Mcal \times (\Mcal \times \Dcal) \ar[u, "\otimes \times \id_{\Dcal}"] \ar[r, "\id_{\Mcal}\times \mu"] & \Mcal \times \Dcal \ar[u, "\mu"]
+        \end{diag}
+
+        \begin{defn}
+            \label{defn:C_model_category}
+            Let $\Mcal$ be a monoidal model category. An \emph{$\Mcal$-model category} is an $\Mcal$-module $\Dcal$ with a model structure, making it a model category, such that 
+            \begin{enumerate}
+                \item the action map $\mu\colon \Mcal \times \Dcal \to \Dcal$ is a Quillen bifunctor;
+                \item if $q\colon QS \to S$ is the cofibrant replacement for $S$ (unit) in $\Mcal$, then the map $\id_X \otimes\, q\colon X \otimes QS \to X \otimes S$ is a weak equivalence for all cofibrant objects $X$. 
+            \end{enumerate}
+        \end{defn}
+        The second condition is automatic if $S$ is cofibrant in $\Mcal$. 
+        \begin{defn}
+            \label{defn:simplicial_model_categories}
+            Let $\Mcal$ be a model category. It is a \emph{simplicial model category} if it is an $\sSet$-model category.
+        \end{defn}
+
+        In practice this means that we have a left adjoint $\otimes\colon \sSet \times \Mcal \to \Mcal$ with a right adjoint exponential map, satisfying the Quillen assumptions.
+        For a more detailled treatment we send the interested reader to \cite[4.2]{Hov:model}.
+
+
+
+    \section{Homotopy function complexes}
+        Here we briefly define the homotopy function complexes on a model category $\Mcal$. Our main reference is \cite[Chapter~15-17]{Hirs:loc}. 
+
+        \subsection{Reedy diagrams}
+            First of all let's recall the main definitions and results on Reedy diagram categories.
+            \begin{defn}
+                \label{defn:reedy_categories}
+                A category $\Rcal$ is a \emph{Reedy category} if it is small and it has two subcategories $\stackrel{\rightarrow}{\Rcal}$ and $\stackrel{\leftarrow}{\Rcal}$, both containing all $\ob(\Rcal)$, and a degree function $\delta\colon \ob(\Rcal) \to \N$ satisfying 
+                \begin{enumerate}
+                    \item every non-identity map in $\stackrel{\rightarrow}{\Rcal}$ raises degree (called direct maps);
+                    \item every non-identity map in $\stackrel{\leftarrow}{\Rcal}$ lowers degree (called inverse maps);
+                    \item every morphism $g \in \mor(\Rcal)$ admits a unique factorization $g = \stackrel{\rightarrow}{g} \circ \stackrel{\leftarrow}{g}$ where $\stackrel{\rightarrow}{g} \in \stackrel{\rightarrow}{\Rcal}$ and $\stackrel{\leftarrow}{g} \in \stackrel{\leftarrow}{\Rcal}$.
+                \end{enumerate}
+            \end{defn}
+            Observe that if $\Rcal$ is Reedy than $\Rcal^{\op}$ is also Reedy, with the same degree, putting $\stackrel{\rightarrow}{\Rcal^{\op}} = (\stackrel{\leftarrow}{\Rcal})^{\op}$ and similar.
+            \begin{example}
+                The category $\Delta$ is Reedy, where the degree of $[n]$ is $n$, direct maps are injections and inverse maps are surjections.
+            \end{example}
+
+            \begin{defn}
+                \label{defn:latching_matching_categories}
+                Let $\Rcal$ be a Reedy category and $\alpha \in \ob(\Rcal)$. 
+                \begin{enumerate}
+                    \item The \emph{latching category} $\partial(\stackrel{\rightarrow}{\Rcal}\, \downarrow \alpha)$ of $\Rcal$ at $\alpha$ is the full subcategory of the comma category $(\stackrel{\rightarrow}{\Rcal}\, \downarrow \alpha)$ containing all objects but $\id_{\alpha}$.
+                    \item The \emph{matching category} $\partial(\alpha \downarrow\, \stackrel{\leftarrow}{\Rcal})$ of $\Rcal$ at $\alpha$ is the full subcategory of the comma category $(\alpha \downarrow\, \stackrel{\leftarrow}{\Rcal})$ containing all objects but $\id_{\alpha}$.
+                \end{enumerate}
+            \end{defn}
+
+            \begin{defn}
+                \label{defn:latching_matching_objects}
+                Let $\Mcal$ be a model category, $\Rcal$ be a Reedy category and consider the diagram category $\Mcal^{\Rcal}$. Let $\alpha \in \ob(\Rcal)$ and $\mathbf{X} \in \Mcal^{\Rcal}$ (we use the notation $\mathbf{X}$ also to mean the induced $\partial(\stackrel{\rightarrow}{\Rcal} \,\downarrow \alpha)$-diagram defined by $\mathbf{X}_{(\beta \to \alpha)} = \mathbf{X}_{\beta}$ and similar). 
+                \begin{enumerate}
+                    \item The \emph{latching object} of $\mathbf{X}$ at $\alpha$ is $L_{\alpha}\mathbf{X} = \ilim_{\partial(\stackrel{\rightarrow}{\Rcal} \,\downarrow \alpha)} \mathbf{X}$ and the \emph{latching map} of $\mathbf{X}$ at $\alpha$ is the natural map $L_{\alpha} \mathbf{X} \to \mathbf{X}_{\alpha}$.
+                    \item The \emph{matching object} of $\mathbf{X}$ at $\alpha$ is $M_{\alpha} \mathbf{X} = \plim_{\partial(\alpha \downarrow\, \stackrel{\leftarrow}{\Rcal})} \mathbf{X}$ and the \emph{matching map} of $\mathbf{X}$ at $\alpha$ is the natural map $\mathbf{X}_{\alpha} \to M_{\alpha} \mathbf{X}$.
+                \end{enumerate}
+            \end{defn}
+            The latching and matching object constructions are clearly functorial, i.e.\ if $\varphi\colon \mathbf{X} \to \mathbf{Y}$ is a morphism in $\Mcal^{\Rcal}$, then, for every $\alpha \in \Rcal$ we have a commutative diagram (natural in $\alpha$)
+            \begin{diag}
+                L_{\alpha} \mathbf{X} \ar[d, "L_{\alpha}\varphi"] \ar[r] & \mathbf{X}_{\alpha} \ar[d, "\varphi_{\alpha}"] \ar[r] & M_{\alpha} \mathbf{X} \ar[d, "M_{\alpha}\varphi"] \\
+                L_{\alpha} \mathbf{Y} \ar[r] & \mathbf{Y}_{\alpha} \ar[r] & M_{\alpha} \mathbf{Y}
+            \end{diag}
+
+            \begin{defn}
+                \label{defn:relative_latching_matching_map}
+                Let $\Rcal$ be a Reedy category, $\Mcal$ a model category, $\mathbf{X}, \mathbf{Y} \in \Mcal^{\Rcal}$ and $\varphi\colon \mathbf{X} \to \mathbf{Y}$.
+                \begin{enumerate}
+                    \item If $\alpha \in \ob(\Rcal)$, the \emph{relative latching map of $\varphi$ at $\alpha$} is the map $\mathbf{X}_{\alpha} \coprod_{L_{\alpha} \mathbf{X}} L_{\alpha} \mathbf{Y} \to \mathbf{Y}_{\alpha}$.
+                    \item If $\alpha \in \ob(\Rcal)$, the \emph{relative matching map of $\varphi$ at $\alpha$} is the map $\mathbf{X}_{\alpha} \to \mathbf{Y}_{\alpha} \times_{M_{\alpha} \mathbf{Y}} M_{\alpha} \mathbf{X}$.
+                \end{enumerate}
+            \end{defn}
+
+            We have finally enough words to describe the Reedy model structure of the diagram category $\Mcal^{\Rcal}$.
+            \begin{defn}
+                \label{defn:reedy_model_structure}
+                Let $\Rcal$ be a Reedy category, $\Mcal$ a model category and $\mathbf{X}, \mathbf{Y} \in \Mcal^{\Rcal}$.
+                \begin{enumerate}
+                    \item A map $f\colon \mathbf{X} \to \mathbf{Y}$ is a \emph{Reedy weak equivalence} if it is pointwise a weak equivalence of $\Mcal$.
+                    \item A map $f\colon \mathbf{X} \to \mathbf{Y}$ is a \emph{Reedy cofibration} if, for every $\alpha \in \ob(\Rcal)$, the relative latching map \[\mathbf{X}_{\alpha} \coprod_{L_{\alpha} \mathbf{X}} L_{\alpha} \mathbf{Y} \to \mathbf{Y}_{\alpha} \] is a cofibration in $\Mcal$.
+                    \item A map $f\colon \mathbf{X} \to \mathbf{Y}$ is a \emph{Reedy fibration} if, for every $\alpha \in \ob(\Rcal)$, the relative matching map \[\mathbf{X}_{\alpha} \to \mathbf{Y}_{\alpha} \times_{M_{\alpha} \mathbf{Y}} M_{\alpha} \mathbf{X} \] is a fibration in $\Mcal$.
+                \end{enumerate}
+            \end{defn}
+
+            Here's our final theorem about the existence of the Reedy model structure.
+            \begin{thm}
+                \label{thm:reedy_model_structure}
+                Let $\Rcal$ be a Reedy category and $\Mcal$ be a model category. 
+                \begin{enumerate}
+                    \item The category $\Mcal^{\Rcal}$ with Reedy weak equivalences, Reedy cofibrations and Reed fibrations is a model category.
+                    \item If $\Mcal$ is a left/right proper model category, then also $\Mcal^{\Rcal}$ is so.
+                \end{enumerate}
+            \end{thm}
+            \begin{proof}
+                See \cite[Theorem~15.3.4]{Hirs:loc}.
+            \end{proof}
+            Under certain assumptions (cofibrant/fibrant constants) on $\Mcal^{\Rcal}$, we can compute homotopy limits and colimits (right and left Quillen adjoint of the constant diagram functor). For more details see \cite[15.10]{Hirs:loc}.
+            Our main interest and application of Reedy model structures will be for simplicial and cosimplicial diagrams of a model category.
+
+        Let's now introduce simplicial and cosimplicial resolutions.
+        \begin{defn}
+            \label{defn:simplicial_cosimplicial_resolution}
+            Let $X \in \ob(\Mcal)$ and let $\mathrm{cc}_* X \in \Mcal^{\Delta}$ be the corresponding constant cosimplicial object and $\mathrm{cs}_*X \in \Mcal^{\Delta^{\op}}$ the corresponding constant simplicial object.
+            \begin{itemize}
+                \item A \emph{cosimplicial resolution} of $X$ is a cofibrant approximation $\tilde{\mathbf{X}} \to \mathrm{cc}_*X$ in the Reedy model category $\Mcal^{\Delta}$. A \emph{fibrant cosimplicial resolution} is a cosimplicial resolution in which the weak equivalence $\tilde{\mathbf{X}} \to \mathrm{cc}_*X$ is a Reedy trivial fibration.
+                \item A \emph{simplicial resolution} of $X$ is a fibrant approximation $\mathrm{cs}_* X \to \widehat{\mathbf{X}}$ in the Reedy model category $\Mcal^{\Delta^{\op}}$. A \emph{cofibrant simplicial resolution} is a simplicial resolution in which the weak equivalence $\mathrm{cs}_* X \to \widehat{\mathbf{X}}$ is a Reedy trivial cofibration.
+            \end{itemize}
+        \end{defn}      
+        \begin{example}
+            In the category $\Top$ a cosimplicial resolution of $X$ is given by $\{X \times \abs{\Delta^n} \}_n$, with faces and degeneracies induced by the ones of the cosimplicial space $[n] \mapsto \abs{\Delta^n}$.
+        \end{example}    
+        We can give definitions of functorial simplicial/cosimplicial resolutions, maps between them and then prove that they are all Reedy weak equivalences. In particular, in the same spirit of the ``Comparison theorem'' of homological algebra, one can prove that fibrant cosimplicial resolutions are the final cosimplicial resolutions (there exists a unique, up to homotopy, weak equivalence). We have a similar (initial instead of final) result for cofibrant simplicial resolutions.
+        \begin{prop}
+            \label{prop:cosimplicial_cylinder_object}
+            Let $\Mcal$ be a model category, $X \in \ob(\Mcal)$ and $\tilde{\mathbf{X}} \to \mathrm{cc}_*X$ a cosimplicial resolution. Then $\tilde{\mathbf{X}}^0 \to X$ is a cofibrant approximation and 
+            \begin{diag}
+                \tilde{\mathbf{X}}^0 \coprod \tilde{\mathbf{X}}^0 \ar[r,"d^0 \coprod d^1"] & \tilde{\mathbf{X}}^1 \ar[r, "s^0"] & \tilde{\mathbf{X}}^0 
+            \end{diag}
+            is a cylinder object for $\tilde{\mathbf{X}}^0$. Analogue for simplicial resolution and path objects.
+        \end{prop}
+        \begin{proof}
+            See \cite[Prop~16.1.6]{Hirs:loc}.
+        \end{proof}
+
+        Finally we can talk about homotopy function complexes, which are a way to associate a simplicial space of morphisms between two objects of any model category  such that the set of connected components is isomorphic to the set of maps, in the homotopy category, between these two objects. If we work in a simplicial model category then this new space, between a cofibrant and a fibrant object, will be the same as the simplicial space of morphisms coming from the $\sSet$-enrichment.
+
+        \begin{defn}
+            \label{defn:homotopy_function_complexes}
+            Let $\Mcal$ be a model category, $X, Y \in \ob(\Mcal)$. 
+            \begin{enumerate}
+                \item A \emph{left homotopy function complex} from $X$ to $Y$ is a triple \[\left(\tilde{\mathbf{X}}, \widehat{Y}, \Mcal(\tilde{\mathbf{X}}, \widehat{Y})\right) \] where 
+                \begin{itemize}
+                    \item $\tilde{\mathbf{X}}$ is a cosimplicial resolution of $X$,
+                    \item $\widehat{Y}$ is a fibrant approximation of $Y$,
+                    \item $\Mcal(\tilde{\mathbf{X}}, \widehat{Y})$ is the simplicial set obtained by applying componentwise the contravariant functor $\Mcal(-, \widehat{Y}) = \Hom_{\Mcal}(-, \widehat{Y})$ to the cosimplicial diagram $\tilde{\mathbf{X}}$.
+                \end{itemize}
+                \item A \emph{right homotopy function complex} from $X$ to $Y$ is a triple \[\left(\tilde{X}, \widehat{\mathbf{Y}}, \Mcal(\tilde{X}, \widehat{\mathbf{Y}})\right) \] where 
+                \begin{itemize}
+                    \item $\tilde{X}$ is a cofibrant approximation of $X$;
+                    \item $\widehat{\mathbf{Y}}$ is a simplicial resolution of $Y$;
+                    \item $\Mcal(\tilde{X}, \widehat{\mathbf{Y}})$ is the simplicial set obtained by applying componentwise the covariant functor $\Mcal(\tilde{X}, -) = \Hom_{\Mcal}(\tilde{X}, -)$ to the simplicial diagram $\widehat{\mathbf{Y}}$.
+                \end{itemize}
+
+                \item A \emph{two-sided homotopy function complex} from $X$ to $Y$ is a triple
+                \[
+                   \left( \tilde{ \mathbf{X} }, \widehat{\mathbf{Y}}, \Diag \Mcal(\tilde{\mathbf{X}}, \widehat{\mathbf{Y}}) \right) 
+                \] 
+                where 
+                \begin{itemize}
+                    \item $\tilde{\mathbf{X}}$ is a cosimplicial resolution of $X$;
+                    \item $\widehat{\mathbf{Y}}$ is a simplicial resolution of $Y$;
+                    \item $\Diag \Mcal(\tilde{\mathbf{X}}, \widehat{\mathbf{Y}})$ is the diagonal of the bisimplicial set $([n], [k]) \mapsto \Mcal(\tilde{\mathbf{X}}^n, \widehat{\mathbf{Y}}_k)$.
+                \end{itemize}
+            \end{enumerate}
+        \end{defn}
+        Maps of left/right/two-sided homotopy function complexes are defined in the obvious way. We will talk about \emph{homotopy function complex} between $X$ and $Y$ to mean one of the three complexes defined in \cref{defn:homotopy_function_complexes}. Choosing a simplicial/cosimplicial resolution functor (e.g.\ $\Gamma\colon \Mcal \to \Mcal^{\Delta}$ with a natural transformation $\Gamma \to \mathrm{cc}_*$ etc) we can then talk about \emph{functorial homotopy function complexes}.
+
+        \begin{prop}
+            \label{prop:homotopy_function_complexes_fibrant}
+            Let $\Mcal$ be a model category and $X, Y \in \ob(\Mcal)$. Then each left/right/two-sided homotopy function complex from $X$ to $Y$ is a fibrant simplicial set. Moreover, any change of left/right/two-sided homotopy function complex is a weak equivalence of fibrant simplicial sets.
+        \end{prop}
+        \begin{proof}
+            See \cite[Proposition~17.1.3, 17.1.6, 17.2.3, 17.2.6, 17.3.2, 17.3.4]{Hirs:loc}.
+        \end{proof}
+        Finally we want to prove that all homotopy function complexes from $X$ to $Y$ are weakly equivalent. For example, starting from a two-sided homotopy function complex \[\left(\tilde{\mathbf{X}}, \widehat{\mathbf{Y}}, \Diag \Mcal(\tilde{\mathbf{X}}, \widehat{\mathbf{Y}}) \right) \] we consider $\tilde{\mathbf{X}}^0 \to X$, which is a cofibrant approximation by \cref{prop:cosimplicial_cylinder_object}. Then \[\left(\tilde{\mathbf{X}}^0, \widehat{\mathbf{Y}}, \Mcal(\tilde{\mathbf{X}}^0, \widehat{\mathbf{Y}}) \right) \] is a right homotopy function complex, and the canonical map $\tilde{\mathbf{X}} \to \mathrm{cc}_*\tilde{\mathbf{X}}^0$ induces a morphism \[\Diag \Mcal(\tilde{\mathbf{X}}, \widehat{\mathbf{Y}}) \to \Mcal(\tilde{\mathbf{X}}^0, \widehat{\mathbf{Y}}). \] Using this reasoning, and other analogue versions to build maps between the different homotopy function complexes, one can prove the following theorem.
+
+        \begin{thm}
+            \label{thm:homotopy_function_complexes_equivalent}
+            Let $\Mcal$ be a model category and $X, Y \in \ob(\Mcal)$. Then any two homotopy function complexes from $X$ to $Y$ are weakly equivalent Kan complexes.
+        \end{thm}
+        \begin{proof}
+            See \cite[Theorem~17.1.11, 17.2.11, 17.3.9, 17.4.6]{Hirs:loc}.
+        \end{proof}
+
+        By \cref{thm:homotopy_function_complexes_equivalent} we can give the following final definition.
+
+        \begin{defn}
+            \label{defn:mapping_space}
+            Let $\Mcal$ be a model category and $X, Y \in \ob(\Mcal)$. We will denote by $\Map_{\Mcal}(X, Y) \in \sSet$ an homotopy function complex from $X$ to $Y$. This makes sense since we are only interested in its homotopical properties, and all homotopy function complexes are weakly equivalent Kan complexes. We will call it, sometimes, the \emph{mapping space} from $X$ to $Y$. 
+        \end{defn}
+
+        \begin{thm}
+            \label{thm:mapping_space_pi0}
+            Let $\Mcal$ be a model category, $X, Y \in \ob(\Mcal)$ and consider $\Map_{\Mcal}(X, Y)$ an homotopy function complex. Then $\pi_0( \Map_{\Mcal}(X, Y) )$ is naturally isomorphic to $\Hom_{\Ho(\Mcal)}(X, Y)$.
+        \end{thm}
+        \begin{proof}
+            See \cite[Theorem~17.7.2]{Hirs:loc}.
+        \end{proof}
+
+        Let's also state a recognition result.
+        \begin{thm}
+            \label{thm:recognition_mapping_space}
+            Let $\Mcal$ be a model category and $g\colon X \to Y \in \mor(\Mcal)$. The following statements are equivalent:
+            \begin{enumerate}
+                \item $g$ is a weak equivalence in $\Mcal$;
+                \item for every $W \in \ob(\Mcal)$ the map $g$ induces a weak equivalence of simplicial sets $g_*\colon \Map_{\Mcal}(W, X) \to \Map_{\Mcal}(W, Y)$;
+                \item for every $Z \in \ob(\Mcal)$ the map $g$ induces a weak equivalence of simplicial sets $g^*\colon \Map_{\Mcal}(Y, Z) \to \Map_{\Mcal}(X, Z)$.
+            \end{enumerate}
+        \end{thm}
+        \begin{proof}
+            See \cite[Theorem~1.7.16]{Vez:seminar}.
+        \end{proof}
+
+        Let's now state a more concrete computational version of this result, valid in the context of simplicial model categories.
+        \begin{lemma}
+            \label{lemma:cosimplicial_resolution_in_simplicial_model}
+            If $\Mcal$ is a simplicial model category, then for each cofibrant object $X$, $\{X \otimes \Delta^n\}_n$ is a cosimplicial resolution of $X$.
+        \end{lemma}
+        Using this we can then say that:
+        \begin{enumerate}
+            \item in $\sSet$ the mapping space $\Map_{\sSet}(\Xcal, \Ycal)$ is just $\IntHom(\tilde{\Xcal}, \widehat{\Ycal})$, where $\tilde{\Xcal}$ is a cofibrant approximation of $\Xcal$, $\widehat{\Ycal}$ is a fibrant approximation of $\Ycal$ and $\IntHom$ is the classic $\sSet$-enrichment of $\sSet$;
+            \item in $\Ch(R)$ we have a natural simplicial structure: the n-simplices of $\IntHom(E, F)$ are the chain maps of degree $n$, or equivalently the set $\Hom_{\Ch(R)}(E, F[-n])$. This implies that $\pi_i( \Map_{\Ch(R)}(E, F) ) \simeq \pi_0( \Map_{\Ch(R)}(E, F[-i]) ) \simeq \Hom_{D(R)}(E, F[-i])$ using \cref{thm:mapping_space_pi0}.
+        \end{enumerate}
+
+        We also have a result about the relation between the mapping complex and Quillen adjunctions.
+        \begin{thm}
+            Let $\Mcal$ and $\Ncal$ be small model categories and let $\adjunction{F}{\Mcal}{\Ncal}{U}$ be a Quillen adjunction, let $X \in \Mcal$ be cofibrant and $Y \in \Ncal$ be fibrant. 
+            \begin{enumerate}
+                \item If $\tilde{\mathbf{X}}$ is a cosimplicial resolution of $X$ then $F\tilde{\mathbf{X}}$ is a cosimplicial resolution of $FX$, and the adjunction induces a natural isomorphism $\Ncal(F\tilde{\mathbf{X}}, Y) \simeq \Mcal(\tilde{\mathbf{X}}, UY)$.
+                \item If $\widehat{\mathbf{Y}}$ is a simplicial resolution of $Y$, then $U\widehat{\mathbf{Y}}$ is a simplicial resolution of $UY$ and the adjunction induces a natural isomorphism $\Ncal(FX, \widehat{\mathbf{Y}}) \simeq \Mcal(X, U\widehat{\mathbf{Y}})$.
+                \item If $\tilde{\mathbf{X}}$ is a cosimplicial resolution of $X$ and $\widehat{\mathbf{Y}}$ is a simplicial resolution of $Y$, then the adjunction induces a natural isomorphism $\Diag \Ncal(F\tilde{\mathbf{X}}, \widehat{\mathbf{Y}}) \simeq \Diag \Mcal(\tilde{\mathbf{X}}, U\widehat{\mathbf{Y}})$.
+            \end{enumerate}
+        \end{thm}
+        \begin{proof}
+            See \cite[Proposition~17.4.16]{Hirs:loc}.
+        \end{proof}
+        This implies that a Quillen adjunction induces the isomorphisms we expect also between mapping complexes, in $\Ho(\sSet)$. From now on we will use the derived adjunction inside the mapping complexes to denote an appropriate representative.
+
+        Finally let's state a theorem relating homotopy function complexes with homotopy limits and colimits.
+        \begin{thm}
+            \label{thm:mapping_space_holim_hocolim}
+            Let $\Mcal$ be a framed model category (i.e.\ fix a simplicial and cosimplicial resolution functor) and let $I$ be a small indexing category.
+            \begin{enumerate}
+                \item If $\mathbf{X}$ is an objectwise cofibrant diagram in $\Mcal^I$ and $Y$ is fibrant in $\Mcal$, then \[\Map_{\Mcal}(\hocolim \mathbf{X}, Y) \simeq \holim_i \Map_{\Mcal}(\mathbf{X}_i, Y)\] in $\Ho(\sSet)$.
+                \item If $X$ is cofibrant in $\Mcal$ and $\mathbf{Y}$ is an objectwise fibrant diagram in $\Mcal^I$, then \[\Map_{\Mcal}(X, \holim \mathbf{Y}) \simeq \holim_i \Map_{\Mcal}(X, \mathbf{Y}_i) \] in $\Ho(\sSet)$.
+            \end{enumerate}
+        \end{thm}
+        \begin{proof}
+            See \cite[Theorem~19.4.4]{Hirs:loc}.
+        \end{proof}
+    \section{Bousfield localization}
+        Here we will briefly define the left Bousfield localization of a model category, and state an existence theorem. For time (and space) issues we again won't give a full treatment of the subject: already spelling out all precise definitions is too much, and we will just be happy with an intuition. 
+        For a more precise and general treatment of the subject see \cite[Chapter~3-4]{Hirs:loc}.
+        \begin{defn}
+            \label{defn:C_local_objects}
+            Let $\Mcal$ be a model category and $\Ccal$ a class of maps in $\Mcal$. 
+            \begin{enumerate}
+                \item An object $W \in \ob(\Mcal)$ is \emph{$\Ccal$-local} if it is fibrant and for every $f\colon A \to B \in \Ccal$, the induced map of homotopy function complexes \[f^*\colon \Map(B, W) \to \Map(A, W) \] is a weak equivalence of simplicial sets. If $\Ccal$ is a single map $f$ we say \emph{$f$-local} and if $\Ccal$ is just the map $A \to *$ then we say \emph{$A$-local}.
+                \item A map $g\colon X \to Y$ in $\Mcal$ is a \emph{$\Ccal$-local equivalence} if for every $\Ccal$-local object $W$, the induced map \[g^*\colon \Map(Y, W) \to \Map(X, W) \] is a weak equivalence of simplicial sets.
+            \end{enumerate}
+        \end{defn}
+        \begin{prop}
+            \label{prop:weak_equiv_C_local}
+            If $\Mcal$ is a model category and $\Ccal$ a class of maps in $\Mcal$, then any weak equivalence of $\Mcal$ is a $\Ccal$-local equivalence.
+        \end{prop}
+        \begin{proof}
+            See \cite[Proposition~3.1.5]{Hirs:loc}.
+        \end{proof}
+
+        \begin{thm}
+            \label{thm:C_local_stuff}
+            Let $\Mcal$ and $\Ncal$ be model categories and let $\adjunction{F}{\Mcal}{\Ncal}{U}$ be a Quillen adjunction.Let $\Ccal$ be a class of maps in $\Mcal$. Then the following are equivalent.
+            \begin{enumerate}[label=(\alph*)]
+                \item The total left derived functor $\L F\colon \Ho(\Mcal) \to \Ho(\Ncal)$ satisfies $\L F(\Ccal) \subset \mathrm{Iso}(\Ho(\Ncal))$.
+                \item The functor $F$ takes cofibrant approximations of elements of $\Ccal$ into weak equivalences in $\Ncal$.
+                \item The functor $U$ takes fibrant objects of $\Ncal$ into $\Ccal$-local objects of $\Mcal$.
+                \item The functor $F$ takes $\Ccal$-local equivalences between cofibrant objects into weak equivalences in $\Ncal$.
+            \end{enumerate}
+        \end{thm}
+        \begin{proof}
+            See \cite[Theorem~3.1.6]{Hirs:loc}.
+        \end{proof}
+
+        We are finally ready to define left Bousfield localizations.
+        \begin{defn}
+            \label{defn:bousfield_localization}
+            Let $\Mcal$ be a model category and $\Ccal$ a class of maps in $\Mcal$. The \emph{left Bousfield localization} of $\Mcal$ with respect to $\Ccal$, if it exists, is a model category structure $L_{\Ccal}\Mcal$ on the underlying category of $\Mcal$ such that 
+            \begin{enumerate}[label=(\alph*)]
+                \item the class of weak equivalences of $L_{\Ccal}\Mcal$ is the class of $\Ccal$-local equivalences of $\Mcal$;
+                \item the class of cofibrations of $L_{\Ccal}\Mcal$ is the class of cofibrations of $\Mcal$;
+                \item fibrations are defined by lifting properties.
+            \end{enumerate}
+        \end{defn}
+        \begin{remark}
+            As already written in \cref{defn:bousfield_localization}, the left Bousfield localization of $\Mcal$ with respect to $\Ccal$ might not exist. We will come back to the problem of existence later.
+        \end{remark}
+        Let's immediately note some properties of the left Bousfield localization.
+        \begin{prop}
+            \label{prop:bousfield_localization_properties}
+            Let $\Mcal$ be a model category and $\Ccal$ a class of maps in $\Mcal$. Let $L_{\Ccal}\Mcal$ be the left Bousfield localization of $\Mcal$ w.r.t.\ $\Ccal$ (assume it exists). Then 
+            \begin{enumerate}[label=(\alph*)]
+                \item every weak equivalence of $\Mcal$ is a weak equivalence of $L_{\Ccal}\Mcal$;
+                \item the trivial fibrations of $L_{\Ccal}\Mcal$ are exactly the trivial fibrations of $\Mcal$;
+                \item every fibration of $L_{\Ccal}\Mcal$ is also a fibration of $\Mcal$.
+            \end{enumerate}
+            Moreover, the identity functors \[\adjunction{\id_{\Mcal}}{\Mcal}{ L_{\Ccal}\Mcal}{ \id_{\Mcal}} \] are a Quillen adjunction.
+        \end{prop}
+        \begin{proof}
+            See \cite[Proposition~3.3.3]{Hirs:loc}.
+        \end{proof}
+
+        We also have a universal property, coming from the fact that the Bousfield localization is indeed a certain kind of \emph{localization}.
+        \begin{prop}
+            \label{prop:bousfield_localization_universal}
+            Let $\Mcal$ be a model category and $\Ccal$ a class of maps in $\Mcal$. Let $L_{\Ccal}\Mcal$ be the left Bousfield localization of $\Mcal$ w.r.t.\ $\Ccal$ (assume it exists). Then the identity functor $j\colon \Mcal \to L_{\Ccal}\Mcal$ is a left localization of $\Mcal$ with respect to $\Ccal$. This means the following things:
+            \begin{enumerate}
+                \item $j$ is a left Quillen functor;
+                \item the total left derived functor $\L j\colon \Ho(\Mcal) \to \Ho(L_{\Ccal}\Mcal)$ takes the (images of) elements of $\Ccal$ in $\Ho(\Mcal)$ into isomorphisms in $\Ho(L_{\Ccal}\Mcal)$.
+                \item $j$ is initial among such functors, i.e.\ if $\varphi\colon \Mcal \to \Ncal$ is a left Quillen functor such that $\L \varphi(\Ccal) \subset \mathrm{Iso}(\Ho(\Ncal))$, then there exists a unique left Quillen functor $\delta\colon L_{\Ccal}\Mcal \to \Ncal$ such that $\varphi = \delta \circ j$.
+            \end{enumerate}
+        \end{prop}
+        \begin{proof}
+            See \cite[Theorem~3.3.19]{Hirs:loc}.
+        \end{proof}
+
+        The key technical result is the following theorem. While all the previous results were completely symmetric, i.e.\ admitting complete dual formulations for right Bousfield localizations, the following theorem is not symmetric and it only holds for the left case. This is due to the requested properties, like being cofibrantly generated, not being self-dual.
+        \pagebreak
+        \begin{thm}
+            \label{thm:existence_bousfield_localization}
+            Let $\Mcal$ be a left proper cellular model category and let $S$ be a set of maps in $\Mcal$. 
+            \begin{enumerate}
+                \item The left Bousfield localization $L_S \Mcal$ exists.
+                \item The fibrant objects of $L_S \Mcal$ are the $S$-local objects of $\Mcal$.
+                \item $L_S \Mcal$ is a left proper cellular model category.
+                \item If $\Mcal$ is a simplicial model category, then $L_S \Mcal$ is also a simplicial model category.
+            \end{enumerate}
+        \end{thm}
+        \begin{proof}
+            See \cite[Theorem~4.1.1]{Hirs:loc}.
+        \end{proof}        
+    
+    

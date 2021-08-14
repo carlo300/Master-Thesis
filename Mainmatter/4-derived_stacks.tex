@@ -1,0 +1,642 @@
+\chapter{Derived stacks}
+    \label{chapter:derived_stacks}
+    \section{Recalls of simplicial algebra}
+        % Def and model structures
+        From now on $k$ will be a fixed ring. 
+        Let's recall a classical fact, which will be used in the following.
+        \begin{prop}
+            \label{prop:simplicial_set_colimit_cells}
+            Every simplicial set $X$ is the homotopy colimit over its cells. More precisely, let \[\tilde{X}\colon \Delta^{\op} \to \Set \hookrightarrow \sSet \] be the corresponding bisimplicial set, which in degree $k$ is given by the constant simplicial set $X_k$. Then we have an isomorphism \[\hocolim \tilde{X} \to X \] in $\Ho(\sSet)$.
+        \end{prop}
+        \begin{proof}
+            Classic, see \href{https://ncatlab.org/nlab/show/homotopy+limit#Examples}{Proposition~6.5, nLab}.
+        \end{proof}
+        With the same idea one can prove that for $X \in \sSet$, we have $X \simeq \hocolim_{\Delta^n \to X} \Delta^n$. We will use this argument a lot in the next chapters.
+        Recall that the category of simplicial abelian groups (abelian group objects in $\sSet$) has a model structure, right-transferred from $\sSet$ (so that equivalences and fibrations are the same). In particular every simplicial abelian group is a Kan complex thanks to the following classic proposition.
+        \begin{prop}
+            \label{prop:simplicial_group_kan_complex}
+            Let $\Gcal$ a simplicial group. Then $\Gcal$ is a Kan complex. Moreover, let $\Acal \to \Bcal$ be a surjection of simplicial abelian groups; then it is a fibration.
+        \end{prop}
+        \begin{proof}
+            See \cite[Lemma~I.3.4,Proposition~III.2.10]{GoeJar:simpl_hom}.
+        \end{proof}
+
+
+        It is also a monoidal model category with the componentwise tensor product, i.e.\ given $\Acal, \Bcal \in \sAb$ we can define $\Acal \otimes \Bcal \in \sAb$ by $(\Acal \otimes \Bcal)_n = \Acal_n \otimes \Bcal_n$.
+        The category $\sComm$ of simplicial rings also has a right-transferred model structure and so we can define simplicial modules. 
+        \begin{defn}
+            \label{defn:simplicial_module}
+            Let $A \in \sComm$ and $M \in \sAb$. We say that $M$ is a simplicial $A$-module if there exists a map \[\mu\colon A \otimes_{\Z} M \to M \] of simplicial abelian groups satisfying the classical module axioms.
+            The category of simplicial $A$-modules, denoted by $sA-\Mod$, inherits a model structure as before.
+        \end{defn}
+        Similarly we can define the category of simplicial $A$-algebras (with $A \in \sComm$) simply as the comma category $A/\sComm$. Seeing every ring as a discrete simplicial ring we recover the particular cases of $sk-\Mod$ and $sk-\Alg$. 
+
+        %Dold Kan
+        \begin{thm}[Dold-Kan]
+            \label{thm:dold_kan}
+            Let $k \in \Comm$. The normalised cochain complex functor \[N\colon sk-\Mod \to \Ch^{\leq 0}(k) \] sending $A \in sk-\Mod$ to the cochain complex given where $N(A)^m$ is the free $k$-module on $A_m$ modulo degenerate simplices, induces a Quillen equivalence between the category of simplicial $k$-modules and of (cohomologically graded) cochain complexes.
+        \end{thm}
+        \begin{proof}
+            See \cite[8.4.1]{Wei:hom_algebra}.
+        \end{proof}
+
+        We will use later on this equivalence between the homotopy categories $\Ho(sk-\Mod)$ and $D^{\leq 0}(k)$.
+        
+        % More about simplicial k-Algebras
+        Let's now look a little more in details the model structure of $sk-\Alg$; we will just state some properties, without proving them. For $n \geq 0$ let's define the $n$-sphere $k$-modules by $S^n_k \coloneqq S^n \otimes k \in sk-\Mod$. For every $\Xcal \in \sSet$ we can build the free $k$-algebra $k[\Xcal] \in sk-\Alg$ (pointwise construction). In particular we have isomorphisms \[\Hom_{\Ho(sk-\Alg)}(k[S^n], A) = [k[S^n], A]_{sk-\Alg} \simeq \pi_n(A) \] where the homotopy groups are of course based in $0$. The inclusions $S^n \simeq \partial \Delta^{n+1} \hookrightarrow \Delta^{n+1}$ induce natural maps $k[S^n] \to k[\Delta^{n+1}]$ and one can prove that the set of morphisms \[\{k[S^n] \to k[\Delta^{n+1}] \mid n \in \N \} \] is a set of generating cofibrations of $sk-\Alg$, which is also compactly generated.
+
+        A finite cell object is an element $A \in sk-\Alg$ for which there exists a finite sequence in $sk-\Alg$ \[A_0 = k \to A_1 \to A_2 \to \dots \to A_m = A \] such that for any $i$ there exists a push-out square in $sk-\Alg$ given by 
+        \begin{diag}
+            k[S^{n_i}] \ar[d] \ar[r] & A_i \ar[d] \\
+            k[\Delta^{n_i+1}] \ar[r] & A_{i+1}
+        \end{diag}
+        Using \cite[Prop~1.2.3.5]{ToVe:hag2} we see that the finitely presented objects of the model category $sk-\Alg$ (see \cref{defn:module_homotopical_properties}) are exactly retracts of finite cell objects. This reasoning can be generalised to the category of $sA-\Alg$, with $A \in sk-\Alg$, by considering $A[S^n] = k[S^n] \otimes_k A$ and similar.
+
+        The functor $\pi_0\colon sk-\Alg \to k-\Alg$ is left Quillen (the right adjoint being the classic inclusion $i\colon k-\Alg \to sk-\Alg$) and preseves finitely presented morphisms, but $i$ does not. This means that being of finite presentation in $sk-\Alg$ is a much stronger condition than to be just a finitely presented $k$-algebra.
+        The model structures on simplicial modules and algebras are cofibrantly generated, proper and cellular. 
+        
+        % More on homotopy groups
+        Given $A$ simplicial commutative $k$-algebra (recall that any simplicial group is a Kan complex), we can consider its homotopy groups (based at $0$) together as $\pi_*(A) \coloneqq \bigoplus_n \pi_n(A)$. This is a graded abelian group (use Dold-Kan correspondence to identify homotopy of $A$ with the homology of the normalized chain complex), and moreover it is also a graded commutative algebra. In-fact, given $\alpha\colon \Delta^n/\partial\Delta^n \simeq S^n \to A \in \pi_n(A)$ and $\beta\colon S^m \to A \in \pi_m(A)$ maps of pointed simplicial sets, we can consider \[\alpha.\beta\colon S^n \times S^m \longrightarrow A \times A \longrightarrow A \otimes_k A \stackrel{\mu}{\longrightarrow} A \] where the last morphism is the multiplication on $A$. Observing that $(S^n, *) \cup (*, S^m)$ is sent to zero by $\alpha.\beta$ we can factorize through the smash product (defined, as in topological spaces, by the quotient of the product by the wedge sum) to obtain \[\alpha.\beta\colon S^n \wedge S^m \cong S^{n+m} \to A \] which will be the product of $\alpha$ and $\beta$.
+        Similarly, for $M \in sA-\Mod$, $\pi_*(M)$ is a graded $\pi_*(A)$-module.
+
+        Let $f\colon A \to B \in \sComm$ and consider the classical adjunction 
+        \[
+                \adjunction{- \otimes_A B}{sA-\Mod}{sB-\Mod}{f^*} 
+        \] 
+        where $f^*$ is just restriction of scalars. It is a Quillen adjunction, which becomes a Quillen equivalence when $f$ is a weak equivalence (see \cite[11.2.10]{Fr:module_operads}). The left derived functor is denoted by \[- \otimes_A^{\L} B\colon \Ho(sA-\Mod) \to \Ho(sB-\Mod). \] 
+        As done before, any ring can be considered as a constant simplicial ring and this induces a fully faithful embedding \[j\colon \Comm \to \Ho(\sComm) \] which possesses a left adjoint \[\pi_0\colon \Ho(\sComm) \to \Comm. \] In the same way, considering a $\pi_0(A)$-module as a constant simplicial $A$-module (using the obvious map $A \to \pi_0(A)$) we obtain the adjunction \[\adjunction{\pi_0}{\Ho(sA-\Mod)}{\pi_0(A)-\Mod}{j} \] where $j$ is again a full embedding.
+
+        % Loop and suspension
+        Finally we can consider the loop and suspension functors. They are defined in any nice enough model category by $\Omega(X) = * \times_X^h *$ and $S(X) = * \coprod_X^h *$, where $*$ is the terminal object (see \cref{defn:model_loop_suspension}).
+
+        We observe that in our case the suspension $S\colon \Ho(sk-\Mod) \to \Ho(sk-\Mod)$ corresponds to the shift functor $E \mapsto E[1]$, using Dold-Kan correspondence. Symmetrically, the loop is the opposite shift $E \mapsto E[-1]$.
+
+    \section{Stable modules}
+        Let's now introduce the category of stable $A$-modules, denoted by $Sp(A-\Mod)$. We will just use it when $A$ is a simplicial ring, and there is a more trivial description which we will give at the end of this section; for now let's assume to be in a good enough model category $\Cat$ (the precise assumptions are exactly the Homotopical Algebraic Context one, found in \cite{ToVe:hag2}). This section is just a summary of the highlights of \cite[1.2.11]{ToVe:hag2}.
+
+        Assume $\Cat$ is a pointed model category, $\mathbf{1} \in \ob(\Cat)$ its monoidal unit, and let $S$ be the suspension functor. Let $S^1_{\Cat} \in \Cat$ be a cofibrant model for $S(\mathbf{1}) \in \Ho(\Cat)$ and, given $A \in \Comm(\Cat)$ consider \[S^1_A \coloneqq S^1_{\Cat} \otimes A \in A-\Mod \] the free $A$-module on $S^1_{\Cat}$.
+        The functor \[S^1_A \otimes_A -\colon A-\Mod \to A-\Mod \] is left Quillen and has a right adjoint \[\IntHom_A(S^1_A, -)\colon A-\Mod \to A-\Mod. \] We define the category $Sp^{S^1_A}(A-\Mod)$ of spectra of $A$-modules following \cite{Hov:spectra}.
+
+        \begin{defn}
+            \label{defn:general_stable_modules}
+            With the notation above, let $Sp^{S^1_A}(A-\Mod)$ be the category of whose objects are sequences $(X_n)_{n \in \N}$ together with structure maps $\sigma\colon S^1_A \otimes_A X_n \to X_{n+1}$ for all $n$. A morphism of spectra from $X$ to $Y$ is a collection of maps $f_n\colon X_n \to Y_n$ commuting with structure maps, i.e.\ making the following squares 
+            \begin{diag}
+                S^1_A \otimes_A X_n \ar[d, "S^1_A \otimes_A f_n"] \ar[r, "\sigma_X"] & X_{n+1} \ar[d, "f_{n+1}"] \\
+                S^1_A \otimes_A Y_n \ar[r, "\sigma_Y"] & Y_{n+1}
+            \end{diag}
+            commutative.
+            We will call $Sp^{S^1_A}(A-\Mod)$ the category of \emph{stable $A$-modules}, and we will often denote it by $Sp(A-\Mod)$.
+        \end{defn}
+        We initially endow $Sp^{S^1_A}(A-\Mod)$ with the projective model structure, with componentwise weak equivalences and fibrations. Then we will consider the left Bousfield localization of this structure, whose local objects are the stable modules $M_* \in Sp(A-\Mod)$ such that each induced map \[M_n \to \R\IntHom_A(S^1_A, M_{n+1}) \] is an isomorphism in $\Ho(A-\Mod)$. Details can be found in \cite{Hov:spectra}.
+
+        There exists a Quillen adjunction, functorial in $A$, given by \[\adjunction{S_A}{A-\Mod}{Sp(A-\Mod)}{(-)_0} \] where the right adjoint acts by $M_* \mapsto M_0$, while the left adjoint is given by $S_A(M)_n = (S^1_A)^{\otimes_A n} \otimes_A M$. Under reasonable assumption, $S_A$ is a fully faithful embedding, i.e.\ every $A$-module is a particular stable $A$-module. 
+        \begin{lemma}
+            \label{lemma:immersion_modules_into_stable}
+            If the suspension functor $S\colon \Ho(\Cat) \to \Ho(\Cat)$ is fully faithful then for any $A \in \Comm(\Cat)$ the functor $S_A$ is fully faithful. Moreover, if $\Cat$ is a stable model category as in \cref{defn:stable_model_category}, $S_A$ is a Quillen equivalence.
+        \end{lemma}
+        \begin{proof}
+            See \cite[Lemma~1.2.11.2]{ToVe:hag2}.
+        \end{proof}
+        One can then prove that the $\Ho(Sp(A-\Mod))$ is a closed symmetric monoidal category, with the symmetric monoidal structure inherited from $\Ho(A-\Mod)$ and still denoted by $- \otimes_A^{\L} -$. In particular this means that for $M_*, N_* \in Sp(A-\Mod)$ we have a stable $A$-module of morphisms \[\R\IntHom_A^{Sp}(M_*, N_*) \in \Ho(Sp(A-\Mod)). \]
+        Let's now give some more words.
+        \begin{defn}
+            \label{defn:connective_stable_modules}
+            A stable $A$-module $M_* \in \Ho(Sp(A-\Mod))$ is called \emph{$0$-connective} if it is isomorphic to some $S_A(M)$ for an $A$-module $M \in \Ho(A-\Mod)$. By induction, for $n > 0$, $M_*$ is \emph{$(-n)$-connective} if it is isomorphic to $\Omega(M'_*)$ for some $-(n-1)$-connective $M'_*$ (recall that $\Omega$ is the loop functor on $\Ho(Sp(A-\Mod))$).
+        \end{defn}
+        Recall that by $(A-\Mod)^{\wedge}$ we mean the prestack category on $A-\Mod$, i.e.\ the left Bousfield localization of the projective strucure on $SPr(A-\Mod)$ with respect to the Yoneda images of weak equivalences of $A-\Mod$. Consider now the following ``restricted'' Yoneda embedding:
+        \[\underline{h}_s^{-}\colon Sp(A-\Mod)^{\op} \to (A-\Mod^{\op})^{\wedge}, \qquad M_* \mapsto \left( \underline{h}_s^{M_*}\colon N \in A-\Mod \mapsto Hom(M_*, \Gamma_*(S_A(N))) \right) \] where we chose a simplicial resolution functor $\Gamma_*$ for the model category $Sp(A-\Mod)$.
+        One can prove the following
+        \begin{prop}
+            For any $A \in \Comm(\Cat)$, the functor $\underline{h}_s^{-}$ has a total right derived functor \[\R\underline{h}_s^{-}\colon \Ho(Sp(A-\Mod))^{\op} \to \Ho((A-\Mod^{\op})^{\wedge}) \] which commutes with homotopy limits.
+        \end{prop}
+        \begin{proof}
+            See \cite[Proposition~1.2.11.3]{ToVe:hag2}.
+        \end{proof}
+        We will use this functor later, talking about the cotangent complex.
+
+        Finally, as said in the beginning, let's specialize this very general definition to our well known simplicial case.
+        \begin{remark}
+            \label{remark:description_simplicial_stable_modules}
+            Let $A \in sk-\Alg$ and consider the homotopy category $\Ho(Sp(sA-\Mod))$. It can be described as follows: let $N(A)$ be the normalized dg-algebra of $A$ by Dold-Kan (see \cref{thm:dold_kan} recalling that $N$ is a lax symmetric monoidal functor). Then we can consider the model category of unbounded $N(A)$-dg-modules (weak equivalences are quasi-isomorphisms of complexes and fibrations are the ones of $\Ch(k)$) and its homotopy category $\Ho(N(A)-dg-\Mod)$. One can then prove that $\Ho(Sp(sA-\Mod))$ and $\Ho(N(A)-dg-\Mod)$ are equivalent. In particular if $A$ is a commutative $k$-algebra, then $N(A) = A$ and we find \[\Ho(Sp(sA-\Mod)) \simeq D(A) \simeq \Ho(\Ch(A)). \]
+        \end{remark} 
+    \section{Affine cotangent complex}
+        Let's now introduce the definition of cotangent complex. We will start from the affine case and then globalize. We will need some notions of simplicial commutative algebra before. 
+        \begin{defn}
+            \label{defn:trivial_square_zero_extension}
+            Let $A \in \sComm$ and $M \in sA-\Mod$. The \emph{trivial square zero extension} of $A$ by $M$ is the simplicial commutative ring $A \oplus M$ defined for every $n$ by the classical trivial square zero extension $A_n \oplus M_n$ (faces an degeneracies are defined in the obvious way). In particular, this means that for $a, a' \in A_n$ and $m, m' \in M_n$ we have \[(a, m) \cdot (a', m') \coloneqq (aa', am' + a'm) \] and sum is obvious.
+        \end{defn}
+        It is a bi-augmented $A$-algebra $A \to A \oplus M \to A$ by the inclusion/projection respectively. 
+        Recall that the classical (i.e.\ using normal rings and modules) set $\der_k(A, M)$ is defined as the set of $k$-linear sections of the projection $A \oplus M \to A$. One can prove that $\der_k(A, -)$ defines a functor which is corepresentable by $\Omega^1_A \in A-\Mod$, the module of K{\"a}hler differentials.
+
+        We can generalize this to the simplicial context: let $A \in sk-\Alg$ and $M \in sA-\Mod$. Recall that $\sComm$ is a simplicial model category (see \cref{defn:simplicial_model_categories}) and, denoting by $\IntHom$ its simplicial Hom set, we can consider its derived version $\R\IntHom(A, B) = \IntHom(QA, B)$ (where $QA$ is a cofibrant replacement for $A$). Similarly, the category $sA-\Mod$ is enriched over $sk-\Mod$, i.e.\ we have simplicial Hom sets which are moreover simplicial $k$-modules (just as it happens in the classical case). To refresh our memory, we have 
+        \begin{gather*} 
+            \IntHom_{\sComm}(A, B)\colon [n] \mapsto \Hom_{\sComm}(A \otimes \Delta^n, B), \\ 
+            \IntHom_{sA-\Mod}(M, N)\colon [n] \mapsto \Hom_{sA-\Mod}(M \otimes_A A[\Delta^n], N). 
+        \end{gather*}
+        which $(A \otimes \Delta^n)_m = \bigotimes_{\sigma\colon \Delta^m \to \Delta^n} A_m$ is just a particular case of \cref{thm:simplicial_enrichment}, recalling that coproduct in $\Comm$ is the tensor product. See \cite{Ak:scr} for the details.
+        \begin{defn}
+            \label{defn:derived_derivations_affine}
+            The simplicial set of derived derivations $\Der_k(A, M)$ is defined as the homotopy pullback (computed, equally, either in $\sSet$ or $sk-\Mod$)
+            \begin{diag}
+                \Der_k(A, M) \ar[d] \ar[r] & \R\IntHom_{sk-\Alg}(A, A\oplus M) \ar[d, "\pi_*"] \\
+                * = k \ar[r, "\id_A"] & \R\IntHom_{sk-\Alg}(A, A)
+            \end{diag}
+            i.e.\ the homotopy fiber at $\id_A$ of the natural map $\R\IntHom_{sk-\Alg}(A, A\oplus M) \to \R\IntHom_{sk-\Alg}(A, A)$. To be precise, the homotopy fiber is taken exactly at the image of $\id_A$ through the canonical map  $\IntHom_{sk-\Alg}(A, A) \to \R\IntHom_{sk-\Alg}(A, A)$. 
+        \end{defn}
+        A more compact notation is \[\Der_k(A, M) = \R\IntHom_{-/A}(A, A\oplus M) \] where $\IntHom_{-/A}$ is the simplicial Hom of the comma category $sk-\Alg/A$.
+        \begin{prop}
+            \label{prop:cotangent_complex_affine}
+            The functor \[\Der_k(A, -)\colon \Ho(sA-\Mod) \to \Ho(\sSet) \] is co-represented by a simplicial $A$-module $\L_A = \L_{A/k} \in \Ho(sA-\Mod)$, called the \emph{cotangent complex of $A$}. This means that for any $M \in sA-\Mod$ one has \[ \Der_k(A, M) \cong \Map_{sA-\Mod}(\L_A, M) \in \Ho(\sSet). \]
+        \end{prop}
+        \begin{proof}
+            The proof can be found in \cite{Quil:homology,GoHo:homology}.
+            One possible construction for $\L_A$ is by setting \[\L_A \coloneqq \Omega^1_{QA} \otimes_{QA}^{\L} A \in \Ho(sA-\Mod) \] where $QA$ is a cofibrant replacement for $A$, and $\Omega^1_{QA}$ is obtained by applying levelwise the construction of K{\"a}hler differentials.
+        \end{proof}
+    
+        Let's observe that $\pi_0(\L_A) \simeq \Omega^1_{\pi_0(A)} \in \pi_0(A)-\Mod$ by adjunction. 
+        The construction $\L_A$ is functorial in $A$ and therefore for any morphism $f\colon A \to B$ we have an induced morphism $\L_A \to \L_B$ in $\Ho(sA-\Mod)$, which by adjunction induces a map \[\L_A \otimes^{\L}_A B \to \L_B \] in $\Ho(sB-\Mod)$. 
+        \begin{defn}
+            \label{defn:relative_cotangent_complex_affine}
+            The homotopy cofiber of the above morphism is denoted by $\L_{B/A}$ (although it depends on $f$) and it is called the \emph{relative cotangent complex of $B$ over $A$}.
+            More specifically we have, by definition, the homotopy cocartesian diagram
+            \begin{diag}
+                \L_A \otimes^{\L}_A B \ar[r, "\L f"] \ar[d] & \L_B \ar[d] \\
+                * \ar[r] & \L_{B/A}
+            \end{diag}
+            where the diagram must be taken in the category $sB-\Mod$ (so choosing representatives) and $*$ is the terminal object in $sB-\Mod$.
+        \end{defn} 
+    \section{Some properties of modules and morphisms}
+        As described in the previous section, given $A \in sk-\Alg$ we can consider the graded commutative $k$-algebra $\pi_*(A)$, functorial in $A$. In particular $\pi_i(A)$ is a $\pi_0(A)$-module and hence for a map $A \to B$ in $sk-\Alg$ we obtain a natural morphism \[\pi_*(A) \otimes_{\pi_0(A)} \pi_0(B) \to \pi_*(B) \] of $\pi_0(B)$-modules. More generally, for $M \in sA-\Mod$ we have a morphism of $\pi_0(A)$-modules $\pi_0(M) \to \pi_*(M)$ giving rise to \[\pi_*(A) \otimes_{\pi_0(A)} \pi_0(M) \to \pi_*(M). \]
+        \begin{defn}
+            \label{defn:strong_module}
+            Let $A \in sk-\Alg$ and $M \in sA-\Mod$. The simplicial $A$-module $M$ is \emph{strong} if the natural morphism \[\pi_*(A) \otimes_{\pi_0(A)} \pi_0(M) \to \pi_*(M) \] is an isomorphism of graded $\pi_*(A)$-modules.
+            A morphism $A \to B$ in $sk-\Alg$ is \emph{strong} if $B$ is strong as a simplicial $A$-module.
+        \end{defn}
+        % Homotopical properties 
+        Let's now give some definitions of classical module properties, but seen in a \emph{homotopical} point of view. This does not happen in the classical case, i.e.\ with normal rings, because the model structures are trivial and so it does not change to work in the normal category or in the homotopy one. Here, instead, there is a difference. All of the following can be carried out in a greater generality, in a monoidal model category satisfying some niceness properties (an Homotopical Algebraic Context), see \cite[Part~1]{ToVe:hag2}. 
+        This section makes more sense in a general HA context, for our purposes the only results that matter (that can be as well taken as definitions) are \cref{lemma:properties_homotopical_simplicial_modules} and \cref{thm:morphisms_properties}. We have chosen to include the more general definitions because they really give an intuition of how classic ones are generalized in an homotopical context.
+
+        \begin{defn}
+            \label{defn:module_homotopical_properties}
+            Let $A \in sk-\Alg$ and $M \in sA-\Mod$. 
+            \begin{enumerate}
+                \item $M$ is \emph{flat} as a simplicial $A$-module if the functor \[ - \otimes_A^{\L} M\colon \Ho(sA-\Mod) \to \Ho(sA-\Mod) \] preserves homotopy pullbacks.
+                \item $M$ is \emph{projective} if it is a retract of $\coprod_I^{\L} A$, for some set $I$, in the homotopy category $\Ho(sA-\Mod)$.
+                \item $M$ is \emph{perfect} if the natural map (coming from derived tensor adjunction) \[M \otimes_A^{\L} M^{\vee} \to \R\IntHom_{sA-\Mod}(M, M) \] is an isomorphism in $\Ho(sA-\Mod)$. Here we are using the derived tensor product, the derived dual $M^{\vee}\coloneqq \R\IntHom_{sA-\Mod}(M, A)$ and the structure of simplicial $A$-module of the internal hom.
+                \item $f\colon M \to N \in sA-\Mod$ is \emph{finitely presented} if for any filtered diagram $\{M \to Z_i\}_i$ in $sA-\Mod$, the natural morphism \[\hocolim_i \Map_{M/sA-\Mod}(N, Z_i) \to \Map_{M/sA-\Mod}(N, \hocolim_i Z_i) \] is an isomorphism in $\Ho(\sSet)$.
+            \end{enumerate}
+        \end{defn}
+
+        Here's a bunch of properties.
+        \begin{prop}
+            \label{prop:properties_homotopical_modules}
+            Let $A \in sk-\Alg$ and $M \in sA-\Mod$. 
+            \begin{enumerate}
+                \item The free $A$-module $A^n$ is flat
+                \item Flat modules in $\Ho(sA-\Mod)$ are stable by derived tensor products, finite coproducts and retracts.
+                \item Projective modules in $\Ho(sA-\Mod)$ are stable by derived tensor products, finite coproducts and retracts.
+                \item If $M$ is a flat/projective $sA-\Mod$, then $M \otimes_A^{\L} B$ (fixing $A \to B$ a map in $\sComm$) is a flat/projective $sB-\Mod$.
+                \item A perfect module is flat.
+            \end{enumerate}
+        \end{prop}
+        \begin{proof}
+            See \cite[Prop~1.2.4.2]{ToVe:hag2}.
+        \end{proof}
+
+        While the previous definitions and properties can be generalized, we can use our definition of strongness \cref{defn:strong_module} to have more useful characterizations of such properties in $sk-\Alg$ and $sA-\Mod$.
+        \begin{lemma}
+            \label{lemma:properties_homotopical_simplicial_modules}
+            Let $A \in sk-\Alg$ and $M \in sA-\Mod$.
+            \begin{enumerate}
+                \item $M$ is projective (resp.\ flat) if and only if it is strong and $\pi_0(M)$ is a projective (resp.\ flat) $\pi_0(A)$-module.
+                \item $M$ is perfect if and only if it is strong and $\pi_0(M)$ is a projective $\pi_0(A)$-module of finite type.
+                \item $M$ is projective and finitely presented if and only if it is perfect.
+            \end{enumerate}
+        \end{lemma}
+        \begin{proof}
+            See \cite[Lemma~2.2.2.2]{ToVe:hag2}.
+        \end{proof}
+
+        % Properties of morphisms
+
+        Let's now focus on properties of morphisms. The philosophy will always be to look at $\pi_0$ and ask some strongness condition. 
+        As usual, following \cite{ToVe:hag2} we will give general definitions (written, for readability, already in our specific case) and then specialize to our case with simplicial modules.
+        \begin{defn}
+            \label{defn:morphisms_homotopical_properties}
+            Let $f\colon A \to B$ in $sk-\Alg$.
+            \begin{enumerate}
+                \item The map $f$ is a (model) \emph{epimorphism} if for any $C \in sA-\Alg$, the simplicial set $\Map_{sA-\Alg}(B, C)$ is either empty or contractible.
+                \item The map $f$ is \emph{flat} if the induced functor \[- \otimes_A^{\L} B\colon \Ho(sA-\Mod) \to \Ho(sB-\Mod) \] commutes with finite homotopy limits.
+                \item The map $f$ is a \emph{formal Zariski open immersion} if it is flat and the forgetful functor \[f_*\colon \Ho(sB-\Mod) \to \Ho(sA-\Mod) \] is fully faithful.
+                \item The map $f$ is \emph{formally unramified} if $\L_{B/A} \simeq 0$ in $\Ho(sB-\Mod)$.
+                \item The map $f$ is \emph{formally étale} if the natural morphism \[\L_A \otimes_A^{\L} B \to \L_B \] is an isomorphism in $\Ho(sB-\Mod)$.
+            \end{enumerate}
+        \end{defn}
+        \begin{defn}
+            \label{defn:morphisms_no_formally}
+            A morphism $f\colon A \to B \in sk-\Alg$ is a Zariski open immersion/unramified/étale if it is finitely presented and a formal Zariski open immersion/formally unramified/formally étale.
+        \end{defn}
+        \begin{remark}
+            \label{remark:monomorphisms}
+            Recall that in a category $\Cat$ with fiber products, a map $i\colon x \to y$ is a monomorphism if and only if $x \to x \times_y x$ is an isomorphism. In the model context this gives the definition of $i$ being a monomorphism if the diagonal $x \to x \times_y^h x$ is an isomorphism in $\Ho(\Cat)$. Equivalently, $i$ is a monomorphism if and only if for any $z \in \Cat$ the induced map $\Map_{\Cat}(z, x) \to \Map_{\Cat}(z, y)$ is a monomorphism in $\sSet$. Moreover a map $f\colon K \to L$ of simplicial sets is a monomorphism if and only if for any $s \in L$ the homotopy fiber of $f$ at $s$ is either empty or contractible.
+
+            Thus a map $A \to B \in sk-\Alg$ is an epimorphism in the sense of \cref{defn:morphisms_homotopical_properties} iff it is a monomorphism (in the sense explained above) in the opposite model category, or equivalently if the map $B \otimes^{\L}_A B \to B$ is an isomorphism in $\Ho(sk-\Alg)$.
+        \end{remark}
+        All these definitions are stable by compositions, equivalences and homotopy pushouts. For a more detailled discussion see \cite[1.2.6]{ToVe:hag2}.
+        Let's now see these general definitions in our simplicial case.
+        \begin{defn}
+            A map $f\colon A \to B$ is \emph{strongly flat}/\emph{strongly étale}/\emph{strong Zariski open immersion} if it is strong and if the morphism of affine schemes \[\Spec \pi_0(B) \to \Spec \pi_0(A) \] is flat/étale/Zariski open immersion.
+        \end{defn}
+        \begin{prop}
+            \label{prop:criterion_finitely_presented}
+            Let $f\colon A \to B$ in $sk-\Alg$; it is finitely presented in the sense of \cref{defn:module_homotopical_properties} if and only if 
+            \begin{enumerate}
+                \item the morphism $\pi_0(A) \to \pi_0(B)$ is a finitely presented morphism of rings (classical sense),
+                \item the cotangent complex $\L_{B/A} \in \Ho(sB-\Mod)$ is finitely presented.
+            \end{enumerate}
+        \end{prop}
+        \begin{proof}
+            See \cite[Proposition~2.2.2.4]{ToVe:hag2}.
+        \end{proof}
+
+        Finally, the key result, confirming our philosophy.
+        \begin{thm}
+            \label{thm:morphisms_properties}
+            A morphism in $sk-\Alg$ is flat/Zariski open immersion/étale if and only if it is strongly flat/strong Zariski open immersion/strongly étale.
+        \end{thm}
+        \begin{proof}
+            See \cite[Theorem~2.2.2.6]{ToVe:hag2}.
+        \end{proof}
+
+
+    \section{Derived Stacks}
+        We work in the category $\dAff \coloneqq \catname{sComm}^{\op}$, or, if needed, we can work over a different base commutative ring $k$, and we will consider simplicial commutative $k$-algebras. We will write $\Spec  A$ for $A \in \catname{sComm}$ just as a formal writing. We endow $\dAff$ with the opposite model structure of the classical one on $\catname{sComm}$, the right-transferred structure from the forgetful functor to simplicial sets (concretely speaking weak equivalences and fibrations are taken in $\sSet$).
+        Let's consider $SPr(\dAff) = \funct(\dAff^{\op}, \sSet)$, equivalently thought as simplicial object in $\Psh(\dAff)$. We will introduce three different model structures on this category, by successive left Bousfield localizations, and to avoid confusion we will use different names.
+        \begin{description}
+            \item[\underline{Projective model}] \label{description:projective_structure} The first model structure, denoted again by $SPr(\dAff)$, is simply the projective model structure on $\sSet^{\dAff^{\op}}$ with weak equivalences and fibrations defined componentwise.
+        
+            \item[\underline{Prestack category}] \label{description:prestack_category} Let's now consider the Yoneda embedding \[h\colon \dAff \to SPr(\dAff), \qquad X \mapsto h_X = \Hom(-, X) \] extending the classical Yoneda map with constant simplicial sets. Given a weak equivalence $X \stackrel{\sim}{\to} Y$ in $\dAff$ we obtain a map $h_X \to h_Y$ which has no reason to be a weak equivalence a priori, and hence we cannot factorize $h$ through $\Ho(\dAff)$. For this we introduce a new model structure $\dAff^{\wedge}$ via left Bousfield localization of $SPr(\dAff)$ with respect to all maps $h_X \to h_Y$ coming from $X \stackrel{\sim}{\to} Y$ in $\dAff$. 
+            %We can thus consider the functor \[\Ho(h)\colon \Ho(\dAff) \to \Ho(\dAff^{\wedge}) \] obtained by the universal property of the homotopy category, which sends weak equivalences in $\dAff$ to isomorphisms.
+            
+            This intermediate model structure does not appear when defining stacks since they are simplicial presheaves over $\Aff$, whose model structure is trivial, and thus there's no need to worry about equivalences at the source. 
+            \begin{prop}
+                \label{prop:fibrant_objects_prestack}
+                The fibrant objects in $\dAff^{\wedge}$ are the $F\colon \dAff^{\op} \to \sSet$ satisfying:
+                \begin{enumerate}
+                    \item For any $X \in \dAff$, $F(X)$ is fibrant (i.e.\ a Kan complex).
+                    \item For any $X \stackrel{\sim}{\to} Y$ in $\dAff$, the induced $F(Y) \to F(X)$ is an equivalence in $\sSet$.
+                \end{enumerate}
+            \end{prop}
+            \begin{proof}
+                See \cite[4.1]{ToVe:hag1}.
+            \end{proof}
+            % Model Yoneda, from 1.3 HAGII
+            Recall that $\dAff^{\wedge}$ is a simplicial model category, being a left Bousfield localization of the simplicial model category $SPr(\dAff)$. Thus, for fibrant and cofibrant objects, the homotopy function complex is exactly the internal simplicial hom.
+            We will implicitely use from now on the following version of Yoneda lemma. 
+            Define 
+            \[
+                \underline{h}\colon \dAff \to \dAff^{\wedge}\colon x \mapsto (\underline{h}_x\colon y \mapsto \IntHom(y, x)).
+                %\Hom_{\dAff}(\Gamma_*(y), x)). 
+            \] 
+            Recall that, in the homotopy category, for $x$ fibrant, this is exactly the homotopy function complex between $y$ and $x$. By \cite[Lemma~4.2.1]{ToVe:hag1}, the functor $\underline{h}$ preserves fibrant objects and weak equivalences between them, so we can right derive it to obtain $\R\underline{h} = \underline{h} \circ R$, where $R$ is a functorial fibrant replacement in $\dAff$.
+            \begin{prop}[Model Yoneda Lemma]
+                \label{prop:model_yoneda_lemma}
+                Let's consider the map $\R\underline{h}$ as defined above. Then 
+                \begin{enumerate}
+                    \item it is fully faithful;
+                    \item the canonical map $h_x \to \R\underline{h}_x$ is an isomorphism in $\Ho(\dAff^{\wedge})$;
+                    \item for any fibrant object $F \in \dAff^{\wedge}$, using internal simplicial hom, we have \[\R\IntHom(\R\underline{h}_x, F) \simeq \R\IntHom(h_x, F) \simeq F(x) \] in $\Ho(\sSet)$.
+                \end{enumerate}
+            \end{prop}
+            \begin{proof}
+                See \cite[Theorem~4.2.3]{ToVe:hag1}.
+            \end{proof}
+            This model-version of Yoneda gives us an equivalent representation of the discrete presheaf $h_X$, which is clearly not discrete anymore.
+        
+            
+            \item[\underline{Stack category}] \label{description:stack_category} Finally we want to introduce also a notion of local equivalences for morphisms in $\dAff^{\wedge}$, and for this we define the \emph{étale} Grothendieck topology on $\Ho(\dAff)$: a family of morphisms $\{A \to A_i\}_i$ in $\sComm$ is an étale covering if every $A \to A_i$ is étale (in simplicial sense, see \cref{defn:morphisms_homotopical_properties} and \cref{thm:morphisms_properties}) and if the family of functors \[\{- \otimes_A^{\L} A_i\colon \Ho(sA-\Mod) \to \Ho(sA_i-\Mod) \} \] is conservative. A completely analogue definition gives rise to the étale topology on $\Ho(\dAff/X)$, for $X \in \dAff$.
+            We use this topology to define homotopy sheaves for objects $F \in \Ho(\dAff^{\wedge})$, which we can assume to be fibrant (and hence to preserve weak equivalences). Given such an $F\colon \dAff^{\op} \to \sSet$ we consider the presheaf $X \mapsto \pi_0(F(X))$: since it sends equivalences in $\dAff$ to isomorphism of sets, we can factorize it to obtain \[\pi_0^{pr}(F)\colon \Ho(\dAff)^{\op} \to \Set,\] which we can finally sheafify to obtain the sheaf $\pi_0(F)$. Similarly, for $X \in \dAff$ and $s \in F(X)_0$ we can define a presheaf of groups sending $f\colon Y \to X$ to $\pi_j(F(Y), f^*(s))$, which again we can factorize through the homotopy category and the sheafify to obtain $\pi_j(F, s)\colon \Ho(\dAff/X)^{\op} \to \Grp$. 
+            \begin{defn}
+                \label{defn:derived_homotopy_sheaves}
+                Using the same notations as above, $\pi_0(F)$ and $\pi_i(F, s)$ are called the \emph{homotopy sheaves of $F$}.
+            \end{defn}
+            As the careful reader may have noticed, we have defined them for a generic object of $\Ho(\dAff^{\wedge})$ by choosing a particular fibrant approximation, so we should verify that this does not really depend on this arbitrary choice. This comes from general Bousfield localization properties: local weak equivalences between local fibrant objects are indeed global equivalences.
+            We are ready to define the local model structure. 
+            \begin{defn}
+                \label{defn:local_model_strucure}
+                Let $f\colon F \to F' \in SPr(\dAff)$. 
+                \begin{itemize}
+                    \item The map $f$ is a \emph{local equivalence} if the induced morphism $\pi_0(F) \to \pi_0(F')$ is an isomorphism of sheaves on $\Ho(\dAff)$, and if for any $X \in \dAff$, $s \in F(X)_0$ the induced morphism $\pi_j(F, s) \to \pi_j(F', f(s))$ is an isomorphism of sheaves on $\Ho(\dAff/X)$.
+                    \item The map $f$ is a \emph{local cofibration} if it is a cofibration in $\dAff^{\wedge}$, i.e.\ a cofibration in $SPr(\dAff)$.
+                \end{itemize}
+                Local fibrations are defined by lifting properties. We call this model structure the \emph{local model structure} and we write it like $\dAff^{\sim}$.
+            \end{defn}
+            We are not proving that this is actually a model structure, see \cite{ToVe:hag1} for the details. As before, we have a nice characterization of fibrant objects in $\dAff^{\sim}$.
+            \begin{prop}
+                \label{prop:derived_fibrant}
+                A presheaf $F\colon \dAff^{\op} \to \sSet$ is fibrant if and only if it satisfies the following properties.
+                \begin{enumerate}
+                    \item For any $X \in \dAff$, $F(X)$ is fibrant (i.e.\ a Kan complex).
+                    \item For any $X \stackrel{\sim}{\to} Y$ in $\dAff$, the induced $F(Y) \to F(X)$ is an equivalence in $\sSet$.
+                    \item Given $X, Y \in \dAff$, the natural morphism \[F(X \times^h Y) \to F(X) \times F(Y) \] is an isomorphism in $\Ho(\sSet)$.
+                    \item For any $X \in \dAff$ and $H \to X$ étale hypercovering, the natural map \[F(X) \to \holim_{[n] \in \Delta} F(H_n) \] is an equivalence in $\sSet$.%\todo{define them}
+                \end{enumerate}
+            \end{prop}   
+            
+        \end{description}
+        Finally we can define derived stacks.
+        \begin{defn}
+            \label{defn:derived_stacks}
+            An object $F \in SPr(\dAff)$ is called a \emph{derived stack} if it respects conditions (2), (3) and (4) of \cref{prop:derived_fibrant}.
+            The homotopy category $\Ho(\dAff^{\sim})$ is called the homotopy category of derived stacks (often we will just refer to its objects as derived stacks) and morphisms in this category are denoted by $[F, F']$.
+        \end{defn}
+        A particular case is the following.
+        \begin{defn}
+            \label{defn:derived_affine_scheme}
+            Let $A \in \sComm$ and consider $\Spec A \in \dAff$. We have $R(\Spec A) = \Spec Q(A)$, for $Q$ a cofibrant replacement in $\sComm$. We define \[\RSpec A \coloneqq \R\underline{h}_{\Spec A} \colon B \in \sComm \mapsto \IntHom(QA,-). \] Any element of $\dAff^{\sim}$ isomorphic to $\RSpec A$ for some $A \in \sComm$ is called a \emph{derived affine scheme}.
+        \end{defn}
+        % Cartesian closed
+        Finally let's talk about internal homs in the homotopy category $\Ho(\dAff^{\sim})$. A much more general and detailled treatment can be found at \cite[3.6]{ToVe:hag1}.
+        \begin{prop}
+            \label{prop:derived_stacks_internal_hom}
+            The homotopy category of derived stacks $\Ho(\dAff^{\sim})$ is cartesian closed. Its internal homs are denoted by $\R\calHom(-, -)$. Explicitely, given $F$ and $G$ derived stacks, we have \[\R\calHom(F, G) \simeq \calHom(F, R_{\mathrm{inj}}G), \] where $R_{\mathrm{inj}}$ is the fibrant replacement in the model category $SPr(\dAff)$ with the local injective model structure and $\calHom$ is the internal hom functor of $SPr(\dAff)$. Furthermore, if $G$ is a derived stack then $\R\calHom(F, G)$ is a derived stack.
+        \end{prop}
+        \begin{proof}
+            See \cite[Proposition~3.6.1, Corollary~3.6.2, Definition~3.6.3]{ToVe:hag1}.
+        \end{proof}
+    \section{Derived geometric stacks}
+        We can give the same definitions of derived geometric $n$-stacks just as it is done for normal stacks in \cref{section:geometric_stacks}.
+
+        Let's first recall that we can consider the model Yoneda embedding \[\R\underline{h}\colon \Ho(\dAff) \to \Ho(\dAff^{\wedge}) \] and we have a corresponding derived analogue of the faithfully flat descent (i.e.\ the classical theorem stating that $\Spec(A)\colon B \in \Comm \mapsto \Hom(A, B)$ is a sheaf for the fppf topology on $\Aff$). This practically means that $\RSpec A\colon B \in \sComm \mapsto \IntHom(QA, B)$ satisfies the descent condition for étale hypercoverings, i.e.\ it is a derived stack. 
+        Let's recall our terminology.
+        \begin{defn}
+            \label{defn:derived_representable_stacks}
+            Objects in the essential image of $\R\underline{h}$ are called \emph{derived affine schemes}, or \emph{representable derived stacks}.
+        \end{defn}
+        Observe that, differently from affine schemes of \cref{defn:affine_scheme}, they are not $0$-truncated.
+        Let's now give a general definition of a derived scheme.
+        \begin{defn}\hfill
+            \label{defn:derived_stack_maps}
+            \begin{enumerate}
+                \item A map of derived stacks $F \to F'$ is a \emph{monomorphism} if the induced $F \to F \times^h_{F'} F$ is an equivalence (see \cref{remark:monomorphisms}).
+                \item  A map of derived stacks $F \to F'$ is an \emph{epimorphism} if the induced $\pi_0(F) \to \pi_0(F')$ is an epimorphism of sheaves.
+                \item Let $i\colon F \to \RSpec A$ be a morphism. It is a \emph{Zariski open immersion} if it satisfies the following conditions.
+                \begin{enumerate}[label=(\alph*)]
+                    \item The map $i$ is a monomorphism.
+                    \item There exists a family of (simplicial) Zariski open immersions $\{A \to A_i\}_i$ such that \[\coprod_i \RSpec A_i \to \RSpec A \] factors through an epimorphism to $F$.
+                \end{enumerate}
+
+                \item A map $F \to F'$ is a Zariski open immersion if for any derived affine scheme $X$ and any map $X \to F'$ we have that
+                    \begin{diag}
+                        F \times^h_{F'} X \arrow[r] \arrow[d] & X \arrow[d] \\
+                        F \arrow[r] & F'
+                    \end{diag}
+                the induced map $F \times^h_{F'} X \to X$ is a Zariski open immersion (in the sense of the previous point).
+
+                \item A derived stack $F$ is a \emph{derived scheme} if there exists a family of derived affine schemes $\{\RSpec A_i\}_i$ and Zariski open immersions $\RSpec A_i \to F$ such that \[\coprod_i \RSpec A_i \to F \] is an epimorphism of sheaves. Such a family $\{\RSpec A_i \to F\}$ is a \emph{Zariski atlas} for $F$.
+            \end{enumerate}
+            We say that a morphism of derived schemes $X \to Y$ is smooth/flat/étale/finitely presented (etc) if there exist Zariski atlases $\{\RSpec A_i \to X\}$ and $\{\RSpec B_j \to Y\}$ with commutative squares (in $\Ho(\dAff^{\sim})$) 
+            \begin{diag}
+                X \arrow[r] & Y \\
+                \RSpec A_i \arrow[u] \arrow[r] & \RSpec B_j \arrow[u] 
+            \end{diag}
+            such that the downward arrow has the desired properties (for each $i, j$). We have, as usual, stability by composition and homotopy base changes.
+        \end{defn}
+        Now we are ready to define, by recursion, derived geometric stacks. The definition is exactly the same as for geometric stacks (we simply work in a different category so we need to use the word ``derived''), but we will write it again here for readability.
+        %\begin{defn}\hfill
+            %\label{defn:algebraic_derived_stacks}
+            %\begin{enumerate}
+                % \item A derived stack $F$ is \emph{0-algebraic} if it is a derived scheme.
+                %\item A morphism of derived stacks $F \to F'$ is \emph{0-algebraic} (or \emph{0-representable}) if for any derived scheme $X \to F'$, the derived stack $F \times^h_{F'} X$ is 0-algebraic.
+                %\item A 0-algebraic morphism of derived stacks $F \to F'$ is \emph{smooth} if for any derived scheme $X \to F'$ the morphism of derived schemes $F \times^h_{F'} X \to X$ is smooth.
+                %\item Consider now $n>0$ and assume to have the notions of $(n-1)$-algebraic derived stacks, morphism and smooth $(n-1)$ morphisms. Then we define the following.
+                %\begin{enumerate}[label=(\alph*)]
+                    %\item A derived stack $F$ is \emph{$n$-algebraic} if there exists a derived scheme $X$ and a smooth $(n-1)$-algebraic morphism $X \to F$ which is an epimorphism. Such map is called a \emph{smooth $n$-atlas for $F$}.
+                    %\item A morphism of derived stacks $F \to F'$ is \emph{$n$-algebraic} if for any derived scheme $X \to F'$, the derived stack $F \times^h_{F'} X$ is $n$-algebraic.
+                    %\item An $n$-algebraic morphism of derived stacks $F \to F'$ is \emph{smooth} (or flat or étale or etc) if for any derived scheme $X \to F'$, there exists a smooth $n$-atlas $Y \to F \times^h_{F'} X$ such that $Y \to X$ is smooth (or flat or étale or etc) morphism of derived schemes.
+                %\end{enumerate}
+            %\end{enumerate}
+            %We will say that a derived stack $F$ (or a morphism $F \to F'$) is algebraic/smooth if it is $n$-algebraic/$n$-smooth for some $n$.
+        %\end{defn}
+        Since here the derived context is clear, we will just say ``representable'' to mean ``representable derived stack''.
+        \pagebreak
+        \begin{defn}\hfill
+            \label{defn:algebraic_derived_stacks}
+            \begin{enumerate}
+                \item A derived stack $F$ is \emph{$(-1)$-geometric} if it is representable (i.e.\ a derived affine scheme).
+                \item A morphism of derived stacks $F \to F'$ is \emph{$(-1)$-geometric} if for any representable derived stack $X$ and any map $X \to F'$, the homotopy pullback $F \times^h_{F'} X$ is $(-1)$-geometric.
+                \item A $(-1)$-geometric morphism $F \to F'$ is \emph{$(-1)$-smooth} if for any representable derived stack $X$ and any map $X \to F'$, the induced morphism $F \times^h_{F'} X \to X$ is a smooth morphism between representable derived stacks.
+            \end{enumerate}
+            Let $n > 0$ and assume the notions of derived $(n-1)$-geometric stack, morphism and smooth morphism to be defined. Then, by recursion on $n$, we can define the following.
+            \begin{enumerate}
+                \item A derived stack $F$ is $n$-geometric if there exists a family of maps $\{U_i \to F\}_{i \in I}$ such that 
+                \begin{enumerate}[label=(\alph*)]
+                    \item each $U_i$ is representable,
+                    \item each map $U_i \to F$ is $(n-1)$-smooth,
+                    \item the total morphism $\coprod_{i \in I} U_i \to F$ is an epimorphism.
+                \end{enumerate}
+                Such family is a \emph{smooth $n$-atlas}.
+                %\item A stack $F$ is $n$-geometric if there exists a scheme $X \to F$, being a $(n-1)$-algebraic smooth epimorphism. Such a morphism is called a \emph{smooth $n$-atlas} for $F$.
+                \item A morphism $F \to F'$ is $n$-representable if for any representable derived stack $X$ and any map $X \to F'$, the derived stack $F \times^h_{F'} X$ is $n$-geometric.
+                \item An $n$-geometric morphism $F \to F'$ is $n$-smooth if for any representable derived stack $X$ and any map $X \to F'$, there exists a smooth $n$-atlas $\{U_i\}$ of $F \times^h_{F'} X$ such that each composite map $U_i \to X$ is smooth.
+                %\item An algebraic stack/morphism/smooth morphism is a stack $F$/morphism $F \to F'$ which is $n$-algebraic/smooth for some $n$.
+            \end{enumerate}
+        \end{defn}
+        Observe that, since Zariski open immersions are smooth, derived schemes are derived $0$-geometric stacks.
+        All properties stated in the final part of \cref{section:geometric_stacks} continue to hold in the derived context, so we won't write them again.
+    \section{Truncations}
+        Let's now explore the relation between stacks, as defined in \cref{defn:stack_classic}, and derived stacks. The initial idea is that we enlarged the domain to consider simplicial rings, which have a nontrivial model structure.
+        By considering every ring as a discrete simplicial one $\Comm \to \sComm$ we have a functor $i\colon \Aff \to \dAff$, whose pullback functor \[i^*\colon \dAff^{\sim} \to SPr(\Aff) \] can be proved to be a right Quillen adjoint, where $SPr(\Aff)$ has the local model structure (see \cite[2.2.4]{ToVe:hag2}). Its left Quillen adjoint is denoted by $i_{!}\colon SPr(\Aff) \to \dAff^{\sim}$. Passing to homotopy derived functors (and working over $k$) we obtain the adjunction 
+        \[
+            \adjunction{\L i_{!}}{\St(k) = \Ho(SPr(\Aff))}{\dSt(k) = \Ho(\dAff^{\sim})}{\R i^*}
+        \]
+        on the homotopy categories of stacks and derived stacks. Let's state two important properties.
+        \begin{lemma}
+            \label{lemma:embedding_fully_faithful}
+            The functor $\L i_{!}$ is fully faithful. Moreover the functor $i^*$ is both right and left Quillen, and, in particular, it preserves weak equivalences.
+        \end{lemma}
+        \begin{proof}
+            See \cite[Lemma~2.2.4.1, Lemma~2.2.4.2]{ToVe:hag2}.
+        \end{proof}
+        In particular, we have $\L i_{!}(\Spec A) = \RSpec A$ and $\L i_{!}$ commutes with homotopy colimits, so that writing any $F \in \St(k)$ as homotopy colimit of representable stacks (affine scheme) we get $\L i_{!}F$.
+        Time for some terminology.
+        \begin{defn}\hfill
+            \label{defn:truncation}
+            \begin{enumerate}
+                \item The \emph{truncation functor} is \[t_0 \coloneqq \R i^*\colon \dSt(k) \to \St(k). \]
+                \item The \emph{extension functor} is the left adjoint to $t_0$ \[i\coloneqq \L i_{!}\colon \St(k) \to \dSt(k). \]
+                \item A derived stack $F$ is \emph{truncated} if the adjunction counit map \[it_0(F) \to F \] is an isomorphism in $\dSt(k)$.
+            \end{enumerate}
+        \end{defn}
+
+        Concretely, the trunctation functor sends a functor $F\colon \dAff^{\op} \to \sSet$ to $t_0(F)\colon \Aff^{\op} \to \sSet$, i.e.\ we only compute $F$ on classical nonsimplicial rings. In particular we have \[t_0(\RSpec A) \simeq \Spec \pi_0(A). \]
+        \begin{prop}\hfill
+            \label{prop:properties_truncation}
+            \begin{enumerate}
+                \item The truncation functor $t_0$ commutes with homotopy limits and homotopy colimits. The extension functor $i$ commutes with homotopy colimits, but not with homotopy limits.
+                \item The truncation functor $t_0$ preserves epimorphism of stacks (they are checked at the level of $\pi_0$).
+                \item The functor $t_0$ sends $n$-geometric derived stacks to $n$-geometric stacks, and flat (resp.\ smooth, étale) morphisms between $n$-geometric derived stacks to flat (resp.\ smooth, étale) morphisms to $n$-geometric stacks.
+                \item The functor $i$ preserves homotopy pullbacks of $n$-geometric stacks along a flat morphism, sends $n$-geometric stacks to $n$-geometric derived stacks and flat (resp.\ smooth, étale) morphisms between $n$-geometric stacks to flat (resp.\ smooth, étale) morphisms between $n$-geometric derived stacks.
+            \end{enumerate}
+        \end{prop}
+        \begin{proof}
+            See \cite[Proposition~2.2.4.4]{ToVe:hag2}.
+        \end{proof}
+        %%%%% OLD PART %%%%
+        Let's conclude with another definition.
+        \begin{defn}
+            \label{defn:derived_extension}
+            Given a stack $F \in \Ho(SPr(\Aff))$, a \emph{derived extension} of $F$ is the data of a derived stack $\tilde{F} \in \Ho(\dAff^{\sim})$ and an isomorphism of stacks $F \simeq t_0 \tilde{F}$.
+        \end{defn}
+        There is always a trivial derived extension, given by $j$, but lot of times most of stacks (coming from moduli problems) admit natural nontrivial derived extensions. We will see an example with the derived stack of local system.
+        
+    \section{Cotangent complex}
+        Let's now pass to the global case, and let $F$ be a derived stack and $X = \RSpec A$ a derived affine scheme. Let's choose an $A$-point of $F$ (morphism of derived stacks) \[x\colon X = \RSpec A \to F \] and let's recall that by Yoneda (\cref{prop:model_yoneda_lemma}) we have $\R\IntHom(\RSpec A, F) \simeq F(A)$ in $\Ho(\sSet)$. 
+        %By the Dold-Kan correspondence, we have an equivalence between $D^{\leq 0}(A)$ (homotopy category of non positive graded cochain complexes of $A$-mod) and $\Ho(sA-\Mod)$  and we can define a functor \[ \Der_x(F, -)\colon \Ho(sA-\Mod) \simeq D^{\leq 0}(A) \to \Ho(\sSet). \]
+        \begin{defn}
+            \label{defn:derived_derivations_global}
+            Using the same notation as above, let $M \in sA-\Mod$,  consider the level-wise trivial square zero extension $A \oplus M$ and let $X[M] \coloneqq \RSpec(A \oplus M)$. We define \[\Der_x(F, M) \coloneqq Hofiber_x(F(X[M]) \to F(X)) \in \Ho(\sSet) \] where the map is induced by $X \to X[M]$ (which is induced by the canonical projection $A \oplus M \to A$). It is called the simplicial set of derived derivations of $F$ at the point $x$ with coefficients in $M$.
+        \end{defn}
+        Using Yoneda one can rewrite \[\Der_x(F, M) \simeq \Map_{X/\dSt}(X[M], F) \in \Ho(\sSet). \]  This definition is functorial in $M$ and hence we get a functor \[\Der_x(F, -)\colon sA-\Mod \to \sSet \] (the definition with the mapping space is at the level of homotopy categories, while the one with the homotopy fibers is at the level of model categories).
+        
+        \begin{defn}
+            \label{defn:cotangent_complex_existence}
+            Let $F$ be a derived stack and let $A \in sk-\Alg$.
+            \begin{enumerate}
+                \item Let $x\colon X = \RSpec A \to F$ be an $A$-point. We say that $F$ \emph{has a cotangent complex at $x$} if there exists an integer $n \geq 0$, a $(-n)$-connective stable $A$-module $\L_{F, x} \in \Ho(Sp(sA-\Mod))$ and an isomorphism \[\Der_x(F, -) \simeq \R\underline{h}_s^{\L_{F, x}} \] in $\Ho((A-\Mod^{\op})^{\wedge})$. 
+                \item If $F$ has a cotangent complex at $x$, the stable $A$-module $\L_{F, x}$ is called the \emph{cotangent complex of $F$ at $x$}.
+                \item If $F$ has a cotangent complex at $x$, the \emph{tangent complex of $F$ at $x$} is then the stable $A$-module \[\T_{F, x} \coloneqq \R\IntHom_A^{Sp}(\L_{F, x}, A) \in \Ho(Sp(sA-\Mod)). \]
+            \end{enumerate}
+        \end{defn}
+        Suppose $F$ has a cotangent complex at $x$. This means that for every $M \in sA-\Mod$ we have an isomorphism \[\Der_x(F, M) \simeq \R\underline{h}_s^{\L_{F, x}}(M) \simeq \Map_{Sp(sA-\Mod)}(\L_{F, x}, M) \] in $\Ho(Sp(sA-\Mod))$, i.e.\ $\L_{F, x}$ corepresents $\Der_x(F, -)$ on the level of homotopy categories.
+        In particular, if $A$ is a discrete $k$-algebra, by \cref{remark:description_simplicial_stable_modules}, we have $\Ho(Sp(sA-\Mod)) \simeq D(A)$, so that we can consider $\L_{F, x}$ to be a chain complex in $A$ (not necessarily bounded in non-negative degree, so not corresponding to a simplicial $A$-module by Dold-Kan).
+        %Similarly as in the (simplicial) affine case, it can be proved that this functor is corepresentable by a complex of $A$-modules (not necessarily concentrated in non-positive degrees anymore, so not necessarily corresponding to Dold Kan of a $sA-\Mod$) $\L_{F, x} \in D(A)$, called the \emph{cotangent complex of $F$ at $x$}. There exist natural isomorphisms in $\Ho(\sSet)$ \[\Der_x(F, M) \simeq \Map_{\Ch(A)}(\L_{F, x}, M) \] where $M$ is considered by its Dold-Kan corresponding complex.
+        Clearly, for $F = \RSpec B$ we obtain again the previously built affine cotangent complex.
+
+        %\begin{defn}
+         %   \label{defn:cotangent_complex_global}
+          %  The complex $\L_{F, x}$ is called the \emph{cotangent complex of $F$ at $x$}. Its dual $\T_{F, x} \coloneqq \R\IntHom_{\Ch(A)}(\L_{F, x}, A) \in D(A)$ is called the \emph{tangent complex of $F$ at $x$}. The cohomology groups \[T^i_{F, x} \coloneqq H^i(\T_{F, x}) \] are called the \emph{higher tangent spaces of $F$ at $x$}.
+        %\end{defn}
+
+        Let's now consider a morphism $u$ in $\Ho(\dAff^{\sim}/F)$
+        \begin{diag}
+            Y = \RSpec B \ar[rr, "u"] \ar[rd, "y", swap]  & & X = \RSpec A \ar[ld, "x"] \\
+            & F &
+        \end{diag}
+        Let $M \in sB-\Mod$, which is also a simplicial $A$-module using the restriction $A \to B$; we have a commutative diagram 
+        \begin{diag}
+            A \oplus M \ar[d] \ar[r] & B \oplus M \ar[d] \\
+            A \ar[r] & B
+        \end{diag}
+        inducing a commutative diagram of representable stacks
+        \begin{diag}
+            X[M] & \ar[l] Y[M] \\
+            X \ar[u] & Y \ar[l] \ar[u]
+        \end{diag}
+        inducing again a natural morphism \[u^*\colon \Der_x(F, M) \to \Der_y(F, M). \] By universal property, assuming the following objects exist, this induces a morphism \[u^*\colon \L_{F, y} \to \L_{F, x} \otimes^{\L}_A B. \]
+        \begin{defn}
+            \label{defn:global_cotangent_complex}
+            The derived stack $F$ has a \emph{global cotangent complex} if the following two are satisfied:
+            \begin{enumerate}[label=(\arabic*)]
+                \item For any simplicial ring $A$ and any point $x\colon \RSpec A \to F$, there exists a cotangent complex $\L_{F, x} \in \Ho(Sp(A-\Mod))$.
+                \item For any triangular diagram like the one above, the induced morphism $u^*\colon \L_{F, y} \to \L_{F, x} \otimes^{\L}_A B$ is an isomorphism in $\Ho(Sp(B-\Mod))$.
+            \end{enumerate}
+        \end{defn}
+
+        \begin{prop}
+            \label{prop:affine_global_cotangent_complex}
+            Any representable derived stack $F = \RSpec A$ has a global cotangent complex.
+        \end{prop}
+        \begin{proof}
+            See \cite[Proposition~1.4.1.8]{ToVe:hag2}.
+        \end{proof}
+
+        \begin{prop}
+            \label{prop:algebraic_cotangent_complex}
+            Let $F$ be an $n$-geometric derived stack. Then $F$ has a global cotangent complex, which is furthermore $(-n)$-connective.
+        \end{prop}
+        \begin{proof}
+            See \cite[Proposition~1.4.1.11]{ToVe:hag2}.
+        \end{proof}
+
+        There is also a notion of relative cotangent complex for a morphism $f\colon F \to F'$ of derived stacks. As before, let $X = \RSpec A$ and $x\colon X \to F$. The map $f$ induces a morphism $\Der_x(F, M) \to \Der_{f(x)}(F', M)$ and hence a map \[df_x\colon \L_{F', f(x)} \to \L_{F, x}  \] in $\Ho(Sp(sA-\Mod))$.
+        \begin{defn}
+            \label{defn:relative_cotangent_complex_global}
+            With the previous notations, we define \[\L_{F/F', x} \coloneqq Hocofiber(df_x) \] and we call it the \emph{relative cotangent complex of $f$ at $x$}.
+        \end{defn}
+        We have used this definition for its shortness, one could also use \cite[Definition~1.4.1.14]{ToVe:hag2} and then prove the above one as a property.
+        As before we have a notion of global relative cotangent complex.
+        \begin{defn}
+            \label{defn:global_relative_cotangent_complex}
+            Let $f\colon F \to G$ a morphism of derived stacks. We say that $f$ has a \emph{relative cotangent complex} if the following two conditions are satisfied.
+            \begin{enumerate}
+                \item For any $A \in sk-\Alg$ and any point $x\colon \RSpec A \to F$, the map $f$ has a relative cotangent complex $\L_{F/G, x}$ at $x$.
+                \item For any commutative diagram 
+                \begin{diag}
+                    Y = \RSpec B \ar[rr, "u"] \ar[rd, "y", swap]  & & X = \RSpec A \ar[ld, "x"] \\
+                    & F &
+                \end{diag}
+                in $\Ho(\dAff^{\sim}/F)$, the induced (same reasoning as before) morphism \[u^*\colon \L_{F/G, y} \to \L_{F/G, x} \otimes^{\L}_A B \] is an isomorphism in $\Ho(Sp(sB-\Mod))$.
+            \end{enumerate}
+        \end{defn}
+
+        Finally let's state some of the main properties of cotangent complexes, which can be seen as homotopical analogues of the properties of the sheaf of differentials on a scheme (e.g.\ normal and conormal sequences).
+        \begin{lemma}
+            \label{lemma:properties_cotangent_complex}
+            Let $f\colon F \to G$ be a morphism of derived stacks.
+            \begin{enumerate}
+                \item If $F$ and $G$ both have cotangent complexes, then $f$ has a relative cotangent complex. For every point $x\colon \RSpec A \to F$ we have a natural homotopy cofiber sequence of stable $A$-modules \[\L_{G,x} \longrightarrow \L_{F, x} \longrightarrow \L_{F/G, x}. \]
+                \item If $f$ has a relative cotangent complex, for map of derived stacks $H \to G$, the morphism $F \times^h_G H \to H$ has a relative cotangent complex satisfying \[\L_{F/G, x} \simeq \L_{F \times^h_G H/H, x} \] for any $x\colon \RSpec A \to F \times^h_G H$.
+                \item If for any point $x\colon X = \RSpec A \to F$, the map $F \times^h_G X \to X$ has a relative cotangent complex, then the morphism $f$ has a relative cotangent complex. Furthermore, we have \[ \L_{F/G, x} \simeq \L_{F \times^h_G X/X, x}. \]
+                \item If for any point $x\colon X = \RSpec A \to F$, the derived stack $F \times^h_G X$ has a cotangent complex, then the morphism $f$ has a relative cotangent complex. Furthermore, we have a natural homotopy cofiber sequence \[ \L_A \longrightarrow \L_{F \times^h_G X, x} \longrightarrow \L_{F/G, x}. \]
+            \end{enumerate}
+        \end{lemma}
+        \begin{proof}
+            See \cite[Lemma~1.4.1.16]{ToVe:hag2}.
+        \end{proof}
+        \subsection{Postnikov towers}
+            Let $A$ be a simplicial commutative $k$-algebra.
+            \begin{defn}
+                \label{defn:truncated_scomm}
+                $A$ is said to be $n$-truncated if $\pi_i(A) = 0$ for all $i > n$.
+            \end{defn}
+            We can consider the full subcategory of $n$-truncated simplicial $k$-algebras $sk-\Alg_{\leq n}$ (with the induced model structure) with the corresponding embedding between homotopy categories. This last functor has a left adjoint \[\tau_{\leq n}\colon \Ho(sk-\Alg) \to \Ho(sk-\Alg_{\leq n}) \] called the \emph{$n$-truncation functor}.
+            \begin{defn}
+                \label{defn:postnikov_tower}
+                Let $A \in sk-\Alg$ and consider a diagram \[A \to \dots \to A_{\leq n} \to A_{\leq (n-1)} \to \dots \to A_{\leq 1} \to A_{\leq 0} = \pi_0(A) \] of simplicial commutative $k$-algebras such that 
+                \begin{itemize}
+                    \item each $A_{\leq n}$ is $n$-truncated;
+                    \item the map $d_n\colon A \to A_{\leq n}$ induces isomorphisms on $\pi_i$ for $i \leq n$;
+                    \item the map $d_n\colon A \to A_{\leq n}$ is such that for every $n$-truncated simplicial $k$-algebra $N$, we have \[d_n^*\colon \Map_{sk-\Alg}(A_{\leq n}, N) \stackrel{\sim}{\longrightarrow} \Map_{sk-\Alg}(A, N) \in \Ho(\sSet). \] 
+                \end{itemize}
+                Such a diagram is called a \emph{Postnikov tower of $A$}. It is clearly uniquely defined in the homotopy category of $sk-\Alg$.
+            \end{defn}
+            One has a natural isomorphism \[A \simeq \holim_n A_{\leq n} \] in $\Ho(sk-\Alg)$.
+            Using the cotangent complex we can give an explicit formula for the Postnikov tower of $A$, by induction on $n$ (starting with $A_{\leq 0} = \pi_0(A)$ and the trivial map $A \to \pi_0(A)$).
+            It can be proven that for every $n > 0$ there is an homotopy cartesian diagram 
+            \begin{diag}
+                A_{\leq n} \ar[d] \ar[r] & A_{\leq (n-1)} \ar[d, "0"] \\
+                A_{\leq (n-1)} \ar[r, "k_n"] & A_{\leq (n-1)} \oplus \pi_n(A)[n+1]
+            \end{diag}
+            where $\pi_n(A)[i] \coloneqq S^i \otimes \pi_n(A_i) \in \Ho(sk-\Mod)$, $0$ is the trivial derivation and $k_n$ is a (uniquely determined) derivation, corresponding to an element of $[\L_{A_{\leq (n-1)}}, \pi_n(A)[n+1]]$. This is called the \emph{$n$-Postnikov invariant of $A$}.
+        \subsection{Obstruction theory}
+            \begin{defn}
+                \label{defn:somma_d_omega}
+                Given $A$ simplicial ring, $M \in sA-\Mod$ and $d \in \pi_0(\Der(A, M))$ let's define $A \oplus_d \Omega M$ as the homotopy pullback of 
+                \begin{diag}
+                    A \oplus_d \Omega M \ar[d] \ar[r, "p"] & A \ar[d, "d"] \\
+                    A \ar[r, "s"] & A \oplus M
+                \end{diag}
+                where $s\colon A \to A \oplus M$ is the trivial derivation. The map $p\colon A \oplus_d \Omega M \to A$ is called the natural projection.
+            \end{defn}
+            \begin{defn}
+                \label{defn:obstruction_theory}
+                A derived stack $F$ is \emph{inf-cartesian} if for any diagram like above, the square 
+                \begin{diag}
+                    \R F(A \oplus_d \Omega M) \ar[r] \ar[d] & \R F(A) \ar[d] \\
+                    \R F(A) \ar[r, "r"] & \R F(A \oplus M)
+                \end{diag}
+                is homotopy cartesian.
+                A derived stack $F$ has an \emph{obstruction theory} if it has a global cotanget complex and it is inf-cartesian.
+            \end{defn}
+            Recall that for $F \in \dSt(k)$ and $A \in sk-\Alg$ we write \[\R F(A) \coloneqq \R\IntHom(\RSpec A, F) \] so that, by Yoneda lemma, we have $\R F(A) \simeq (RF)(A)$ where $RF$ is a fibrant replacement of $F$.
