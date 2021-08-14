@@ -1,0 +1,97 @@
+\documentclass[a4paper, 10pt, titlepage, oneside]{book}
+
+% Linguistic and standard settings
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french, italian, english]{babel}
+
+\usepackage{/home/carlo/Modelli/modello} 
+%usepackage{frontespizio}
+
+%%% Page Styles %%%
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\bfseries \leftmark}
+\fancyhead[RO]{\bfseries \rightmark}
+\fancyhead[RE, LO]{\bfseries \thepage}
+
+\setlength{\headheight}{13.6pt}
+
+
+
+%%% Use smaller fonts for didascalie
+\captionsetup{font=small, labelfont={sf, bf}} 
+
+%%% Remove `Chapter` from chapters %%%
+\titleformat{\chapter}
+{\Huge \normalfont \bfseries}{\thechapter}{1em}{}
+
+
+%%% Bibliography stuff %%%
+\usepackage[autostyle]{csquotes}
+\usepackage[style=alphabetic, backend=biber]{biblatex}
+\addbibresource{Backmatter/bibliography.bib}
+
+\DeclareFieldFormat*{title}{\mkbibemph{#1}}         % Make only titles italics
+
+\renewcommand\chaptermark[1]{\markboth{\thechapter.\space#1}{}} 
+\renewcommand\sectionmark[1]{\markright{\thesection.\ #1}} 
+
+%%% Use empty pagestyle instead of plain, to remove chapter page numbering %%%
+\makeatletter
+\let\ps@plain\ps@empty
+\makeatother
+
+%%% Colors setup for refs %%%
+\hypersetup{    
+	colorlinks=false,
+	citecolor=Violet,
+	linkcolor=Red,
+	urlcolor=Blue
+}
+
+% Author and title
+\author{Carlo Buccisano}
+\title{Master Thesis}
+
+\begin{document}
+    \frontmatter
+    %\input{Pano_titlepage}
+    \input{Frontmatter/padova_titlepage}
+
+    \newpage
+    \begin{center}
+        
+        \vspace*{\stretch{1}}
+        \Large{A thesis for the ALGANT Master Program \\
+        advised by Benjamin Hennion \\
+        at Université Paris-Saclay}
+        \vspace*{\stretch{1}}
+    \end{center}
+
+        
+        
+    \clearpage
+
+    \tableofcontents
+    \input{Frontmatter/introduction}
+
+    \mainmatter
+    \input{Mainmatter/1-models}
+    %\newpage
+    %\thispagestyle{empty}
+    \input{Mainmatter/2-stacks}
+    %\newpage
+    %\thispagestyle{empty}
+    \input{Mainmatter/3-moduli_G_bundles}
+    %\newpage
+    %\thispagestyle{empty}
+    \input{Mainmatter/4-derived_stacks}
+    %\newpage
+    %\thispagestyle{empty}
+    \input{Mainmatter/5-examples}
+    %\newpage
+    %\thispagestyle{empty}
+    \backmatter
+    \printbibliography[heading=bibintoc]
+\end{document}
